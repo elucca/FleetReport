@@ -1,4 +1,7 @@
+# Python
 venv
 
-.vs
+
+# Visual Studio files
 FleetReport.pyproj
+.vs
