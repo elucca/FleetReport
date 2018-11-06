@@ -116,8 +116,14 @@ dmypy.json
 .pyre/
 
 
+
+
 # Other
 
 # Visual Studio files
 FleetReport.pyproj
+FleetReport.pyproj.user
 .vs
+
+# Database files
+ships.db
