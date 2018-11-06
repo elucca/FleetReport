@@ -2,7 +2,62 @@
   
 {% block body %}
 <form method="POST" action="{{ url_for('ships_create') }}">
+  <label>Name</label>
   <input type="text" name="name"/>
+  <br/>
+
+  <label>Cost</label>
+  <input type="number" name="cost"/>
+  <br/>
+
+  <label>Propulsion type</label>
+  <input type="text" name="propulsion_type"/>
+  <br/>
+
+  <label>Move</label>
+  <input type="number" name="move"/>
+  <br/>
+
+  <label>Delta-v</label>
+  <input type="number" name="delta_v"/>
+  <br/>
+
+  <label>Passive evasion</label>
+  <input type="number" name="evasion_passive"/>
+  <br/>
+
+  <label>Active evasion</label>
+  <input type="number" name="evasion_active"/>
+  <br/>
+
+  <label>Evasion endurance</label>
+  <input type="number" name="evasion_endurance"/>
+  <br/>
+
+  <label>Frontal armor</label>
+  <input type="number" name="armor_front"/>
+  <br/>
+
+  <label>Side armor</label>
+  <input type="number" name="armor_sides"/>
+  <br/>
+
+  <label>Rear armor</label>
+  <input type="number" name="armor_back"/>
+  <br/>
+
+  <label>Weapon 1</label>
+  <input type="text" name="weapon1_name"/>
+  <br/>
+
+  <label>Weapon 2</label>
+  <input type="text" name="weapon2_name"/>
+  <br/>
+
+  <label>Weapon 3</label>
+  <input type="text" name="weapon3_name"/>
+  <br/>
+
   <input type="submit" value="Add a new ship"/>
 </form>
 {% endblock %}
