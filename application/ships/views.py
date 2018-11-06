@@ -1,5 +1,5 @@
 from application import app, db
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from application.ships.models import Ship
 
 @app.route("/")
@@ -10,10 +10,12 @@ def index():
 def ships_form():
     return render_template("ships/new.html")
 
-# This will display a list of existing ships
-#@app.route("/ships/")
+# Lists existing ships
+@app.route("/ships/", methods=["GET"])
+def ships_index():
+    return render_template("ships/list.html", ships = Ship.query.all())
 
-# This doesn't actually take the required information to make a ship yet, or do anything with it
+# Adds a new ship to database
 @app.route("/ships/", methods=["POST"])
 def ships_create():
     ship = Ship(request.form.get("name"), request.form.get("cost"), request.form.get("propulsion_type"), request.form.get("move"), 
@@ -26,4 +28,4 @@ def ships_create():
     db.session().add(ship)
     db.session().commit()
 
-    return "hello world!"
+    return redirect(url_for("ships_index"))
