@@ -12,8 +12,8 @@ app.config["SQLALCHEMY_ECHO"] = True
 db = SQLAlchemy(app)
 
 # Import views and models
-from application import views
 from application.ships import models
+from application.ships import views
 
 # Create db tables
 db.create_all()
