@@ -6,10 +6,15 @@
   </head>
 
   <body>
+    <ul>
+      <li><a href="{{ url_for('ships_index') }}">List ships</a></li>
+      <li><a href="{{ url_for('ships_create_form') }}">Add a ship</a></li>
+    </ul>
+
     {% block body %}
-      <p>
-        Content.
-      </p>
+    <p>
+      Content.
+    </p>
     {% endblock %}
   </body>
 </html>
