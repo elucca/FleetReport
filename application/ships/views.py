@@ -18,11 +18,12 @@ def ships_index():
 # Adds a new ship to database
 @app.route("/ships/", methods=["POST"])
 def ships_create():
-    ship = Ship(request.form.get("name"), request.form.get("cost"), request.form.get("propulsion_type"), request.form.get("move"), 
-                request.form.get("delta_v"), request.form.get("evasion_passive"), request.form.get("evasion_active"), 
-                request.form.get("evasion_endurance"), request.form.get("armor_front"), request.form.get("armor_sides"), 
-                request.form.get("armor_back"), request.form.get("weapon1_name"), request.form.get("weapon2_name"), 
-                request.form.get("weapon2_name")
+    ship = Ship(request.form.get("name"), request.form.get("cost"), request.form.get("command_capable"), 
+                request.form.get("propulsion_type"), request.form.get("move"), request.form.get("delta_v"), 
+                request.form.get("evasion_passive"), request.form.get("evasion_active"), 
+                request.form.get("evasion_endurance"), request.form.get("integrity"), request.form.get("armor_front"), 
+                request.form.get("primary_facing"), request.form.get("armor_sides"), request.form.get("armor_back"), 
+                request.form.get("weapon1_name"), request.form.get("weapon2_name"), request.form.get("weapon3_name")
                )
 
     db.session().add(ship)

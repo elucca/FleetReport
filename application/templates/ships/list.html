@@ -1,19 +1,45 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<p>This will later list all the attributes of a ship, but for now lists only the names and costs for testing purposes.
-    Listing them all will require some cleaner syntax than just a simple table.
-</p>
-
   <table>
     <tr>
       <th>Name</th>
       <th>Cost</th>
+      <th>Command-capable</th>
+      <th>Engine type</th>
+      <th>Move</th>
+      <th>Delta-v</th>
+      <th>Passive evasion</th>
+      <th>Active evasion</th>
+      <th>Evasion endurance</th>
+      <th>Integrity</th>
+      <th>Primary facing</th>
+      <th>Frontal armor</th>
+      <th>Side armor</th>
+      <th>Rear armor</th>
+      <th>Weapon 1</th>
+      <th>Weapon 2</th>
+      <th>Weapon 3</th>
     </tr>
     {% for ship in ships %}
     <tr>
       <td>{{ ship.name }}</td>
       <td>{{ ship.cost }}</td>
+      <td>{{ ship.command_capable }}</td>
+      <td>{{ ship.propulsion_type }}</td>
+      <td>{{ ship.move }}</td>
+      <td>{{ ship.delta_v }}</td>
+      <td>{{ ship.evasion_passive }}</td>
+      <td>{{ ship.evasion_active }}</td>
+      <td>{{ ship.evasion_endurance }}</td>
+      <td>{{ ship.integrity }}</td>
+      <td>{{ ship.primary_facing }}</td>
+      <td>{{ ship.armor_front }}</td>
+      <td>{{ ship.armor_sides }}</td>
+      <td>{{ ship.armor_back }}</td>
+      <td>{{ ship.weapon1_name }}</td>
+      <td>{{ ship.weapon2_name }}</td>
+      <td>{{ ship.weapon3_name }}</td>
     </tr>
     {% endfor %}
   </table>
