@@ -6,11 +6,17 @@ from application.ships.models import Ship
 def index():
     return render_template("index.html")
 
+# Page for creating a new ship
 @app.route("/ships/new/")
 def ships_create_form():
     return render_template("ships/new.html")
 
-# Lists existing ships
+# Page for updating an existing ship
+@app.route("/ships/update/<ship_id>/")
+def ships_update_form(ship_id):
+    return render_template("ships/update.html", ship = Ship.query.get(ship_id))
+
+# Page for listing existing ships
 @app.route("/ships/", methods=["GET"])
 def ships_index():
     return render_template("ships/list.html", ships = Ship.query.all())
@@ -30,6 +36,7 @@ def ships_create():
     db.session().commit()
 
     return redirect(url_for("ships_index"))
+
 
 # Updates a ship with given primary key
 # Not yet used anywhere
@@ -54,3 +61,6 @@ def ships_update(ship_id):
     ship.weapon1_name = request.form.get("weapon1_name")
     ship.weapon2_name = request.form.get("weapon2_name")
     ship.weapon3_name = request.form.get("weapon3_name")
+    db.session().commit()
+
+    return redirect(url_for("ships_index"))
