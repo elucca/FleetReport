@@ -19,6 +19,7 @@ class Ship(db.Model):
     weapon1_name = db.Column(db.String(256), nullable=True)
     weapon2_name = db.Column(db.String(256), nullable=True)
     weapon3_name = db.Column(db.String(256), nullable=True)
+
     
     # Weapons are temporarily only strings. Eventually it'll be one-to-many relationships to weapon tables
     def __init__(self, name, cost, command_capable, propulsion_type, move, delta_v, evasion_passive, evasion_active, evasion_endurance, 

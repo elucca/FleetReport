@@ -115,15 +115,13 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
-
-
 # Other
 
-# Visual Studio files
+# Visual Studio & Visual Studio Code files
 FleetReport.pyproj
 FleetReport.pyproj.user
 .vs
+.vscode
 
 # Database files
 ships.db

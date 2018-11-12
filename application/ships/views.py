@@ -39,8 +39,7 @@ def ships_create():
 
 
 # Updates a ship with given primary key
-# Not yet used anywhere
-# Currently this just changes everything (except id), does this make sense?
+# Currently this just changes everything (except id), eventually want the forms to be prefilled with current data
 @app.route("/ships/<ship_id>/", methods=["POST"])
 def ships_update(ship_id):
     ship = Ship.query.get(ship_id)
