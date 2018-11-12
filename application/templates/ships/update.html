@@ -3,6 +3,85 @@
 {% block body %}
 
 <form method="POST" action="{{ url_for('ships_update', ship_id=ship.id) }}">
+        <table>
+          <tr>
+            <td>{{ form.name.label }}</td>
+            <td>{{ form.name }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.cost.label }}</td>
+            <td>{{ form.cost }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.command_capable.label }}</td>
+            <td>{{ form.command_capable }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.propulsion_type.label }}</td>
+            <td>{{ form.propulsion_type }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.move.label }}</td>
+            <td>{{ form.move }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.delta_v.label }}</td>
+            <td>{{ form.delta_v }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.evasion_passive.label }}</td>
+            <td>{{ form.evasion_passive }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.evasion_active.label }}</td>
+            <td>{{ form.evasion_active }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.evasion_endurance.label }}</td>
+            <td>{{ form.evasion_endurance }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.integrity.label }}</td>
+            <td>{{ form.integrity }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.primary_facing.label }}</td>
+            <td>{{ form.primary_facing }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.armor_front.label }}</td>
+            <td>{{ form.armor_front }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.armor_sides.label }}</td>
+            <td>{{ form.armor_sides }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.armor_back.label }}</td>
+            <td>{{ form.armor_back }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.weapon1_name.label }}</td>
+            <td>{{ form.weapon1_name }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.weapon2_name.label }}</td>
+            <td>{{ form.weapon2_name }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.weapon3_name.label }}</td>
+            <td>{{ form.weapon3_name }}</td>
+          </tr>
+          <tr>
+              <td colspan="2">
+                <input type="submit" value="Add a new ship"/>
+              </td>
+          </tr>
+        </table>
+      </form>
+
+<!--
+<form method="POST" action="{{ url_for('ships_update', ship_id=ship.id) }}">
     <label>Name</label>
     <input type="text" name="name" value ="{{ ship.name }}" />
     <br />
@@ -73,5 +152,6 @@
 
     <input type="submit" value="Update ship" />
 </form>
+-->
 
 {% endblock %}
