@@ -39,7 +39,7 @@ def ships_create():
 
 
 # Updates a ship with given primary key
-# Currently this just changes everything (except id), eventually want the forms to be prefilled with current data
+# It updates everything regardless of it it was changed, but this shouldn't be an issue
 @app.route("/ships/<ship_id>/", methods=["POST"])
 def ships_update(ship_id):
     ship = Ship.query.get(ship_id)
