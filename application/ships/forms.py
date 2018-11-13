@@ -24,9 +24,11 @@ class ShipCreateForm(FlaskForm):
     class Meta:
         csrf = False
 
+# DEPRECATED
 # The update form is currently identical to the create form. If they are going to stay the same,
 # the update form can be removed and the create form used in its place as WTForms allows prefilling
 # the fields in the case of updating an existing ship without any difference in the form definition.
+"""
 class ShipUpdateForm(FlaskForm):
     name = StringField("Name")
     cost = IntegerField("Cost")
@@ -48,3 +50,4 @@ class ShipUpdateForm(FlaskForm):
 
     class Meta:
         csrf = False
+"""

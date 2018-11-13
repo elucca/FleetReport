@@ -16,7 +16,7 @@ def ships_create_form():
 @app.route("/ships/update/<ship_id>/")
 def ships_update_form(ship_id):
     ship = Ship.query.get(ship_id)
-    return render_template("ships/update.html", form = ShipUpdateForm(obj = ship), ship = ship)
+    return render_template("ships/update.html", form = ShipCreateForm(obj = ship), ship = ship)
 
 # Page for listing existing ships
 @app.route("/ships/", methods=["GET"])
@@ -48,7 +48,7 @@ def ships_create():
 # It updates everything regardless of it it was changed, but this shouldn't be an issue
 @app.route("/ships/<ship_id>/", methods=["POST"])
 def ships_update(ship_id):
-    form = ShipUpdateForm(request.form)
+    form = ShipCreateForm(request.form)
 
     ship = Ship.query.get(ship_id)
     ship.name = form.name.data
