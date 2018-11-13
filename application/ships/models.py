@@ -4,7 +4,7 @@ class Ship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     cost = db.Column(db.Integer, nullable=False)
-    command_capable = db.Column(db.String(256), nullable=False)
+    command_capable = db.Column(db.Boolean, nullable=False)
     propulsion_type = db.Column(db.String(256), nullable=False)
     move = db.Column(db.Integer, nullable=False)
     delta_v = db.Column(db.Integer, nullable=False)
