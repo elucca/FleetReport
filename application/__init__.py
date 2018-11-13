@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # Import and config SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///ships.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///fleetreport.db"
 # This makes SQLAlchemy print all SQL queries
 app.config["SQLALCHEMY_ECHO"] = True
 
@@ -12,6 +12,9 @@ app.config["SQLALCHEMY_ECHO"] = True
 db = SQLAlchemy(app)
 
 # Import views and models
+from application.auth import models 
+from application.auth import views
+
 from application.ships import models
 from application.ships import views
 
