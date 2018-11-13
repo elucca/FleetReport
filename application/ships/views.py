@@ -15,7 +15,8 @@ def ships_create_form():
 # Page for updating an existing ship
 @app.route("/ships/update/<ship_id>/")
 def ships_update_form(ship_id):
-    return render_template("ships/update.html", form = ShipUpdateForm(), ship = Ship.query.get(ship_id))
+    ship = Ship.query.get(ship_id)
+    return render_template("ships/update.html", form = ShipUpdateForm(), ship = ship)
 
 # Page for listing existing ships
 @app.route("/ships/", methods=["GET"])
@@ -44,26 +45,24 @@ def ships_create():
 def ships_update(ship_id):
     form = ShipUpdateForm(request.form)
 
-    """
     ship = Ship.query.get(ship_id)
-    ship.name = request.form.get("name")
-    ship.cost = request.form.get("cost")
-    ship.command_capable = request.form.get("command_capable")
-    ship.propulsion_type = request.form.get("propulsion_type")
-    ship.move = request.form.get("move")
-    ship.delta_v = request.form.get("delta_v")
-    ship.evasion_passive = request.form.get("evasion_passive")
-    ship.evasion_active = request.form.get("evasion_active")
-    ship.evasion_endurance = request.form.get("evasion_endurance")
-    ship.integrity = request.form.get("integrity")
-    ship.primary_facing = request.form.get("primary_facing")
-    ship.armor_front = request.form.get("armor_front")
-    ship.armor_sides = request.form.get("armor_sides")
-    ship.armor_back = request.form.get("armor_back")
-    ship.weapon1_name = request.form.get("weapon1_name")
-    ship.weapon2_name = request.form.get("weapon2_name")
-    ship.weapon3_name = request.form.get("weapon3_name")
+    ship.name = form.name.data
+    ship.cost = form.cost.data
+    ship.command_capable = form.command_capable.data
+    ship.propulsion_type = form.propulsion_type.data
+    ship.move = form.move.data
+    ship.delta_v = form.delta_v.data
+    ship.evasion_passive = form.evasion_passive.data
+    ship.evasion_active = form.evasion_active.data
+    ship.evasion_endurance = form.evasion_endurance.data
+    ship.integrity = form.integrity.data
+    ship.primary_facing = form.primary_facing.data
+    ship.armor_front = form.armor_front.data
+    ship.armor_sides = form.armor_sides.data
+    ship.armor_back = form.armor_back.data
+    ship.weapon1_name = form.weapon1_name.data
+    ship.weapon2_name = form.weapon2_name.data
+    ship.weapon3_name = form.weapon3_name.data
     db.session().commit()
-    """
 
     return redirect(url_for("ships_index"))
