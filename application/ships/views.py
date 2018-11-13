@@ -16,7 +16,7 @@ def ships_create_form():
 @app.route("/ships/update/<ship_id>/")
 def ships_update_form(ship_id):
     ship = Ship.query.get(ship_id)
-    return render_template("ships/update.html", form = ShipUpdateForm(), ship = ship)
+    return render_template("ships/update.html", form = ShipUpdateForm(obj = ship), ship = ship)
 
 # Page for listing existing ships
 @app.route("/ships/", methods=["GET"])
