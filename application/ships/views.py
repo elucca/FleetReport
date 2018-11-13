@@ -27,6 +27,11 @@ def ships_index():
 @app.route("/ships/", methods=["POST"])
 def ships_create():
     form = ShipCreateForm(request.form)
+
+    # Check validity of input. If input is not valid, return to the ship creation page.
+    if not form.validate():
+        return render_template("ships/new.html", form = form)
+
     
     ship = Ship(form.name.data, form.cost.data, form.command_capable.data, form.propulsion_type.data, form.move.data, 
                 form.delta_v.data, form.evasion_passive.data, form.evasion_active.data, form.evasion_endurance.data, 
