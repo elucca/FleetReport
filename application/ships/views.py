@@ -28,6 +28,11 @@ def ships_update_form(ship_id):
 def ships_index():
     return render_template("ships/list.html", ships = Ship.query.all())
 
+# Page for showing detailed information of selected ships
+@app.route("/ships/<ship_id>/", methods=["GET"])
+def ships_info(ship_id):
+    return render_template("ships/shipinfo.html", ship = Ship.query.get(ship_id))
+
 # Adds a new ship to database
 @app.route("/ships/", methods=["POST"])
 @login_required
@@ -52,7 +57,7 @@ def ships_create():
 
 # Updates a ship with given primary key
 # It updates everything regardless of it it was changed, but this shouldn't be an issue
-@app.route("/ships/<ship_id>/", methods=["POST"])
+@app.route("/ships/update/<ship_id>/", methods=["POST"])
 @login_required
 def ships_update(ship_id):
     form = ShipCreateForm(request.form)
