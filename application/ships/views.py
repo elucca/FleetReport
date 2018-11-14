@@ -82,3 +82,10 @@ def ships_update(ship_id):
     db.session().commit()
 
     return redirect(url_for("ships_index"))
+
+@app.route("/ships/remove/<ship_id>/", methods=["POST"])
+@login_required
+def ships_remove(ship_id):
+    Ship.query.filter(Ship.id == ship_id).delete()
+    db.session.commit()
+    return redirect(url_for("ships_index"))

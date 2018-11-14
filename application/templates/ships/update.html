@@ -206,11 +206,15 @@ proper and add the buttons (which are the only different part) in the update and
     
     <tr>
 	    <td colspan="2">
-	      <input type="submit" value="Update a ship"/>
+	      <input type="submit" value="Update ship"/>
 	    </td>
     </tr>
 
   </table>
 </form>
-      
+
+<form method="POST" action="{{ url_for('ships_remove', ship_id=ship.id) }}">
+  <input type="submit" value="Remove ship"/>
+</form>
+
 {% endblock %}
