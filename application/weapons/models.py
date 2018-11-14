@@ -5,11 +5,13 @@ from application import db
 class Laser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
+    dmg_missile = db.Column(db.String(256), nullable=False)
     ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
 
 
-    def __init__(self, name):
+    def __init__(self, name, dmg_missile):
         self.name = name
+        self.dmg_missile = dmg_missile
 
 class Missile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
