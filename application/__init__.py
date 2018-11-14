@@ -1,12 +1,17 @@
-# Import Flask
 from flask import Flask
 app = Flask(__name__)
 
-# Import and config SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///fleetreport.db"
-# This makes SQLAlchemy print all SQL queries
-app.config["SQLALCHEMY_ECHO"] = True
+
+import os
+
+# Config for using Postgres database if running on Heroku, otherwise uses local
+# sqlite database.
+if os.environ.get("HEROKU"):
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///fleetreport.db"    
+    app.config["SQLALCHEMY_ECHO"] = True
 
 # Object for handling the database
 db = SQLAlchemy(app)
@@ -35,4 +40,7 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 # Create db tables
-db.create_all()
+try: 
+    db.create_all()
+except:
+    pass
