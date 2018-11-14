@@ -1,5 +1,8 @@
-from application import app, db
 from flask import render_template, request, redirect, url_for
+
+from flask_login import login_required
+
+from application import app, db
 from application.ships.models import Ship
 from application.ships.forms import *
 
@@ -9,11 +12,13 @@ def index():
 
 # Page for creating a new ship
 @app.route("/ships/new/")
+@login_required
 def ships_create_form():
     return render_template("ships/new.html", form = ShipCreateForm())
 
 # Page for updating an existing ship
 @app.route("/ships/update/<ship_id>/")
+@login_required
 def ships_update_form(ship_id):
     ship = Ship.query.get(ship_id)
     return render_template("ships/update.html", form = ShipCreateForm(obj = ship), ship = ship)
@@ -25,6 +30,7 @@ def ships_index():
 
 # Adds a new ship to database
 @app.route("/ships/", methods=["POST"])
+@login_required
 def ships_create():
     form = ShipCreateForm(request.form)
 
@@ -47,6 +53,7 @@ def ships_create():
 # Updates a ship with given primary key
 # It updates everything regardless of it it was changed, but this shouldn't be an issue
 @app.route("/ships/<ship_id>/", methods=["POST"])
+@login_required
 def ships_update(ship_id):
     form = ShipCreateForm(request.form)
 
