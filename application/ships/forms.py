@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import *
+from wtforms import validators, StringField, IntegerField, BooleanField
 from application.ships.models import Ship
 
 class ShipCreateForm(FlaskForm):
