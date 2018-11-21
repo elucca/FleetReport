@@ -17,9 +17,6 @@
       <th>Frontal armor</th>
       <th>Side armor</th>
       <th>Rear armor</th>
-      <th>Weapon 1</th>
-      <th>Weapon 2</th>
-      <th>Weapon 3</th>
       <th></th>
     </tr>
     <tr>
@@ -37,9 +34,6 @@
         <td>{{ ship.armor_front }}</td>
         <td>{{ ship.armor_sides }}</td>
         <td>{{ ship.armor_back }}</td>
-        <td>{{ ship.weapon1_name }}</td>
-        <td>{{ ship.weapon2_name }}</td>
-        <td>{{ ship.weapon3_name }}</td>
         <!-- Link to update the ship. -->
         <td><a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify</a></td>
     </tr>

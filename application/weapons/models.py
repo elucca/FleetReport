@@ -1,62 +1,58 @@
 from application import db
 
+# Base class for concrete weapon classes, make abstract when I figure out how
+class Weapon(db.Model):
+    # __abstract__ = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+
+    def __init__(self, name, ship_id):
+        self.name = name
+        self.ship_id = ship_id
+
 # This class is a stub that is missing data that will eventually be provided in
 # another table
-class Laser(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256), nullable=False)
-    dmg_missile = db.Column(db.String(256), nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+class Laser(Weapon):
+    laser_dmg_missile = db.Column(db.String(256), nullable=False)
 
-
-    def __init__(self, name, dmg_missile):
-        self.name = name
+    def __init__(self, name, dmg_missile, ship_id):
+        Weapon.__init__(self, name, ship_id)
         self.dmg_missile = dmg_missile
 
-class Missile(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256), nullable=False)
+class Missile(Weapon):
     volley = db.Column(db.Integer, nullable=False)
     stores = db.Column(db.Integer, nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
 
-    def __init__(self, name, volley, stores):
-        self.name = name
+    def __init__(self, name, volley, stores, ship_id):
+        Weapon.__init__(self, name, ship_id)
         self.volley = volley
         self.stores = stores
 
-class CIWS(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256), nullable=False)
+class CIWS(Weapon):
     dmg_missile = db.Column(db.String(256), nullable=False)
     dmg_ship = db.Column(db.String(256), nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
 
-    def __init__(self, name, dmg_missile, dmg_ship):
-        self.name = name
-        self.dmg_missile = dmg_missile
-        self.dmg_ship = dmg_ship
+    def __init__(self, name, dmg_missile, dmg_ship, ship_id):
+        Weapon.__init__(self, name, ship_id)
+        self.CIWS_dmg_missile = dmg_missile
+        self.CIWS_dmg_ship = dmg_ship
 
-class AreaMissile(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256), nullable=False)
+class AreaMissile(Weapon):
     range = db.Column(db.Integer, nullable=False)
-    dmg_missile = db.Column(db.String(256), nullable=False)
-    dmg_ship = db.Column(db.String(256), nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+    AM_dmg_missile = db.Column(db.String(256), nullable=False)
+    AM_dmg_ship = db.Column(db.String(256), nullable=False)
 
-    def __init__(self, name, range, dmg_missile, dmg_ship):
-        self.name = name
+    def __init__(self, name, range, dmg_missile, dmg_ship, ship_id):
+        Weapon.__init__(self, name, ship_id)
         self.range = range
         self.dmg_missile = dmg_missile
         self.dmg_ship = dmg_ship
 
 # This class is a stub that is missing data that will eventually be provided in
 # another table
-class Ewar(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(256), nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+class Ewar(Weapon):
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, name, ship_id):
+        Weapon.__init__(self, name, ship_id)
