@@ -1,26 +1,32 @@
 from application import db
 
-# Base class for concrete weapon classes, make abstract when I figure out how
+# Make an abstract base class to inherit from eventually, doesn't work right now
+"""
 class Weapon(db.Model):
-    # __abstract__ = True
+    __abstract__ = True
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
-
     def __init__(self, name, ship_id):
         self.name = name
         self.ship_id = ship_id
+"""
 
 # This class is a stub that is missing data that will eventually be provided in
 # another table
-class Laser(Weapon):
+class Laser(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), nullable=False)
     laser_dmg_missile = db.Column(db.String(256), nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
 
     def __init__(self, name, dmg_missile, ship_id):
-        Weapon.__init__(self, name, ship_id)
-        self.dmg_missile = dmg_missile
+        self.name = name
+        self.laser_dmg_missile = dmg_missile
+        self.ship_id = ship_id
 
+"""
 class Missile(Weapon):
     volley = db.Column(db.Integer, nullable=False)
     stores = db.Column(db.Integer, nullable=False)
@@ -56,3 +62,4 @@ class Ewar(Weapon):
 
     def __init__(self, name, ship_id):
         Weapon.__init__(self, name, ship_id)
+"""

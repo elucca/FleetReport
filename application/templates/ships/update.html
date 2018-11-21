@@ -177,12 +177,11 @@ proper and add the buttons (which are the only different part) in the update and
   </table>
 </form>
 
-<form method="POST" action="{{ url_for('laser_create', ship_id=ship.id) }}">
-    <input type="submit" value="Add laser"/>
-  </form>
 
 <form method="POST" action="{{ url_for('ships_remove', ship_id=ship.id) }}">
   <input type="submit" value="Remove ship"/>
 </form>
+
+<td><a href="{{ url_for('laser_create_form', ship_id=ship.id) }}">Add laser</a></td>
 
 {% endblock %}
