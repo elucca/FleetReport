@@ -23,6 +23,9 @@ from application.auth import views
 from application.ships import models
 from application.ships import views
 
+from application.weapons import models
+from application.weapons import views
+
 # Initialization for login functionality
 from application.auth.models import User
 from os import urandom

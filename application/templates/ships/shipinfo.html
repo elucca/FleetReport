@@ -3,45 +3,112 @@
 {% block body %}
   <table>
     <tr>
-      <th>Name</th>
-      <th>Cost</th>
-      <th>Command-capable</th>
-      <th>Engine type</th>
-      <th>Move</th>
-      <th>Delta-v</th>
-      <th>Passive evasion</th>
-      <th>Active evasion</th>
-      <th>Evasion endurance</th>
-      <th>Integrity</th>
-      <th>Primary facing</th>
-      <th>Frontal armor</th>
-      <th>Side armor</th>
-      <th>Rear armor</th>
-      <th>Weapon 1</th>
-      <th>Weapon 2</th>
-      <th>Weapon 3</th>
-      <th></th>
+      <td><b>Name</b></td>
+      <td>{{ ship.name }}</td>
     </tr>
+
     <tr>
-        <td>{{ ship.name }}</td>
-        <td>{{ ship.cost }}</td>
-        <td>{{ ship.command_capable }}</td>
-        <td>{{ ship.propulsion_type }}</td>
-        <td>{{ ship.move }}</td>
-        <td>{{ ship.delta_v }}</td>
-        <td>{{ ship.evasion_passive }}</td>
-        <td>{{ ship.evasion_active }}</td>
-        <td>{{ ship.evasion_endurance }}</td>
-        <td>{{ ship.integrity }}</td>
-        <td>{{ ship.primary_facing }}</td>
-        <td>{{ ship.armor_front }}</td>
-        <td>{{ ship.armor_sides }}</td>
-        <td>{{ ship.armor_back }}</td>
-        <td>{{ ship.weapon1_name }}</td>
-        <td>{{ ship.weapon2_name }}</td>
-        <td>{{ ship.weapon3_name }}</td>
-        <!-- Link to update the ship. -->
-        <td><a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify</a></td>
+      <td><b>Cost</b></td>
+      <td>{{ ship.cost }}</td>
     </tr>
+      
+    <tr>
+      <td><b>Command-capable</b></td>
+      <td>{{ ship.command_capable }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Engine type</b></td>
+      <td>{{ ship.propulsion_type }}</td>
+    </tr>
+    
+    <tr>
+      <td><b>Move</b></td>
+      <td>{{ ship.move }}</td>
+    </tr>
+
+      <td><b>Delta-v</b></td>
+      <td>{{ ship.delta_v }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Passive evasion</b></td>
+      <td>{{ ship.evasion_passive }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Active evasion</b></td>
+      <td>{{ ship.evasion_active }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Evasion endurance</b></td>
+      <td>{{ ship.evasion_endurance }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Integrity</b></td>
+      <td>{{ ship.integrity }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Primary facing</b></td>
+      <td>{{ ship.primary_facing }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Front armor</b></td>
+      <td>{{ ship.armor_front }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Side armor</b></td>
+      <td>{{ ship.armor_sides }}</td>
+    </tr>
+
+    <tr>
+      <td><b>Rear armor</b></td>
+      <td>{{ ship.armor_back }}</td>
+    </tr>
+
+    <tr>
+      <!-- Link to update the ship. -->
+      <td><a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify</a></td>
+    </tr>
+  </table>
+
+  <p><b>Weapons</b></p>
+  <!-- Table for displaying weapons. -->
+  <table>
+    {% for laser in ship.lasers %}
+    <tr>
+      <tr>
+        <th>Name</th>
+        <th>Anti-missile damage</th>
+      </tr>
+
+      <tr>
+        <td>{{ laser.name }}</td>
+        <td>{{ laser.laser_dmg_missile }}</td>
+      </tr>
+    </tr>
+    {% endfor %}
+
+    {% for missile in ship.missiles %}
+    <tr>
+      <tr>
+        <th>Name</th>
+        <th>Volley</th>
+        <th>Stores</th>
+      </tr>
+
+      <tr>
+        <td>{{ missile.name }}</td>
+        <td>{{ missile.volley }}</td>
+        <td>{{ missile.stores }}</td>
+      </tr>
+    </tr>
+    {% endfor %}
+
   </table>
 {% endblock %}

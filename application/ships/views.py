@@ -28,7 +28,7 @@ def ships_update_form(ship_id):
 def ships_index():
     return render_template("ships/list.html", ships = Ship.query.all())
 
-# Page for showing detailed information of selected ships
+# Page for showing detailed information of selected ship
 @app.route("/ships/<ship_id>/", methods=["GET"])
 def ships_info(ship_id):
     return render_template("ships/shipinfo.html", ship = Ship.query.get(ship_id))
@@ -47,7 +47,7 @@ def ships_create():
     ship = Ship(form.name.data, form.cost.data, form.command_capable.data, form.propulsion_type.data, form.move.data, 
                 form.delta_v.data, form.evasion_passive.data, form.evasion_active.data, form.evasion_endurance.data, 
                 form.integrity.data, form.primary_facing.data, form.armor_front.data, form.armor_sides.data, 
-                form.armor_back.data, form.weapon1_name.data, form.weapon2_name.data, form.weapon3_name.data)
+                form.armor_back.data)
 
     db.session().add(ship)
     db.session().commit()
@@ -56,14 +56,13 @@ def ships_create():
 
 
 # Updates a ship with given primary key
-# It updates everything regardless of it it was changed, but this shouldn't be an issue
+# It updates everything regardless of whether it was changed, but this shouldn't be an issue
 @app.route("/ships/update/<ship_id>/", methods=["POST"])
 @login_required
 def ships_update(ship_id):
     form = ShipCreateForm(request.form)
 
-    ship = Ship.query.get(ship_id)
-    
+    ship = Ship.query.get(ship_id)  
     if not form.validate():
         return render_template("ships/update.html", form = form, ship = ship)
 
@@ -81,9 +80,6 @@ def ships_update(ship_id):
     ship.armor_front = form.armor_front.data
     ship.armor_sides = form.armor_sides.data
     ship.armor_back = form.armor_back.data
-    ship.weapon1_name = form.weapon1_name.data
-    ship.weapon2_name = form.weapon2_name.data
-    ship.weapon3_name = form.weapon3_name.data
     db.session().commit()
 
     return redirect(url_for("ships_index"))

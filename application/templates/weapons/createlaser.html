@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+
+<form method="POST" action="{{ url_for('laser_create', ship_id=ship.id) }}">
+  <table>
+    
+    <tr>
+	  <td>{{ form.laser_name.label }}</td>
+      <td>{{ form.laser_name }}</td>
+      <td>
+        <ul>
+          {% for error in form.laser_name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>    
+    </tr>
+
+    <tr>
+      <td>{{ form.laser_dmg_missile.label }}</td>
+      <td>{{ form.laser_dmg_missile }}</td>
+      <td>
+        <ul>
+          {% for error in form.laser_dmg_missile.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>    
+    </tr>
+
+    <tr>
+	    <td colspan="2">
+	      <input type="submit" value="Add laser"/>
+	    </td>
+    </tr>
+
+  </table>
+</form>
+
+{% endblock %}

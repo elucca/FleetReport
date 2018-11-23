@@ -17,9 +17,6 @@ class ShipCreateForm(FlaskForm):
     armor_front = IntegerField("Front armor", [validators.NumberRange(min=0)])
     armor_sides = IntegerField("Side armor", [validators.NumberRange(min=0)])
     armor_back = IntegerField("Rear armor", [validators.NumberRange(min=0)])
-    weapon1_name = StringField("Weapon 1", [validators.Optional(), validators.Length(min=1, max=256)])
-    weapon2_name = StringField("Weapon 2", [validators.Optional(), validators.Length(min=1, max=256)])
-    weapon3_name = StringField("Weapon 3", [validators.Optional(), validators.Length(min=1, max=256)])
 
     class Meta:
         csrf = False
