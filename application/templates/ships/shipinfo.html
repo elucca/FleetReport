@@ -76,4 +76,39 @@
       <td><a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify</a></td>
     </tr>
   </table>
+
+  <p><b>Weapons</b></p>
+  <!-- Table for displaying weapons. -->
+  <table>
+    {% for laser in ship.lasers %}
+    <tr>
+      <tr>
+        <th>Name</th>
+        <th>Anti-missile damage</th>
+      </tr>
+
+      <tr>
+        <td>{{ laser.name }}</td>
+        <td>{{ laser.laser_dmg_missile }}</td>
+      </tr>
+    </tr>
+    {% endfor %}
+
+    {% for missile in ship.missiles %}
+    <tr>
+      <tr>
+        <th>Name</th>
+        <th>Volley</th>
+        <th>Stores</th>
+      </tr>
+
+      <tr>
+        <td>{{ missile.name }}</td>
+        <td>{{ missile.volley }}</td>
+        <td>{{ missile.stores }}</td>
+      </tr>
+    </tr>
+    {% endfor %}
+
+  </table>
 {% endblock %}

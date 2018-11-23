@@ -17,7 +17,12 @@ class Ship(db.Model):
     armor_sides = db.Column(db.Integer, nullable=False)
     armor_back = db.Column(db.Integer, nullable=False)
     
-    weapons = db.relationship('Laser', backref='ship', lazy=True)
+    # A victim of copypaste in the weapons/models.py
+    lasers = db.relationship('Laser', backref='ship', lazy=True)
+    missiles = db.relationship('Missile', backref='ship', lazy=True)
+    CIWSs = db.relationship('CIWS', backref='ship', lazy=True)
+    area_missiles = db.relationship('AreaMissile', backref='ship', lazy=True)
+    ewars = db.relationship('Ewar', backref='ship', lazy=True)
 
     # Weapons are temporarily only strings. Eventually it'll be one-to-many relationships to weapon tables
     def __init__(self, name, cost, command_capable, propulsion_type, move, delta_v, evasion_passive, evasion_active, evasion_endurance, 

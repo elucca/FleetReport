@@ -62,8 +62,7 @@ def ships_create():
 def ships_update(ship_id):
     form = ShipCreateForm(request.form)
 
-    ship = Ship.query.get(ship_id)
-    
+    ship = Ship.query.get(ship_id)  
     if not form.validate():
         return render_template("ships/update.html", form = form, ship = ship)
 
