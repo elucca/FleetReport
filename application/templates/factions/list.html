@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  <h3>Factions</h3>
+  <br>
+
+  <table>
+    {% for faction in factions %}
+    <tr>
+      <p>{{ faction.name }}</p>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

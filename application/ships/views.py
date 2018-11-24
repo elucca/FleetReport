@@ -4,7 +4,7 @@ from flask_login import login_required
 
 from application import app, db
 from application.ships.models import Ship
-from application.ships.forms import *
+from application.ships.forms import ShipCreateForm
 
 @app.route("/")
 def index():
