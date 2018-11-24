@@ -11,7 +11,7 @@ class Faction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     
-    ships = db.relationship('Ship', secondary=factionships, lazy=True)
+    ships = db.relationship('Ship', secondary=factionships, backref=db.backref('factions', lazy=True))
 
     def __init__(self, name):
         self.name = name
