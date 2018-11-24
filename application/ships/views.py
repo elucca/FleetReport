@@ -32,7 +32,7 @@ def ships_update_form(ship_id):
 # Page for listing existing ships
 @app.route("/ships/", methods=["GET"])
 def ships_index():
-    return render_template("ships/list.html", ships = Ship.query.all())
+    return render_template("ships/list.html", ships = Ship.query.all(), factions = Faction.query.all())
 
 # Page for showing detailed information of selected ship
 @app.route("/ships/<ship_id>/", methods=["GET"])

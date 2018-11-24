@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<!--Main navbar-->
+  <!--Main navbar-->
   <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
     <a class="navbar-brand" href="#">FleetReport</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
@@ -21,6 +21,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('factions_index') }} ">Factions</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('ships_index') }} ">View ships</a>
         </li>

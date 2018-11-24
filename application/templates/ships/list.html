@@ -2,15 +2,22 @@
 
 {% block body %}
 
+   <!-- Ships are listed per faction. Each name links to ship info page. -->
+
   <h3>Ships</h3>
   <br>
 
+  {% for faction in factions %}
+  <h5>{{ faction.name }}</h5>
+   
   <table>
-    {% for ship in ships %}
+    {% for ship in faction.ships %}
     <tr>
-      <!-- Link to ship info page. -->
       <td><a href="{{ url_for('ships_info', ship_id=ship.id) }}">{{ ship.name }}</a></td>
     </tr>
     {% endfor %}
   </table>
+  <br>
+  {% endfor %}
+
 {% endblock %}
