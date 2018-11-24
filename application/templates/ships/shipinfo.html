@@ -77,6 +77,7 @@
     </tr>
   </table>
 
+  <br>
   <p><b>Weapons</b></p>
   <!-- Table for displaying weapons. -->
   <table>
@@ -109,6 +110,12 @@
       </tr>
     </tr>
     {% endfor %}
-
   </table>
+
+  <p><b>Belongs to faction(s):</b></p>
+  {% for faction in ship.factions %}
+    <span>{{ faction.name }}</span>
+    <br>
+  {% endfor %}
+
 {% endblock %}
