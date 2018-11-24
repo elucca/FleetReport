@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import validators, StringField, IntegerField, BooleanField
+from wtforms import validators, StringField, IntegerField, BooleanField, SelectMultipleField
 from application.ships.models import Ship
 
 class ShipCreateForm(FlaskForm):
@@ -17,6 +17,10 @@ class ShipCreateForm(FlaskForm):
     armor_front = IntegerField("Front armor", [validators.NumberRange(min=0)])
     armor_sides = IntegerField("Side armor", [validators.NumberRange(min=0)])
     armor_back = IntegerField("Rear armor", [validators.NumberRange(min=0)])
+
+    # Is coerce=int necessary or useful?
+    # This needs to be validated so that a ship belongs to at least one faction, not sure how
+    factions = SelectMultipleField("Factions", coerce=int)
 
     class Meta:
         csrf = False

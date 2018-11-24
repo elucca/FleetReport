@@ -5,6 +5,7 @@ from flask_login import login_required
 from application import app, db
 from application.ships.models import Ship
 from application.ships.forms import ShipCreateForm
+from application.factions.models import Faction, factionships
 
 @app.route("/")
 def index():
@@ -14,7 +15,12 @@ def index():
 @app.route("/ships/new/")
 @login_required
 def ships_create_form():
-    return render_template("ships/new.html", form = ShipCreateForm())
+    form = ShipCreateForm()
+
+    # Get existing factions and add them to a multiple choice field in the form
+    form.factions.choices = get_factions_list()
+
+    return render_template("ships/new.html", form = form)
 
 # Page for updating an existing ship
 @app.route("/ships/update/<ship_id>/")
@@ -40,10 +46,10 @@ def ships_create():
     form = ShipCreateForm(request.form)
 
     # Check validity of input. If input is not valid, return to the ship creation page.
-    if not form.validate():
+    form.factions.choices = get_factions_list()
+    if not form.validate_on_submit():
         return render_template("ships/new.html", form = form)
 
-    
     ship = Ship(form.name.data, form.cost.data, form.command_capable.data, form.propulsion_type.data, form.move.data, 
                 form.delta_v.data, form.evasion_passive.data, form.evasion_active.data, form.evasion_endurance.data, 
                 form.integrity.data, form.primary_facing.data, form.armor_front.data, form.armor_sides.data, 
@@ -90,3 +96,10 @@ def ships_remove(ship_id):
     Ship.query.filter(Ship.id == ship_id).delete()
     db.session.commit()
     return redirect(url_for("ships_index"))
+
+# For getting a list of factions for use in ship creation/update forms
+def get_factions_list():
+    factions = Faction.query.all()
+    factions_list=[(f.id, f.name) for f in factions]
+
+    return factions_list
