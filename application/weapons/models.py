@@ -2,7 +2,7 @@ from application import db
 
 # The weapon classes really should inherit from this abstract base class, but they
 # currently don't because I can't invoke the correct rituals to make SQLAlchemy
-# create the database tables.
+# work right with this.
 """
 class Weapon(db.Model):
     __abstract__ = True
