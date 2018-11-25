@@ -5,7 +5,7 @@ from flask_login import login_required
 from application import app, db
 from application.ships.models import Ship
 from application.ships.forms import ShipCreateForm
-from application.factions.models import Faction, factionships
+from application.factions.models import Faction, factionship
 from application.weapons.models import *
 
 @app.route("/")
@@ -113,7 +113,8 @@ def ships_remove(ship_id):
 
     # Remove associative entries with Faction (SQlAlchemy cascade not working)
     ship = Ship.query.get(ship_id)
-    for faction in ship.factions:
+    factions = Faction.query.all()
+    for faction in factions:
         faction.ships.remove(ship)
 
     Ship.query.filter(Ship.id == ship_id).delete()    
