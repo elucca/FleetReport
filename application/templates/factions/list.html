@@ -13,6 +13,8 @@
     <tr>
       <h5>{{ faction.name }}</h5>
       <span>Number of ships: {{ faction.faction_info.ship_count }}</span>
+      <br>
+      <span>Number of command-capable ships: {{ faction.faction_info.command_ship_count }}</span>
     </tr>
     {% endfor %}
   </table>

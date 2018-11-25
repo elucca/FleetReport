@@ -30,11 +30,22 @@ class FactionInfo():
 
     def update(self):
         self.ship_count = self.number_of_ships(self.faction)
+        self.command_ship_count = self.number_of_command_ships(self.faction)
 
     def number_of_ships(self, faction):
         stmt = text("SELECT COUNT(ship.id) FROM ship"
                     " LEFT JOIN factionship ON factionship.ship_id = ship.id"
                     " WHERE factionship.faction_id = :faction_id").params(faction_id=faction.id)
+        
+        resultProxy = db.engine.execute(stmt)
+        result = resultProxy.fetchone()[0]
+        return result
+
+    def number_of_command_ships(self, faction):
+        stmt = text("SELECT COUNT(ship.id) FROM ship"
+                    " LEFT JOIN factionship ON factionship.ship_id = ship.id"
+                    " WHERE factionship.faction_id = :faction_id"
+                    " AND ship.command_capable = 1").params(faction_id=faction.id)
         
         resultProxy = db.engine.execute(stmt)
         result = resultProxy.fetchone()[0]
