@@ -6,12 +6,13 @@
   <a href="{{ url_for('factions_create_form') }}">Add faction</a>
   
   <br>
+  <br>
 
   <table>
     {% for faction in factions %}
     <tr>
-      <span>{{ faction.name }}</span>
-      <br>
+      <h5>{{ faction.name }}</h5>
+      <span>Number of ships: {{ faction.faction_info.ship_count }}</span>
     </tr>
     {% endfor %}
   </table>

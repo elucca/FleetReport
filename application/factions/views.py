@@ -8,7 +8,12 @@ from application.factions.forms import FactionCreateForm
 # Page for displaying factions and their information
 @app.route("/factions/", methods=["GET"])
 def factions_index():
-    return render_template("factions/list.html", factions = Faction.query.all())
+    # Query faction info
+    factions = Faction.query.all()
+    for faction in factions:
+        faction.faction_info.update()
+
+    return render_template("factions/list.html", factions = factions)
 
 # Page for creating a faction
 @app.route("/factions/new/", methods=["GET"])
