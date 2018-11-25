@@ -6,6 +6,7 @@ from application import app, db
 from application.ships.models import Ship
 from application.ships.forms import ShipCreateForm
 from application.factions.models import Faction, factionships
+from application.weapons.models import *
 
 @app.route("/")
 def index():
@@ -103,7 +104,20 @@ def ships_update(ship_id):
 @app.route("/ships/remove/<ship_id>/", methods=["POST"])
 @login_required
 def ships_remove(ship_id):
-    Ship.query.filter(Ship.id == ship_id).delete()
+    # Remove weapons (SQLALchemy cascade not working)
+    Laser.query.filter(ship_id == ship_id).delete()
+    Missile.query.filter(ship_id == ship_id).delete()
+    CIWS.query.filter(ship_id == ship_id).delete()
+    AreaMissile.query.filter(ship_id == ship_id).delete()
+    Ewar.query.filter(ship_id == ship_id).delete()
+
+    # Remove associative entries with Faction (SQlAlchemy cascade not working)
+    ship = Ship.query.get(ship_id)
+    for faction in ship.factions:
+        faction.ships.remove(ship)
+
+    Ship.query.filter(Ship.id == ship_id).delete()    
+
     db.session.commit()
     return redirect(url_for("ships_index"))
 
