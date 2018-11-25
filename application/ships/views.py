@@ -115,7 +115,8 @@ def ships_remove(ship_id):
     ship = Ship.query.get(ship_id)
     factions = Faction.query.all()
     for faction in factions:
-        faction.ships.remove(ship)
+        if ship in faction.ships:
+            faction.ships.remove(ship)
 
     Ship.query.filter(Ship.id == ship_id).delete()    
 
