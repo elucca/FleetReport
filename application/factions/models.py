@@ -45,7 +45,7 @@ class FactionInfo():
         stmt = text("SELECT COUNT(ship.id) FROM ship"
                     " LEFT JOIN factionship ON factionship.ship_id = ship.id"
                     " WHERE factionship.faction_id = :faction_id"
-                    " AND ship.command_capable = 1").params(faction_id=faction.id)
+                    " AND ship.command_capable").params(faction_id=faction.id)
         
         resultProxy = db.engine.execute(stmt)
         result = resultProxy.fetchone()[0]
