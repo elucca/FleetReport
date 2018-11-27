@@ -20,6 +20,9 @@ db = SQLAlchemy(app)
 from application.auth import models 
 from application.auth import views
 
+from application.factions import models
+from application.factions import views
+
 from application.ships import models
 from application.ships import views
 

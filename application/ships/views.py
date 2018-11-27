@@ -4,7 +4,9 @@ from flask_login import login_required
 
 from application import app, db
 from application.ships.models import Ship
-from application.ships.forms import *
+from application.ships.forms import ShipCreateForm
+from application.factions.models import Faction, factionship
+from application.weapons.models import *
 
 @app.route("/")
 def index():
@@ -14,7 +16,12 @@ def index():
 @app.route("/ships/new/")
 @login_required
 def ships_create_form():
-    return render_template("ships/new.html", form = ShipCreateForm())
+    form = ShipCreateForm()
+
+    # Get existing factions and add them to a multiple choice field in the form
+    form.factions.choices = _get_factions_list_()
+
+    return render_template("ships/new.html", form = form)
 
 # Page for updating an existing ship
 @app.route("/ships/update/<ship_id>/")
@@ -26,7 +33,7 @@ def ships_update_form(ship_id):
 # Page for listing existing ships
 @app.route("/ships/", methods=["GET"])
 def ships_index():
-    return render_template("ships/list.html", ships = Ship.query.all())
+    return render_template("ships/list.html", ships = Ship.query.all(), factions = Faction.query.all())
 
 # Page for showing detailed information of selected ship
 @app.route("/ships/<ship_id>/", methods=["GET"])
@@ -40,10 +47,10 @@ def ships_create():
     form = ShipCreateForm(request.form)
 
     # Check validity of input. If input is not valid, return to the ship creation page.
-    if not form.validate():
+    form.factions.choices = _get_factions_list_()
+    if not form.validate_on_submit():
         return render_template("ships/new.html", form = form)
 
-    
     ship = Ship(form.name.data, form.cost.data, form.command_capable.data, form.propulsion_type.data, form.move.data, 
                 form.delta_v.data, form.evasion_passive.data, form.evasion_active.data, form.evasion_endurance.data, 
                 form.integrity.data, form.primary_facing.data, form.armor_front.data, form.armor_sides.data, 
@@ -52,6 +59,16 @@ def ships_create():
     db.session().add(ship)
     db.session().commit()
 
+    # Add ship entry to factionships association table
+    # For some reason the form returns the id of the faction, which is ok
+    # This is kinda spaghetti
+    faction_ids = form.factions.data
+    for faction_id in faction_ids:
+        faction = Faction.query.filter_by(id = faction_id).first()
+        faction.ships.append(ship)
+        db.session.add(faction)
+        db.session.commit()
+    
     return redirect(url_for("ships_index"))
 
 
@@ -87,6 +104,28 @@ def ships_update(ship_id):
 @app.route("/ships/remove/<ship_id>/", methods=["POST"])
 @login_required
 def ships_remove(ship_id):
-    Ship.query.filter(Ship.id == ship_id).delete()
+    # Remove weapons (SQLALchemy cascade not working)
+    Laser.query.filter(ship_id == ship_id).delete()
+    Missile.query.filter(ship_id == ship_id).delete()
+    CIWS.query.filter(ship_id == ship_id).delete()
+    AreaMissile.query.filter(ship_id == ship_id).delete()
+    Ewar.query.filter(ship_id == ship_id).delete()
+
+    # Remove associative entries with Faction (SQlAlchemy cascade not working)
+    ship = Ship.query.get(ship_id)
+    factions = Faction.query.all()
+    for faction in factions:
+        if ship in faction.ships:
+            faction.ships.remove(ship)
+
+    Ship.query.filter(Ship.id == ship_id).delete()    
+
     db.session.commit()
     return redirect(url_for("ships_index"))
+
+# Gets a list of factions for use in ship creation/update forms
+def _get_factions_list_():
+    factions = Faction.query.all()
+    factions_list=[(f.id, f.name) for f in factions]
+
+    return factions_list

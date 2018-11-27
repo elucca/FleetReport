@@ -17,8 +17,8 @@ class Ship(db.Model):
     armor_sides = db.Column(db.Integer, nullable=False)
     armor_back = db.Column(db.Integer, nullable=False)
     
-    # A victim of copypaste in the weapons/models.py
-    lasers = db.relationship('Laser', backref='ship', lazy=True)
+    # A victim of copypaste in weapons/models.py
+    lasers = db.relationship('Laser', cascade="all, delete, delete-orphan", backref='ship', lazy=True)
     missiles = db.relationship('Missile', backref='ship', lazy=True)
     CIWSs = db.relationship('CIWS', backref='ship', lazy=True)
     area_missiles = db.relationship('AreaMissile', backref='ship', lazy=True)
