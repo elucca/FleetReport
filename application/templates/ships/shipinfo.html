@@ -77,8 +77,10 @@
             <td><a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify</a></td>
           </tr>
         </table>
-
-      <!--Weapons row-->
+        <br>
+      <!--Weapons row
+      Currently spacing between grid elements is done with breaklines, should be done with
+      Bootstrap classes.-->
         <div class="row">
           {% for laser in ship.lasers %}
           <!--Individual weapon column-->
@@ -95,6 +97,7 @@
                 <td>{{ laser.laser_dmg_missile }}</td>
               </tr>
             </table>
+            <br>
           </div>
           {% endfor %}
 
@@ -118,12 +121,13 @@
                 <td>{{ missile.stores }}</td>
               </tr>
             </table>
+            <br>
           </div>
           {% endfor %}
         </div>
         <br>
         <span><b>Belongs to faction(s):</b></span>
-        <br
+        <br>
         {% for faction in ship.factions %}
           <span>{{ faction.name }}</span>
           <br>
