@@ -12,7 +12,6 @@
         <br>
         <br>
 
-
         <table>            
           <tr>
             <td><b>Command-capable</b></td>
@@ -121,14 +120,14 @@
             </table>
           </div>
           {% endfor %}
-
-
-          <p><b>Belongs to faction(s):</b></p>
-          {% for faction in ship.factions %}
-            <span>{{ faction.name }}</span>
-            <br>
-          {% endfor %}
         </div>
+        <br>
+        <span><b>Belongs to faction(s):</b></span>
+        <br
+        {% for faction in ship.factions %}
+          <span>{{ faction.name }}</span>
+          <br>
+        {% endfor %}
       </div>
     </div>
   </div>
