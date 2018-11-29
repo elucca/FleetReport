@@ -30,3 +30,7 @@ class User(db.Model):
 
     def is_authenticated(self):
         return True
+
+    # Currently all users have the admin role. This will change later.
+    def roles(self):
+        return ["ADMIN"]
