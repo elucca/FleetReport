@@ -1,6 +1,6 @@
 # FleetReport
 
-The app's current development build can be accessed at https://fleetreport.herokuapp.com/. For full access for testing purposes, you can log in with the username 'admin' and password 'admin'.
+The app's current development build can be accessed at https://fleetreport.herokuapp.com/. For full access for testing purposes, you can log in with the username 'admin' and password 'admin'. This is the only user which now has access to editing data. Feel free to experiment.
 
 ## Description
 
