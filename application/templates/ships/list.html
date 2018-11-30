@@ -20,4 +20,19 @@
   <br>
   {% endfor %}
 
+  <h5>Ships belonging to no faction</h5>
+
+  <!--Ships with no faction-->
+  {% for ship in ships %}
+  <table>
+      {% if ship.factions|length == 0  %}
+      <tr>
+        <td><a href="{{ url_for('ships_info', ship_id=ship.id) }}">{{ ship.name }}</a></td>
+      </tr>
+      {% endif %}
+  </table>
+  <br>
+  {% endfor %}
+
 {% endblock %}
+
