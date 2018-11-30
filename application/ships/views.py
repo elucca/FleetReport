@@ -142,16 +142,14 @@ def _get_factions_list_():
     return factions_list
 
 # Adds entries to factionships association table when creating or updating
-# a ship
+# a ship. Note: committing to db is the responsibility of the caller.
 def _associate_to_factions_(ship, faction_ids):
     for faction_id in faction_ids:
         faction = Faction.query.filter_by(id = faction_id).first()
         faction.ships.append(ship)
-        db.session.add(faction)
-        db.session.commit()
 
 # Removes entries from factionships association table when removing or
-# updating a ship
+# updating a ship. Note: committing to db is the responsibility of the caller.
 def _unassociate_from_factions_(ship):
     factions = Faction.query.all()
     for faction in factions:

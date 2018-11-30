@@ -3,6 +3,7 @@ from flask import render_template, request, redirect, url_for
 from application import app, db, login_required
 from application.factions.models import Faction
 from application.factions.forms import FactionCreateForm
+from application.ships.models import Ship
 
 # Page for displaying factions and their information
 @app.route("/factions/", methods=["GET"])
@@ -20,7 +21,7 @@ def factions_index():
 def factions_create_form():
     return render_template("factions/new.html", form = FactionCreateForm())
 
-# Address for adding a faction
+# Adds a faction
 @app.route("/factions/", methods=["POST"])
 @login_required(role="ADMIN")
 def factions_create():
@@ -35,4 +36,21 @@ def factions_create():
     db.session().add(faction)
     db.session().commit()
 
+    return redirect(url_for("factions_index"))
+
+# Removes the faction with the given primary key. Ships belonging to this faction are NOT
+# removed, but the associations are.
+@app.route("/factions/remove/<faction_id>/", methods=["POST"])
+@login_required(role="ADMIN")
+def factions_remove(faction_id):
+    faction = Faction.query.filter_by(id = faction_id).first()
+    # Not very optimal, queries all ships
+    ships = Ship.query.all()
+    for ship in ships:
+        if faction in ship.factions:
+            ship.factions.remove(faction)
+    
+    Faction.query.filter(Faction.id == faction_id).delete()    
+
+    db.session.commit()
     return redirect(url_for("factions_index"))

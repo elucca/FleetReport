@@ -15,7 +15,14 @@
       <span>Number of ships: {{ faction.faction_info.ship_count }}</span>
       <br>
       <span>Number of command-capable ships: {{ faction.faction_info.command_ship_count }}</span>
+
+      <br>
+      <form method="POST" action="{{ url_for('factions_remove', faction_id=faction.id) }}">
+          <input type="submit" value="Remove faction"/>
+      </form>        
     </tr>
+    <br>
+    <br>
     {% endfor %}
   </table>
 {% endblock %}
