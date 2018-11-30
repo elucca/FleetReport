@@ -1,6 +1,7 @@
 from application import db
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model, UserMixin):
 
     # "user" is a reserved word in Postgres, so set the name of the db table based on this to be "account"
     __tablename__ = "account"
@@ -15,6 +16,11 @@ class User(db.Model):
     password = db.Column(db.String(144), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False)
 
+    # Attributes required by flask_login
+    is_authenticated = True
+    is_active = True
+    is_anonymous = False
+
     def __init__(self, name, username, password):
         self.name = name
         self.username = username
@@ -23,15 +29,6 @@ class User(db.Model):
   
     def get_id(self):
         return self.id
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-
-    def is_authenticated(self):
-        return True
 
     def role(self):
         if self.is_admin:

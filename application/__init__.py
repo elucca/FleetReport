@@ -40,11 +40,6 @@ def login_required(role="ANY"):
     def wrapper(fn):
         @wraps(fn)
         def decorated_view(*args, **kwargs):
-            if not current_user:
-                return login_manager.unauthorized()
-          
-            # This refers to some Flask user attribute and NOT the is_authenticated function
-            # in user.
             if not current_user.is_authenticated:
                 return login_manager.unauthorized()
             
