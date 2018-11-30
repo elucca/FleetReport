@@ -39,8 +39,6 @@ def auth_newuser():
     # Validation goes here
 
     new_user = User(form.name.data, form.username.data, form.password.data)
-    
-    db.session.add
 
     db.session().add(new_user)
     db.session().commit()

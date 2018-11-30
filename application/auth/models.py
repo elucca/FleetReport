@@ -13,11 +13,13 @@ class User(db.Model):
     name = db.Column(db.String(144), nullable=False)
     username = db.Column(db.String(144), nullable=False)
     password = db.Column(db.String(144), nullable=False)
+    is_admin = db.Column(db.Boolean, nullable=False)
 
     def __init__(self, name, username, password):
         self.name = name
         self.username = username
         self.password = password
+        self.is_admin = False
   
     def get_id(self):
         return self.id
@@ -31,6 +33,7 @@ class User(db.Model):
     def is_authenticated(self):
         return True
 
-    # Currently all users have the admin role. This will change later.
-    def roles(self):
-        return ["ADMIN"]
+    def role(self):
+        if self.is_admin:
+            return "ADMIN"
+        return "USER"

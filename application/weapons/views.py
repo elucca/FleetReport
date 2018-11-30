@@ -1,7 +1,6 @@
 from flask import render_template, request, redirect, url_for
-from flask_login import login_required
 
-from application import app, db
+from application import app, db, login_required
 from application.ships.models import Ship
 from application.weapons.models import *
 from application.weapons.forms import *
@@ -9,13 +8,13 @@ from application.weapons.forms import *
 # Form pages for adding different kinds of weapons
 
 @app.route("/ships/<ship_id>/weapons/laser", methods=["GET"])
-@login_required
+@login_required(role="ADMIN")
 def laser_create_form(ship_id):
     ship = Ship.query.get(ship_id)
     return render_template("weapons/createlaser.html", form = LaserCreateForm(obj = ship), ship = ship)
 
 @app.route("/ships/<ship_id>/weapons/missile", methods=["GET"])
-@login_required
+@login_required(role="ADMIN")
 def missile_create_form(ship_id):
     ship = Ship.query.get(ship_id)
     return render_template("weapons/createmissile.html", form = MissileCreateForm(obj = ship), ship = ship)
@@ -24,7 +23,7 @@ def missile_create_form(ship_id):
 # Post methods for adding different kinds of weapons
 
 @app.route("/ships/<ship_id>/weapons/laser", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def laser_create(ship_id):
     form = LaserCreateForm(request.form)
 
@@ -40,7 +39,7 @@ def laser_create(ship_id):
     return redirect(url_for("ships_index"))
 
 @app.route("/ships/<ship_id>/weapons/missile", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def missile_create(ship_id):
     form = MissileCreateForm(request.form)
     

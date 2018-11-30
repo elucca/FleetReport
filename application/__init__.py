@@ -21,7 +21,7 @@ from application.auth.models import User
 from os import urandom
 app.config["SECRET_KEY"] = urandom(32)
 
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -43,7 +43,9 @@ def login_required(role="ANY"):
             if not current_user:
                 return login_manager.unauthorized()
           
-            if not current_user.is_authenticated():
+            # This refers to some Flask user attribute and NOT the is_authenticated function
+            # in user.
+            if not current_user.is_authenticated:
                 return login_manager.unauthorized()
             
             unauthorized = False
@@ -51,10 +53,8 @@ def login_required(role="ANY"):
             if role != "ANY":
                 unauthorized = True
                 
-                for user_role in current_user.roles():
-                    if user_role == role:
-                        unauthorized = False
-                        break
+                if current_user.role() == role:
+                    unauthorized = False
 
             if unauthorized:
                 return login_manager.unauthorized()
@@ -82,3 +82,9 @@ try:
     db.create_all()
 except:
     pass
+
+# For testing purposes, when creating tables create a user with admin privileges
+admin = User("admin", "admin", "admin")
+admin.is_admin = True
+db.session().add(admin)
+db.session().commit()

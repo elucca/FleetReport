@@ -1,7 +1,6 @@
 from flask import render_template, request, redirect, url_for
-from flask_login import login_required
 
-from application import app, db
+from application import app, db, login_required
 from application.factions.models import Faction
 from application.factions.forms import FactionCreateForm
 
@@ -17,13 +16,13 @@ def factions_index():
 
 # Page for creating a faction
 @app.route("/factions/new/", methods=["GET"])
-@login_required
+@login_required(role="ADMIN")
 def factions_create_form():
     return render_template("factions/new.html", form = FactionCreateForm())
 
 # Address for adding a faction
 @app.route("/factions/", methods=["POST"])
-@login_required
+@login_required(role="ADMIN")
 def factions_create():
     form = FactionCreateForm(request.form)
 
