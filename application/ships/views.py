@@ -43,7 +43,7 @@ def ships_index():
 def ships_info(ship_id):
     return render_template("ships/shipinfo.html", ship = Ship.query.get(ship_id))
 
-# Adds a new ship to database
+# Creates a new ship
 @app.route("/ships/", methods=["POST"])
 @login_required(role="ADMIN")
 def ships_create():
@@ -67,12 +67,7 @@ def ships_create():
     # This is kinda spaghetti
     faction_ids = form.factions.data
     _associate_to_factions_(ship, faction_ids)
-
-    for faction_id in faction_ids:
-        faction = Faction.query.filter_by(id = faction_id).first()
-        faction.ships.append(ship)
-        db.session.add(faction)
-        db.session.commit()
+    db.session.commit()
     
     return redirect(url_for("ships_index"))
 
