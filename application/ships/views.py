@@ -64,12 +64,11 @@ def ships_create():
 
     # Add ship entry to factionships association table
     # For some reason the form returns the id of the faction, which is ok
-    # This is kinda spaghetti
     faction_ids = form.factions.data
     _associate_to_factions_(ship, faction_ids)
     db.session.commit()
     
-    return redirect(url_for("ships_index"))
+    return redirect(url_for("ships_update", ship_id = ship.id))
 
 
 # Updates a ship with given primary key
