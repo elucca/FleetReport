@@ -18,8 +18,9 @@ class ShipCreateForm(FlaskForm):
     armor_sides = IntegerField("Side armor", [validators.NumberRange(min=0, max=2147483647)])
     armor_back = IntegerField("Rear armor", [validators.NumberRange(min=0, max=2147483647)])
 
-    # What exactly does coerce=int do?
-    # This needs to be validated so that a ship belongs to at least one faction, not sure how
+    # What exactly does coerce=int do? Seems to be needed to work either way.
+    # It's intended that a ship can belong to no factions. This is brought to the user's
+    # attention on the ship list and ship templates.
     factions = SelectMultipleField("Factions", coerce=int)
 
     class Meta:

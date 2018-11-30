@@ -26,7 +26,12 @@ def ships_create_form():
 @login_required(role="ADMIN")
 def ships_update_form(ship_id):
     ship = Ship.query.get(ship_id)
-    return render_template("ships/update.html", form = ShipCreateForm(obj = ship), ship = ship)
+    form = ShipCreateForm(obj = ship)
+    
+    # Get existing factions and add them to a multiple choice field in the form
+    form.factions.choices = _get_factions_list_()
+    
+    return render_template("ships/update.html", form = form, ship = ship)
 
 # Page for listing existing ships
 @app.route("/ships/", methods=["GET"])
@@ -43,9 +48,9 @@ def ships_info(ship_id):
 @login_required(role="ADMIN")
 def ships_create():
     form = ShipCreateForm(request.form)
+    form.factions.choices = _get_factions_list_()
 
     # Check validity of input. If input is not valid, return to the ship creation page.
-    form.factions.choices = _get_factions_list_()
     if not form.validate_on_submit():
         return render_template("ships/new.html", form = form)
 
@@ -61,6 +66,8 @@ def ships_create():
     # For some reason the form returns the id of the faction, which is ok
     # This is kinda spaghetti
     faction_ids = form.factions.data
+    _associate_to_factions_(ship, faction_ids)
+
     for faction_id in faction_ids:
         faction = Faction.query.filter_by(id = faction_id).first()
         faction.ships.append(ship)
@@ -76,8 +83,10 @@ def ships_create():
 @login_required(role="ADMIN")
 def ships_update(ship_id):
     form = ShipCreateForm(request.form)
+    form.factions.choices = _get_factions_list_()
 
-    ship = Ship.query.get(ship_id)  
+    ship = Ship.query.get(ship_id)
+    # Check validity of input. If input is not valid, return to the ship update page.
     if not form.validate():
         return render_template("ships/update.html", form = form, ship = ship)
 
@@ -95,6 +104,13 @@ def ships_update(ship_id):
     ship.armor_front = form.armor_front.data
     ship.armor_sides = form.armor_sides.data
     ship.armor_back = form.armor_back.data
+
+    # Not the most elegant solution: First remove all faction associations, then
+    # add the ones selected in the form, if any.
+    _unassociate_from_factions_(ship)
+    faction_ids = form.factions.data
+    _associate_to_factions_(ship, faction_ids)
+
     db.session().commit()
 
     return redirect(url_for("ships_index"))
@@ -111,10 +127,7 @@ def ships_remove(ship_id):
 
     # Remove associative entries with Faction (SQlAlchemy cascade not working)
     ship = Ship.query.get(ship_id)
-    factions = Faction.query.all()
-    for faction in factions:
-        if ship in faction.ships:
-            faction.ships.remove(ship)
+    _unassociate_from_factions_(ship)
 
     Ship.query.filter(Ship.id == ship_id).delete()    
 
@@ -124,6 +137,23 @@ def ships_remove(ship_id):
 # Gets a list of factions for use in ship creation/update forms
 def _get_factions_list_():
     factions = Faction.query.all()
-    factions_list=[(f.id, f.name) for f in factions]
+    factions_list = [(f.id, f.name) for f in factions]
 
     return factions_list
+
+# Adds entries to factionships association table when creating or updating
+# a ship
+def _associate_to_factions_(ship, faction_ids):
+    for faction_id in faction_ids:
+        faction = Faction.query.filter_by(id = faction_id).first()
+        faction.ships.append(ship)
+        db.session.add(faction)
+        db.session.commit()
+
+# Removes entries from factionships association table when removing or
+# updating a ship
+def _unassociate_from_factions_(ship):
+    factions = Faction.query.all()
+    for faction in factions:
+        if ship in faction.ships:
+            faction.ships.remove(ship)
