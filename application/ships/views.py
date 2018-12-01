@@ -109,6 +109,7 @@ def ships_update(ship_id):
 
     return redirect(url_for("ships_index"))
 
+# Removes a ship with the given primary key
 @app.route("/ships/remove/<ship_id>/", methods=["POST"])
 @login_required(role="ADMIN")
 def ships_remove(ship_id):

@@ -1,16 +1,15 @@
 {% extends "layout.html" %}
   
 {% block body %}
-
-<form method="POST" action="{{ url_for('laser_create', ship_id=ship.id) }}">
+<form method="POST" action="{{ url_for('laser_update', laser_id=laser.id, ship_id = laser.ship.id) }}">
   <table>
     
     <tr>
-	    <td>{{ form.laser_name.label }}</td>
-      <td>{{ form.laser_name }}</td>
+	  <td>{{ form.name.label }}</td>
+      <td>{{ form.name }}</td>
       <td>
         <ul>
-          {% for error in form.laser_name.errors %}
+          {% for error in form.name.errors %}
           <li>{{ error }}</li>
           {% endfor %}
         </ul>
@@ -30,12 +29,16 @@
     </tr>
 
     <tr>
-	    <td colspan="2">
-	      <input type="submit" value="Add laser"/>
-	    </td>
+      <td colspan="2">
+        <input type="submit" value="Update laser"/>
+      </td>
     </tr>
 
   </table>
+</form>
+
+<form method="POST" action="{{ url_for('laser_remove', laser_id=laser.id, ship_id = laser.ship.id) }}">
+    <input type="submit" value="Remove laser"/>
 </form>
 
 {% endblock %}
