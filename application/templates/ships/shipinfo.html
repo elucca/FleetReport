@@ -9,91 +9,91 @@
         <h4>{{ ship.name }}</h4>
         <span><b>Cost: </b></span>
         <span>{{ ship.cost }}</span>
+        <!-- Link to update the ship. -->
+        <br>
+        <a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify ship</a>
         <br>
         <br>
 
-        <table>            
+        <table class="table table-striped">
+
           <tr>
-            <td><b>Command-capable</b></td>
+            <th scope="row">Command-capable</th>
             <td>{{ ship.command_capable }}</td>
           </tr>
 
           <tr>
-            <td><b>Engine type</b></td>
+            <th scope="row">Engine type</th>
             <td>{{ ship.propulsion_type }}</td>
           </tr>
           
           <tr>
-            <td><b>Move</b></td>
+            <th scope="row">Move</th>
             <td>{{ ship.move }}</td>
           </tr>
 
-            <td><b>Delta-v</b></td>
+            <th scope="row">Delta-v</th>
             <td>{{ ship.delta_v }}</td>
           </tr>
 
           <tr>
-            <td><b>Passive evasion</b></td>
+            <th scope="row">Passive evasion</th>
             <td>{{ ship.evasion_passive }}</td>
           </tr>
 
           <tr>
-            <td><b>Active evasion</b></td>
+            <th scope="row">Active evasion</th>
             <td>{{ ship.evasion_active }}</td>
           </tr>
 
           <tr>
-            <td><b>Evasion endurance</b></td>
+            <th scope="row">Evasion endurance</th>
             <td>{{ ship.evasion_endurance }}</td>
           </tr>
 
           <tr>
-            <td><b>Integrity</b></td>
+            <th scope="row">Integrity</th>
             <td>{{ ship.integrity }}</td>
           </tr>
 
           <tr>
-            <td><b>Primary facing</b></td>
+            <th scope="row">Primary facing</th>
             <td>{{ ship.primary_facing }}</td>
           </tr>
 
           <tr>
-            <td><b>Front armor</b></td>
+            <th scope="row">Front armor</th>
             <td>{{ ship.armor_front }}</td>
           </tr>
 
           <tr>
-            <td><b>Side armor</b></td>
+            <th scope="row">Side armor</th>
             <td>{{ ship.armor_sides }}</td>
           </tr>
 
           <tr>
-            <td><b>Rear armor</b></td>
+            <th scope="row">Rear armor</th>
             <td>{{ ship.armor_back }}</td>
-          </tr>
-
-          <tr>
-            <!-- Link to update the ship. -->
-            <td><a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify</a></td>
           </tr>
         </table>
         <br>
-      <!--Weapons row
-      Currently spacing between grid elements is done with breaklines, should be done with
-      Bootstrap classes.-->
+
+        <!--Weapons row
+        Currently spacing between grid elements is done with breaklines, should be done with
+        Bootstrap classes.-->
         <div class="row">
           {% for laser in ship.lasers %}
           <!--Individual weapon column-->
           <div class="col-8 col-md-auto">
-            <h5>Laser</h5>
-            <table>
+            <table class="table table-striped">
+              <h5>Laser</h5>
               <tr>
-                <td><b>Name</b></td>
+                <th scope="row">Name</th>
                 <td>{{ laser.name }}</td>
               </tr>
 
               <tr>
-                <td><b>Anti-missile damage</b></td>
+                <th scope="row">Anti-missile damage</th>
                 <td>{{ laser.laser_dmg_missile }}</td>
               </tr>
             </table>
@@ -104,20 +104,20 @@
           {% for missile in ship.missiles %}
           <!--Individual weapon column-->
           <div class="col-8 col-md-auto">
-            <h5>Missile</h5>
-            <table>
+            <table class="table table-striped">
+              <h5>Missile</h5>
               <tr>
-                <td><b>Name</b></td>
+                <th scope="row">Name</th>
                 <td>{{ missile.name }}</td>
               </tr>
 
               <tr>
-                <td><b>Volley</b></td>
+                <th scope="row">Volley</th>
                 <td>{{ missile.volley }}</td>
               </tr>
 
               <tr>
-                <td><b>Stores</b></td>
+                <th scope="row">Stores</th>
                 <td>{{ missile.stores }}</td>
               </tr>
             </table>
