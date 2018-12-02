@@ -19,7 +19,14 @@ On Windows:
 <path to FleetReport folder>\venv\Scripts\activate
 ```
 
-3. Run the program:
+3. Install the program's dependencies. These will be installed to the virtual environment contained in the program's folder.
+On Linux and Windows:
+
+```
+pip install -r requirements.txt
+```
+
+4. Run the program:
 
 On Linux:
 ```
@@ -31,7 +38,7 @@ On Windows:
 python run.py
 ```
 
-4. Access the program through a web browser by navigating to the address:
+5. Access the program through a web browser by navigating to the address:
 ```
 http://localhost:5000
 ```
