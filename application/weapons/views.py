@@ -29,7 +29,7 @@ def laser_create(ship_id):
 
     # Replace with some more sensible redirect back to the form
     if not form.validate():
-        return redirect(url_for("ships_index"))
+        return redirect(url_for("ships_info", ship_id = ship_id))
 
     laser = Laser(form.name.data, form.laser_dmg_missile.data, ship_id)
 
@@ -45,14 +45,14 @@ def missile_create(ship_id):
     
     # Replace with some more sensible redirect back to the form
     if not form.validate():
-        return redirect(url_for("ships_index"))
+        return redirect(url_for("ships_info", ship_id = ship_id))
 
-    missile = Missile(form.missile_name.data, form.volley.data, form.stores.data, ship_id)
+    missile = Missile(form.name.data, form.volley.data, form.stores.data, ship_id)
 
     db.session().add(missile)
     db.session().commit()
 
-    return redirect(url_for("ships_index"))
+    return redirect(url_for("ships_info", ship_id = ship_id))
 
 ## Pages for updating different types of weapons
 
@@ -108,7 +108,7 @@ def missile_update(missile_id, ship_id):
 @app.route("/ships/<ship_id>/weapons/laser/remove/<laser_id>", methods=["POST"])
 @login_required(role="ADMIN")
 def laser_remove(laser_id, ship_id):
-    Laser.query.filter(laser_id == laser_id).delete()
+    Laser.query.filter(Laser.id == laser_id).delete()
     db.session.commit()
 
     return redirect(url_for("ships_info", ship_id = ship_id))
@@ -117,7 +117,7 @@ def laser_remove(laser_id, ship_id):
 @app.route("/ships/<ship_id>/weapons/missile/remove/<missile_id>", methods=["POST"])
 @login_required(role="ADMIN")
 def missile_remove(missile_id, ship_id):
-    Missile.query.filter(missile_id == missile_id).delete()
+    Missile.query.filter(Missile.id == missile_id).delete()
     db.session.commit()
 
     return redirect(url_for("ships_info", ship_id = ship_id))

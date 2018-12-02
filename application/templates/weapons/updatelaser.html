@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
   
 {% block body %}
+
 <form method="POST" action="{{ url_for('laser_update', laser_id=laser.id, ship_id = laser.ship.id) }}">
   <table>
     
