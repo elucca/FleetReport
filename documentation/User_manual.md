@@ -41,7 +41,7 @@ When ran locally, the database is contained inside the program folder on your co
 
 ## Usage
 
-The program is navigated using the nav bar at the top of the screen. The UI strives to be self-explanatory, but at this point it's still very much a work in progress. Features will become available gradually, and everything about the UI is subject to change.
+The program is navigated using the nav bar at the top of the screen. The UI strives to be self-explanatory, but at this point it's still very much a work in progress. Features will become available gradually, and everything about the UI is subject to change. A proper user manual may be provided when the program is more complete and well-defined.
 
 Some preliminary notes on the currently less self-explanatory aspects:
 - Weapons can be added on the ship modification page. Both ships and weapons can be removed on their respective modification pages.
