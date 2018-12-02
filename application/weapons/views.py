@@ -65,6 +65,15 @@ def laser_update_form(laser_id, ship_id):
     
     return render_template("weapons/updatelaser.html", form = form, laser = laser)
 
+# Page for updating a missile
+@app.route("/ships/<ship_id>/weapons/missile/update/<missile_id>")
+@login_required(role="ADMIN")
+def missile_update_form(missile_id, ship_id):
+    missile = Missile.query.get(missile_id)
+    form = MissileCreateForm(obj = missile)
+    
+    return render_template("weapons/updatemissile.html", form = form, missile = missile)
+
 ## Post methods for updating different types of weapons
 
 # Updates a laser with given primary key
@@ -80,6 +89,19 @@ def laser_update(laser_id, ship_id):
 
     return redirect(url_for("ships_info", ship_id = ship_id))
 
+@app.route("/ships/<ship_id>/weapons/missile/update/<missile_id>", methods=["POST"])
+@login_required(role="ADMIN")
+def missile_update(missile_id, ship_id):
+    form = MissileCreateForm(request.form)
+    missile = Missile.query.get(missile_id)
+
+    missile.name = form.name.data 
+    missile.volley = form.volley.data
+    missile.stores = form.stores.data
+    db.session().commit()
+
+    return redirect(url_for("ships_info", ship_id = ship_id))
+
 ## Post methods for removing different types of weapons
 
 # Removes a laser
@@ -87,6 +109,15 @@ def laser_update(laser_id, ship_id):
 @login_required(role="ADMIN")
 def laser_remove(laser_id, ship_id):
     Laser.query.filter(laser_id == laser_id).delete()
+    db.session.commit()
+
+    return redirect(url_for("ships_info", ship_id = ship_id))
+
+# Removes a missile
+@app.route("/ships/<ship_id>/weapons/missile/remove/<missile_id>", methods=["POST"])
+@login_required(role="ADMIN")
+def missile_remove(missile_id, ship_id):
+    Missile.query.filter(missile_id == missile_id).delete()
     db.session.commit()
 
     return redirect(url_for("ships_info", ship_id = ship_id))

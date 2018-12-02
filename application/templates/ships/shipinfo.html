@@ -108,6 +108,8 @@
           <div class="col-md-6">
             <table class="table table-striped">
               <h5>Missile</h5>
+              <!-- Link to update the missile. -->
+              <a href="{{ url_for('missile_update_form', ship_id=missile.ship.id, missile_id=missile.id) }}">Modify</a>
               <tr>
                 <th scope="row">Name</th>
                 <td>{{ missile.name }}</td>
