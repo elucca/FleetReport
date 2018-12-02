@@ -11,7 +11,7 @@ from application.weapons.forms import *
 @login_required(role="ADMIN")
 def laser_create_form(ship_id):
     ship = Ship.query.get(ship_id)
-    return render_template("weapons/createlaser.html", form = LaserCreateForm(obj = ship), ship = ship)
+    return render_template("weapons/createlaser.html", form = LaserCreateForm(), ship = ship)
 
 @app.route("/ships/<ship_id>/weapons/missile", methods=["GET"])
 @login_required(role="ADMIN")
@@ -36,7 +36,7 @@ def laser_create(ship_id):
     db.session().add(laser)
     db.session().commit()
 
-    return redirect(url_for("ships_index"))
+    return redirect(url_for("ships_info", ship_id = ship_id))
 
 @app.route("/ships/<ship_id>/weapons/missile", methods=["POST"])
 @login_required(role="ADMIN")
@@ -83,10 +83,10 @@ def laser_update(laser_id, ship_id):
 ## Post methods for removing different types of weapons
 
 # Removes a laser
-@app.route("/ships/<ship_id>/weapons/laser/remove", methods=["POST"])
+@app.route("/ships/<ship_id>/weapons/laser/remove/<laser_id>", methods=["POST"])
 @login_required(role="ADMIN")
 def laser_remove(laser_id, ship_id):
     Laser.query.filter(laser_id == laser_id).delete()
     db.session.commit()
 
-    return redirect(url_for("ship_info", ship_id = ship_id))
+    return redirect(url_for("ships_info", ship_id = ship_id))
