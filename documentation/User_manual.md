@@ -4,7 +4,7 @@
 
 The easiest way to use the program is to access its online version at https://fleetreport.herokuapp.com/.
 
-The program can also be ran locally, though doing this is a bit more involved, and only necessary if you are interested in testing or investigating it in a more thorough way. You will need to install Python. The steps to doing this are as follows.
+The program can also be ran locally, though doing this is a bit more involved, and only necessary if you are interested in testing or investigating it in a more thorough way. You will need to have Python installed. The steps to running the program locally are as follows.
 1. Download the repository to your computer.
 2. Open a command prompt, and first activate the virtual environment:
 
