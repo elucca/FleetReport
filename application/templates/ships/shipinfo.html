@@ -10,8 +10,10 @@
         <span><b>Cost: </b></span>
         <span>{{ ship.cost }}</span>
         <!-- Link to update the ship. -->
+        {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
         <br>
         <a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify ship</a>
+        {% endif %}
         <br>
         <br>
 
@@ -88,7 +90,9 @@
             <table class="table table-striped">
               <h5>Laser</h5>
               <!-- Link to update the laser. -->
+              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
               <a href="{{ url_for('laser_update_form', ship_id=laser.ship.id, laser_id=laser.id) }}">Modify</a>
+              {% endif %}
               <tr>
                 <th scope="row">Name</th>
                 <td>{{ laser.name }}</td>
@@ -109,7 +113,9 @@
             <table class="table table-striped">
               <h5>Missile</h5>
               <!-- Link to update the missile. -->
+              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
               <a href="{{ url_for('missile_update_form', ship_id=missile.ship.id, missile_id=missile.id) }}">Modify</a>
+              {% endif %}
               <tr>
                 <th scope="row">Name</th>
                 <td>{{ missile.name }}</td>

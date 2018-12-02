@@ -3,7 +3,9 @@
 {% block body %}
 
   <h3>Factions</h3>
+  {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
   <a href="{{ url_for('factions_create_form') }}">Add faction</a>
+  {% endif %}
   
   <br>
   <br>
@@ -17,12 +19,15 @@
       <span>Number of command-capable ships: {{ faction.faction_info.command_ship_count }}</span>
 
       <br>
+      <br>
+      {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
       <form method="POST" action="{{ url_for('factions_remove', faction_id=faction.id) }}">
           <input type="submit" value="Remove faction"/>
-      </form>        
+      </form>
+      <br>
+      <br>
+      {% endif %}     
     </tr>
-    <br>
-    <br>
     {% endfor %}
   </table>
 {% endblock %}
