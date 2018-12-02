@@ -17,7 +17,7 @@ def laser_create_form(ship_id):
 @login_required(role="ADMIN")
 def missile_create_form(ship_id):
     ship = Ship.query.get(ship_id)
-    return render_template("weapons/createmissile.html", form = MissileCreateForm(obj = ship), ship = ship)
+    return render_template("weapons/createmissile.html", form = MissileCreateForm(), ship = ship)
 
 
 # Post methods for adding different kinds of weapons
