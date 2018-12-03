@@ -194,7 +194,16 @@ proper and add the buttons (which are the only different part) in the update and
   <input type="submit" value="Remove ship"/>
 </form>
 
+<br>
 <td><a href="{{ url_for('laser_create_form', ship_id=ship.id) }}">Add laser</a></td>
+<br>
 <td><a href="{{ url_for('missile_create_form', ship_id=ship.id) }}">Add missile</a></td>
+<br>
+<td><a href="{{ url_for('CIWS_create_form', ship_id=ship.id) }}">Add CIWS</a></td>
+<br>
+<td><a href="{{ url_for('area_missile_create_form', ship_id=ship.id) }}">Add area missile</a></td>
+<br>
+<td><a href="{{ url_for('ewar_create_form', ship_id=ship.id) }}">Add ewar suite</a></td>
+
 
 {% endblock %}

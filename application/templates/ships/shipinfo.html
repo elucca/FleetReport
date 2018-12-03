@@ -134,6 +134,88 @@
             <br>
           </div>
           {% endfor %}
+
+          {% for ciws in ship.CIWSs %}
+          <!--Individual weapon column-->
+          <div class="col-md-6">
+            <table class="table table-striped">
+              <h5>CIWS</h5>
+              <!-- Link to update the CIWS. -->
+              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+              <a href="{{ url_for('CIWS_update_form', ship_id=ciws.ship.id, ciws_id=ciws.id) }}">Modify</a>
+              {% endif %}
+              <tr>
+                <th scope="row">Name</th>
+                <td>{{ ciws.name }}</td>
+              </tr>
+
+              <tr>
+                <th scope="row">Anti-missile damage</th>
+                <td>{{ ciws.dmg_missile }}</td>
+              </tr>
+
+              <tr>
+                <th scope="row">Anti-ship damage</th>
+                <td>{{ ciws.dmg_ship }}</td>
+              </tr>
+            </table>
+            <br>
+          </div>
+          {% endfor %}
+
+          {% for area_missile in ship.area_missiles %}
+          <!--Individual weapon column-->
+          <div class="col-md-6">
+            <table class="table table-striped">
+              <h5>Area missile</h5>
+              <!-- Link to update the area missile. -->
+              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+              <a href="{{ url_for('area_missile_update_form', ship_id=area_missile.ship.id, areamissile_id=area_missile.id) }}">Modify</a>
+              {% endif %}
+              <tr>
+                <th scope="row">Name</th>
+                <td>{{ area_missile.name }}</td>
+              </tr>
+
+              <tr>
+                <th scope="row">Range</th>
+                <td>{{ area_missile.am_range }}</td>
+              </tr>
+
+              <tr>
+                <th scope="row">Anti-missile damage</th>
+                <td>{{ area_missile.dmg_missile }}</td>
+              </tr>
+
+              <tr>
+                <th scope="row">Anti-ship damage</th>
+                <td>{{ area_missile.dmg_ship }}</td>
+              </tr>
+              
+            </table>
+            <br>
+          </div>
+          {% endfor %}
+
+          {% for ewar in ship.ewars %}
+          <!--Individual weapon column-->
+          <div class="col-md-6">
+            <table class="table table-striped">
+              <h5>Ewar suite</h5>
+              <!-- Link to update the area missile. -->
+              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+              <a href="{{ url_for('ewar_update_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}">Modify</a>
+              {% endif %}
+              <tr>
+                <th scope="row">Name</th>
+                <td>{{ ewar.name }}</td>
+              </tr>
+
+            </table>
+            <br>
+          </div>
+          {% endfor %}
+
         </div>
         <br>
         <span><b>Belongs to faction(s):</b></span>
