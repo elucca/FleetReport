@@ -39,15 +39,15 @@
         </div>
 
         <a class="text-light" href="{{ url_for('auth_logout') }}">
-          <button type="button" class="btn btn-dark btn-sm mx-2">Log out</button>
+          <button type="button" class="btn btn-dark btn-md mx-2">Log out</button>
         </a>
         {% else %}
         <a class="text-light" href="{{ url_for('auth_login') }}">
-          <button type="button" class="btn btn-dark btn-sm mx-1">Log in</button>
+          <button type="button" class="btn btn-dark btn-md mx-1">Log in</button>
         </a>
 
         <a class="text-light" href="{{ url_for('auth_newuser') }}">
-          <button type="button" class="btn btn-dark btn-sm mx-1">Sign up</button>
+          <button type="button" class="btn btn-dark btn-md mx-1">Sign up</button>
         </a>
         {% endif %}
       </div>
