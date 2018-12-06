@@ -12,7 +12,7 @@
 
 <body>
   <!--Main navbar-->
-  <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
+  <nav class="navbar navbar-expand-md navbar-dark bg-secondary mb-4">
     <a class="navbar-brand" href="#">FleetReport</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
       aria-expanded="false" aria-label="Toggle navigation">
@@ -24,23 +24,31 @@
           <a class="nav-link" href="{{ url_for('factions_index') }} ">Factions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('ships_index') }} ">View ships</a>
+          <a class="nav-link" href="{{ url_for('ships_index') }} ">Ships</a>
         </li>
         {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('ships_create_form') }} ">Add a ship</a>
+          <a class="nav-link" href="{{ url_for('ships_create_form') }} ">Add ship</a>
         </li>
         {% endif %}
       </ul>
-      <div class="form-inline mt-2 mt-md-0">
+      <div class="form-inline mx-2">
         {% if current_user.is_authenticated %}
-        <p></p>
-        <span>Logged in as {{ current_user.name }}.&nbsp</span><a href="{{ url_for('auth_logout') }}">Log out</a>
+        <div class="mx-2">
+          <span class="text-light">Logged in as {{ current_user.name }}.</span>
+        </div>
+
+        <a class="text-light" href="{{ url_for('auth_logout') }}">
+          <button type="button" class="btn btn-dark btn-sm mx-2">Log out</button>
+        </a>
         {% else %}
-        <a href="{{ url_for('auth_login') }}">Log in</a>
-        <!--There is probably a neater Bootstrap way to space things out.-->
-        <span>&nbsp;or&nbsp;</span>
-        <a href="{{ url_for('auth_newuser') }}">Register</a>
+        <a class="text-light" href="{{ url_for('auth_login') }}">
+          <button type="button" class="btn btn-dark btn-sm mx-1">Log in</button>
+        </a>
+
+        <a class="text-light" href="{{ url_for('auth_newuser') }}">
+          <button type="button" class="btn btn-dark btn-sm mx-1">Sign up</button>
+        </a>
         {% endif %}
       </div>
     </div>
