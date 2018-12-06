@@ -11,8 +11,7 @@
         <span>{{ ship.cost }}</span>
         <!-- Link to update the ship. -->
         {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-        <br>
-        <a href="{{ url_for('ships_update_form', ship_id=ship.id) }}">Modify ship</a>
+        <a href="{{ url_for('ships_update_form', ship_id=ship.id) }}" class="btn btn-secondary btn-sm ml-4" role="button">Modify ship</a>
         {% endif %}
         <br>
         <br>
@@ -91,7 +90,7 @@
               <h5>Laser</h5>
               <!-- Link to update the laser. -->
               {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('laser_update_form', ship_id=laser.ship.id, laser_id=laser.id) }}">Modify</a>
+              <a href="{{ url_for('laser_update_form', ship_id=laser.ship.id, laser_id=laser.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
               {% endif %}
               <tr>
                 <th scope="row">Name</th>
@@ -114,7 +113,7 @@
               <h5>Missile</h5>
               <!-- Link to update the missile. -->
               {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('missile_update_form', ship_id=missile.ship.id, missile_id=missile.id) }}">Modify</a>
+              <a href="{{ url_for('missile_update_form', ship_id=missile.ship.id, missile_id=missile.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
               {% endif %}
               <tr>
                 <th scope="row">Name</th>
@@ -142,7 +141,7 @@
               <h5>CIWS</h5>
               <!-- Link to update the CIWS. -->
               {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('CIWS_update_form', ship_id=ciws.ship.id, ciws_id=ciws.id) }}">Modify</a>
+              <a href="{{ url_for('CIWS_update_form', ship_id=ciws.ship.id, ciws_id=ciws.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
               {% endif %}
               <tr>
                 <th scope="row">Name</th>
@@ -170,7 +169,7 @@
               <h5>Area missile</h5>
               <!-- Link to update the area missile. -->
               {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('area_missile_update_form', ship_id=area_missile.ship.id, areamissile_id=area_missile.id) }}">Modify</a>
+              <a href="{{ url_for('area_missile_update_form', ship_id=area_missile.ship.id, areamissile_id=area_missile.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
               {% endif %}
               <tr>
                 <th scope="row">Name</th>
@@ -204,7 +203,7 @@
               <h5>Ewar suite</h5>
               <!-- Link to update the area missile. -->
               {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('ewar_update_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}">Modify</a>
+              <a href="{{ url_for('ewar_update_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
               {% endif %}
               <tr>
                 <th scope="row">Name</th>

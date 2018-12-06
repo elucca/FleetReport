@@ -2,208 +2,216 @@
 
 {% block body %}
 
-<!--This is currently atrocious copy paste from new.html. Sort out a base template for the form
+<!--Much of this is currently atrocious copy paste from new.html. Sort out a base template for the form
 proper and add the buttons (which are the only different part) in the update and new templates.-->
-<form method="POST" action="{{ url_for('ships_update', ship_id=ship.id) }}">
-  <table>
+<div class="container">
+  <form method="POST" action="{{ url_for('ships_update', ship_id=ship.id) }}">
+    <table>
+      <tr>
+        <td>{{ form.name.label }}</td>
+        <td>{{ form.name }}</td>
+        <td>
+          <ul>
+            {% for error in form.name.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
 
-    <tr>
-	    <td>{{ form.name.label }}</td>
-      <td>{{ form.name }}</td>
-      <td>
-        <ul>
-          {% for error in form.name.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
+      <tr>
+        <td>{{ form.cost.label }}</td>
+        <td>{{ form.cost }}</td>
+        <td>
+          <ul>
+            {% for error in form.cost.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.command_capable.label }}</td>
+        <td>{{ form.command_capable }}</td>
+      </tr>
+      
+      <tr>
+        <td>{{ form.propulsion_type.label }}</td>
+        <td>{{ form.propulsion_type }}</td>
+        <td>
+          <ul>
+            {% for error in form.propulsion_type.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.move.label }}</td>
+        <td>{{ form.move }}</td>
+        <td>
+          <ul>
+            {% for error in form.move.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.delta_v.label }}</td>
+        <td>{{ form.delta_v }}</td>
+        <td>
+          <ul>
+            {% for error in form.delta_v.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.evasion_passive.label }}</td>
+        <td>{{ form.evasion_passive }}</td>
+        <td>
+          <ul>
+            {% for error in form.evasion_passive.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.evasion_active.label }}</td>
+        <td>{{ form.evasion_active }}</td>
+        <td>
+          <ul>
+            {% for error in form.evasion_active.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.evasion_endurance.label }}</td>
+        <td>{{ form.evasion_endurance }}</td>
+        <td>
+          <ul>
+            {% for error in form.evasion_endurance.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+      
+      <tr>
+        <td>{{ form.integrity.label }}</td>
+        <td>{{ form.integrity }}</td>
+        <td>
+          <ul>
+            {% for error in form.integrity.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.primary_facing.label }}</td>
+        <td>{{ form.primary_facing }}</td>
+        <td>
+          <ul>
+            {% for error in form.primary_facing.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.armor_front.label }}</td>
+        <td>{{ form.armor_front }}</td>
+        <td>
+          <ul>
+            {% for error in form.armor_front.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+      
+      <tr>
+        <td>{{ form.armor_sides.label }}</td>
+        <td>{{ form.armor_sides }}</td>
+        <td>
+          <ul>
+            {% for error in form.armor_sides.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
+    
+      <tr>
+        <td>{{ form.armor_back.label }}</td>
+        <td>{{ form.armor_back }}</td>
+        <td>
+          <ul>
+            {% for error in form.armor_back.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
 
-    <tr>
-      <td>{{ form.cost.label }}</td>
-      <td>{{ form.cost }}</td>
-      <td>
-        <ul>
-          {% for error in form.cost.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.command_capable.label }}</td>
-      <td>{{ form.command_capable }}</td>
-    </tr>
-    
-    <tr>
-      <td>{{ form.propulsion_type.label }}</td>
-      <td>{{ form.propulsion_type }}</td>
-      <td>
-        <ul>
-          {% for error in form.propulsion_type.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.move.label }}</td>
-      <td>{{ form.move }}</td>
-      <td>
-        <ul>
-          {% for error in form.move.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.delta_v.label }}</td>
-      <td>{{ form.delta_v }}</td>
-      <td>
-        <ul>
-          {% for error in form.delta_v.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.evasion_passive.label }}</td>
-      <td>{{ form.evasion_passive }}</td>
-      <td>
-        <ul>
-          {% for error in form.evasion_passive.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.evasion_active.label }}</td>
-      <td>{{ form.evasion_active }}</td>
-      <td>
-        <ul>
-          {% for error in form.evasion_active.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.evasion_endurance.label }}</td>
-      <td>{{ form.evasion_endurance }}</td>
-      <td>
-        <ul>
-          {% for error in form.evasion_endurance.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>
-    </tr>
-    
-    <tr>
-      <td>{{ form.integrity.label }}</td>
-      <td>{{ form.integrity }}</td>
-      <td>
-        <ul>
-          {% for error in form.integrity.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.primary_facing.label }}</td>
-      <td>{{ form.primary_facing }}</td>
-      <td>
-        <ul>
-          {% for error in form.primary_facing.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.armor_front.label }}</td>
-      <td>{{ form.armor_front }}</td>
-      <td>
-        <ul>
-          {% for error in form.armor_front.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-    
-    <tr>
-      <td>{{ form.armor_sides.label }}</td>
-      <td>{{ form.armor_sides }}</td>
-      <td>
-        <ul>
-          {% for error in form.armor_sides.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
-   
-    <tr>
-      <td>{{ form.armor_back.label }}</td>
-      <td>{{ form.armor_back }}</td>
-      <td>
-        <ul>
-          {% for error in form.armor_back.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
+      <tr>
+        <td>{{ form.factions.label }}</td>
+        <td>{{ form.factions }}</td>
+        <td>
+          <ul>
+            {% for error in form.factions.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </td>    
+      </tr>
 
-    <tr>
-      <td>{{ form.factions.label }}</td>
-      <td>{{ form.factions }}</td>
-      <td>
-        <ul>
-          {% for error in form.factions.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
+      <tr>
+        <td>
+          <button type="submit" class="btn btn-secondary w-20 mt-4">Update ship</button>
+        </td>
+      </tr>
+    </table>
+  </form>
+  
+  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+    <form method="POST" action="{{ url_for('ships_remove', ship_id=ship.id) }}">
+        <button type="submit" class="btn btn-secondary w-20 mt-2">Remove ship</button>
+    </form>
 
-    <tr>
-	    <td colspan="2">
-	      <input type="submit" value="Update ship"/>
-	    </td>
-    </tr>
-
-  </table>
-</form>
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle w-20 mt-2 ml-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Add weapon
+        </button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <a class="dropdown-item" href="{{ url_for('laser_create_form', ship_id=ship.id) }}">Laser</a>
+          <a class="dropdown-item" href="{{ url_for('missile_create_form', ship_id=ship.id) }}">Missile</a>
+          <a class="dropdown-item" href="{{ url_for('CIWS_create_form', ship_id=ship.id) }}">CIWS</a>
+          <a class="dropdown-item" href="{{ url_for('area_missile_create_form', ship_id=ship.id) }}">Area missile</a>
+          <a class="dropdown-item" href="{{ url_for('ewar_create_form', ship_id=ship.id) }}">Ewar suite</a>
+        </div>
+    </div>
+  </div>
+    
+  
 
 
-<form method="POST" action="{{ url_for('ships_remove', ship_id=ship.id) }}">
-  <input type="submit" value="Remove ship"/>
-</form>
 
-<br>
-<td><a href="{{ url_for('laser_create_form', ship_id=ship.id) }}">Add laser</a></td>
-<br>
-<td><a href="{{ url_for('missile_create_form', ship_id=ship.id) }}">Add missile</a></td>
-<br>
-<td><a href="{{ url_for('CIWS_create_form', ship_id=ship.id) }}">Add CIWS</a></td>
-<br>
-<td><a href="{{ url_for('area_missile_create_form', ship_id=ship.id) }}">Add area missile</a></td>
-<br>
-<td><a href="{{ url_for('ewar_create_form', ship_id=ship.id) }}">Add ewar suite</a></td>
 
+</div>
 
 {% endblock %}
