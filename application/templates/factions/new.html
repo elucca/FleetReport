@@ -1,29 +1,23 @@
 {% extends "layout.html" %}
   
 {% block body %}
-
-<form method="POST" action="{{ url_for('factions_create') }}">
-  <table>
-    
-    <tr>
-	    <td>{{ form.name.label }}</td>
-      <td>{{ form.name }}</td>
-      <td>
+<div class="mt-5">
+  <div class="row"></div>
+  <form method="POST" action="{{ url_for('factions_create') }}">
+    <div class="form-group row">
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.name.label }}</label>
+      <div class="col-sm-3">
+        {{ form.name(class_="form-control form-control-sm") }}
         <ul>
           {% for error in form.name.errors %}
           <li>{{ error }}</li>
           {% endfor %}
         </ul>
-      </td>    
-    </tr>
-
-    <tr>
-	    <td colspan="2">
-          <button type="submit" class="btn btn-md btn-secondary w-20 mt-4">Add new faction</button>
-	    </td>
-    </tr>
-
-  </table>
-</form>
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Add new faction</button>
+  </form>
+</div>
 
 {% endblock %}

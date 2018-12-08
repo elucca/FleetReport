@@ -6,186 +6,177 @@
 proper and add the buttons (which are the only different part) in the update and new templates.-->
 <div class="container">
   <form method="POST" action="{{ url_for('ships_update', ship_id=ship.id) }}">
-    <table>
-      <tr>
-        <td>{{ form.name.label }}</td>
-        <td>{{ form.name }}</td>
-        <td>
+    <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.name.label }}</label>
+        <div class="col-sm-3">
+          {{ form.name(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.name.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-
-      <tr>
-        <td>{{ form.cost.label }}</td>
-        <td>{{ form.cost }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.cost.label }}</label>
+        <div class="col-sm-3">
+          {{ form.cost(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.cost.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-      
-      <tr>
-        <td>{{ form.command_capable.label }}</td>
-        <td>{{ form.command_capable }}</td>
-      </tr>
-      
-      <tr>
-        <td>{{ form.propulsion_type.label }}</td>
-        <td>{{ form.propulsion_type }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <!--Can't quite figure out how to get a sane Bootstarp checkbox here, so not using it here.-->
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.command_capable.label }}</label>
+        <div class="col-sm-3 mt-2">
+          {{ form.command_capable }}
+          <ul>
+            {% for error in form.command_capable.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.propulsion_type.label }}</label>
+        <div class="col-sm-3">
+          {{ form.propulsion_type(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.propulsion_type.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
+        </div>
+      </div>
       
-      <tr>
-        <td>{{ form.move.label }}</td>
-        <td>{{ form.move }}</td>
-        <td>
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.move.label }}</label>
+        <div class="col-sm-3">
+          {{ form.move(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.move.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
+        </div>
+      </div>
+  
       
-      <tr>
-        <td>{{ form.delta_v.label }}</td>
-        <td>{{ form.delta_v }}</td>
-        <td>
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.delta_v.label }}</label>
+        <div class="col-sm-3">
+          {{ form.delta_v(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.delta_v.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-      
-      <tr>
-        <td>{{ form.evasion_passive.label }}</td>
-        <td>{{ form.evasion_passive }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.evasion_passive.label }}</label>
+        <div class="col-sm-3">
+          {{ form.evasion_passive(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.evasion_passive.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-      
-      <tr>
-        <td>{{ form.evasion_active.label }}</td>
-        <td>{{ form.evasion_active }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.evasion_active.label }}</label>
+        <div class="col-sm-3">
+          {{ form.evasion_active(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.evasion_active.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-      
-      <tr>
-        <td>{{ form.evasion_endurance.label }}</td>
-        <td>{{ form.evasion_endurance }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.evasion_endurance.label }}</label>
+        <div class="col-sm-3">
+          {{ form.evasion_endurance(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.evasion_endurance.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>
-      </tr>
-      
-      <tr>
-        <td>{{ form.integrity.label }}</td>
-        <td>{{ form.integrity }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.integrity.label }}</label>
+        <div class="col-sm-3">
+          {{ form.integrity(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.integrity.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-      
-      <tr>
-        <td>{{ form.primary_facing.label }}</td>
-        <td>{{ form.primary_facing }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.primary_facing.label }}</label>
+        <div class="col-sm-3">
+          {{ form.primary_facing(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.primary_facing.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-      
-      <tr>
-        <td>{{ form.armor_front.label }}</td>
-        <td>{{ form.armor_front }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.armor_front.label }}</label>
+        <div class="col-sm-3">
+          {{ form.armor_front(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.armor_front.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-      
-      <tr>
-        <td>{{ form.armor_sides.label }}</td>
-        <td>{{ form.armor_sides }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.armor_sides.label }}</label>
+        <div class="col-sm-3">
+          {{ form.armor_sides(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.armor_sides.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
-    
-      <tr>
-        <td>{{ form.armor_back.label }}</td>
-        <td>{{ form.armor_back }}</td>
-        <td>
+        </div>
+      </div>
+  
+      <div class="form-group row mb-0">
+        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.armor_back.label }}</label>
+        <div class="col-sm-3">
+          {{ form.armor_back(class_="form-control form-control-sm") }}
           <ul>
             {% for error in form.armor_back.errors %}
             <li>{{ error }}</li>
             {% endfor %}
           </ul>
-        </td>    
-      </tr>
+        </div>
+      </div>
 
-      <tr>
-        <td>{{ form.factions.label }}</td>
-        <td>{{ form.factions }}</td>
-        <td>
-          <ul>
-            {% for error in form.factions.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-          </ul>
-        </td>    
-      </tr>
-
-      <tr>
-        <td>
-          <button type="submit" class="btn btn-secondary w-20 mt-4">Update ship</button>
-        </td>
-      </tr>
-    </table>
+      <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Update ship</button>
   </form>
   
   <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
