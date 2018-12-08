@@ -4,62 +4,57 @@
 
 <form method="POST" action="{{ url_for('area_missile_create', ship_id=ship.id) }}">
   <table>
-    
-    <tr>
-	  <td>{{ form.name.label }}</td>
-      <td>{{ form.name }}</td>
-      <td>
+
+    <div class="form-group row mb-0">
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.name.label }}</label>
+      <div class="col-sm-3">
+        {{ form.name(class_="form-control form-control-sm") }}
         <ul>
           {% for error in form.name.errors %}
           <li>{{ error }}</li>
           {% endfor %}
         </ul>
-      </td>    
-    </tr>
+      </div>
+    </div>
 
-    <tr>
-    <td>{{ form.am_range.label }}</td>
-    <td>{{ form.am_range }}</td>
-    <td>
+    <div class="form-group row mb-0">
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.am_range.label }}</label>
+      <div class="col-sm-3">
+        {{ form.am_range(class_="form-control form-control-sm") }}
         <ul>
-        {% for error in form.am_range.errors %}
-        <li>{{ error }}</li>
-        {% endfor %}
+          {% for error in form.am_range.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
         </ul>
-    </td>    
-    </tr>      
+      </div>
+    </div>
 
-    <tr>
-      <td>{{ form.dmg_missile.label }}</td>
-      <td>{{ form.dmg_missile }}</td>
-      <td>
+    <div class="form-group row mb-0">
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.dmg_missile.label }}</label>
+      <div class="col-sm-3">
+        {{ form.dmg_missile(class_="form-control form-control-sm") }}
         <ul>
           {% for error in form.dmg_missile.errors %}
           <li>{{ error }}</li>
           {% endfor %}
         </ul>
-      </td>    
-    </tr>
+      </div>
+    </div>
 
-    <tr>
-      <td>{{ form.dmg_ship.label }}</td>
-      <td>{{ form.dmg_ship }}</td>
-      <td>
-          <ul>
+    <div class="form-group row mb-0">
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.dmg_ship.label }}</label>
+      <div class="col-sm-3">
+        {{ form.dmg_ship(class_="form-control form-control-sm") }}
+        <ul>
           {% for error in form.dmg_ship.errors %}
           <li>{{ error }}</li>
           {% endfor %}
-          </ul>
-      </td>    
-    </tr>
+        </ul>
+      </div>
+    </div>
 
-    <tr>
-	    <td colspan="2">
-	      <input type="submit" value="Add area missile"/>
-	    </td>
-    </tr>
-
-  </table>
+    <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Add area missile</button>
+    
 </form>
 
 {% endblock %}

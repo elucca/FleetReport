@@ -3,55 +3,49 @@
 {% block body %}
 
 <form method="POST" action="{{ url_for('missile_update', missile_id=missile.id, ship_id = missile.ship.id) }}">
-  <table>
-    
-    <tr>
-	  <td>{{ form.name.label }}</td>
-      <td>{{ form.name }}</td>
-      <td>
-        <ul>
-          {% for error in form.name.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
 
-    <tr>
-      <td>{{ form.volley.label }}</td>
-      <td>{{ form.volley }}</td>
-      <td>
-        <ul>
-          {% for error in form.volley.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.name.label }}</label>
+    <div class="col-sm-3">
+      {{ form.name(class_="form-control form-control-sm") }}
+      <ul>
+        {% for error in form.name.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-    <tr>
-      <td>{{ form.stores.label }}</td>
-      <td>{{ form.stores }}</td>
-      <td>
-        <ul>
-          {% for error in form.stores.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.volley.label }}</label>
+    <div class="col-sm-3">
+      {{ form.volley(class_="form-control form-control-sm") }}
+      <ul>
+        {% for error in form.volley.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-    <tr>
-	  <td colspan="2">
-	    <input type="submit" value="Update missile"/>
-	  </td>
-    </tr>
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.stores.label }}</label>
+    <div class="col-sm-3">
+      {{ form.stores(class_="form-control form-control-sm") }}
+      <ul>
+        {% for error in form.stores.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-  </table>
+  <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Update missile</button>
+
 </form>
 
 <form method="POST" action="{{ url_for('missile_remove', missile_id=missile.id, ship_id = missile.ship.id) }}">
-  <input type="submit" value="Remove Missile"/>
+  <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Remove missile</button>
 </form>
 
 {% endblock %}

@@ -3,31 +3,25 @@
 {% block body %}
 
 <form method="POST" action="{{ url_for('ewar_update', ewar_id=ewar.id, ship_id = ewar.ship.id) }}">
-  <table>
-    
-    <tr>
-	    <td>{{ form.name.label }}</td>
-      <td>{{ form.name }}</td>
-      <td>
-        <ul>
-          {% for error in form.name.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
 
-    <tr>
-	    <td colspan="2">
-	      <input type="submit" value="Update ewar suite"/>
-	    </td>
-    </tr>
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.name.label }}</label>
+    <div class="col-sm-3">
+      {{ form.name(class_="form-control form-control-sm") }}
+      <ul>
+        {% for error in form.name.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-  </table>
+  <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Update ewar suite</button>
+
 </form>
 
 <form method="POST" action="{{ url_for('ewar_remove', ewar_id=ewar.id, ship_id = ewar.ship.id) }}">
-    <input type="submit" value="Remove ewar suite"/>
+  <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Remove ewar suite</button>
 </form>
 
 {% endblock %}

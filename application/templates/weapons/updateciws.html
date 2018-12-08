@@ -3,55 +3,48 @@
 {% block body %}
 
 <form method="POST" action="{{ url_for('CIWS_update', ciws_id=ciws.id, ship_id = ciws.ship.id) }}">
-  <table>
-    
-    <tr>
-	  <td>{{ form.name.label }}</td>
-      <td>{{ form.name }}</td>
-      <td>
-        <ul>
-          {% for error in form.name.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.name.label }}</label>
+    <div class="col-sm-3">
+      {{ form.name(class_="form-control form-control-sm") }}
+      <ul>
+        {% for error in form.name.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-    <tr>
-      <td>{{ form.dmg_missile.label }}</td>
-      <td>{{ form.dmg_missile }}</td>
-      <td>
-        <ul>
-          {% for error in form.dmg_missile.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-      </td>    
-    </tr>
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.dmg_missile.label }}</label>
+    <div class="col-sm-3">
+      {{ form.dmg_missile(class_="form-control form-control-sm") }}
+      <ul>
+        {% for error in form.dmg_missile.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-    <tr>
-    <td>{{ form.dmg_ship.label }}</td>
-    <td>{{ form.dmg_ship }}</td>
-    <td>
-        <ul>
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.dmg_ship.label }}</label>
+    <div class="col-sm-3">
+      {{ form.dmg_ship(class_="form-control form-control-sm") }}
+      <ul>
         {% for error in form.dmg_ship.errors %}
         <li>{{ error }}</li>
         {% endfor %}
-        </ul>
-    </td>    
-    </tr>
+      </ul>
+    </div>
+  </div>
+  
+  <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Update CIWS</button>
 
-    <tr>
-	    <td colspan="2">
-	      <input type="submit" value="Update CIWS"/>
-	    </td>
-    </tr>
-
-  </table>
 </form>
 
 <form method="POST" action="{{ url_for('CIWS_remove', ciws_id=ciws.id, ship_id = ciws.ship.id) }}">
-   <input type="submit" value="Remove CIWS"/>
+  <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Remove CIWS</button>
 </form>
 
 {% endblock %}

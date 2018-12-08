@@ -3,6 +3,7 @@
 {% block body %}
 <div class="mt-5">
   <form method="POST" action="{{ url_for('ships_create') }}">
+    
     <div class="form-group row mb-0">
       <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.name.label }}</label>
       <div class="col-sm-3">
@@ -175,6 +176,7 @@
 
     <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Add new ship</button>
     <span>&nbsp&nbsp Weapons can be added on the next page.</span>
+
   </form>
 
 
