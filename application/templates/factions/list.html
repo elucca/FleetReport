@@ -15,15 +15,20 @@
       <h5>{{ faction.name }}</h5>
 
       {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-      <form method="POST" action="{{ url_for('factions_remove', faction_id=faction.id) }}">
-          <button type="submit" class="btn btn-sm btn-secondary w-20 mb-2">Remove</button>
-      </form>
+        <div class="btn-group" role="group">
+        <form method="POST" action="{{ url_for('factions_remove', faction_id=faction.id) }}">
+            <button type="submit" class="btn btn-sm btn-secondary w-20 mb-2">Remove</button>
+        </form>
+        &nbsp;
+        <a href="{{ url_for('faction_update', faction_id=faction.id) }}" class="btn btn-sm btn-secondary w-20 mb-2" role="button">Modify</a>
+      </div>
       <br>
       {% endif %} 
       <span>Number of ships: {{ faction.faction_info.ship_count }}</span>
       <br>
       <span>Number of command-capable ships: {{ faction.faction_info.command_ship_count }}</span>
-    
+      <br>
+      <br>
     </tr>
     {% endfor %}
   </table>

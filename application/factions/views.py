@@ -38,6 +38,32 @@ def factions_create():
 
     return redirect(url_for("factions_index"))
 
+# Page for updating an existing faction
+@app.route("/factions/update/<faction_id>/")
+@login_required(role="ADMIN")
+def faction_update_form(faction_id):
+    faction = Faction.query.get(faction_id)
+    form = FactionCreateForm(obj = faction)
+    
+    return render_template("factions/update.html", form = form, faction = faction)
+
+# Updates the faction wtih the given primary key
+@app.route("/factions/update/<faction_id>/", methods=["POST"])
+@login_required(role="ADMIN")
+def faction_update(faction_id):
+    form = FactionCreateForm(request.form)
+
+    faction = Faction.query.get(faction_id)
+    # Check validity of input. If input is not valid, return to the ship update page.
+    if not form.validate():
+        return render_template("factions/update.html", form = form, faction = faction)
+    
+    faction.name = form.name.data
+
+    db.session().commit()
+
+    return redirect(url_for("factions_index"))
+
 # Removes the faction with the given primary key. Ships belonging to this faction are NOT
 # removed, but the associations are.
 @app.route("/factions/remove/<faction_id>/", methods=["POST"])

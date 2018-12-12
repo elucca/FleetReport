@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+<div class="mt-5">
+  <div class="row"></div>
+  <form method="POST" action="{{ url_for('faction_update', faction_id=faction.id) }}">
+    <div class="form-group row">
+      <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.name.label }}</label>
+      <div class="col-sm-3">
+        {{ form.name(class_="form-control form-control-sm") }}
+        <ul>
+          {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    
+    <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Update faction</button>
+  </form>
+</div>
+
+{% endblock %}
