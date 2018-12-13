@@ -14,6 +14,8 @@ in particular for a base table which contains the object's primary key and name,
 This is currently not the case due to issues I have with implementing it with SQLAlchemy. (It would be straightforward were I working
 with SQL statements manually.)
 
+All tables currently conform to the third normal form.
+
 ### account
 
 This is the table for user accounts. The account table has modification and creation columns that are not currently used by the program,
