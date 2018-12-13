@@ -20,7 +20,7 @@ class Laser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     laser_dmg_missile = db.Column(db.String(256), nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False, index=True)
 
     def __init__(self, name, dmg_missile, ship_id):
         self.name = name
@@ -32,7 +32,7 @@ class Missile(db.Model):
     name = db.Column(db.String(256), nullable=False)
     volley = db.Column(db.Integer, nullable=False)
     stores = db.Column(db.Integer, nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False, index=True)
 
     def __init__(self, name, volley, stores, ship_id):
         self.name = name
@@ -45,7 +45,7 @@ class CIWS(db.Model):
     name = db.Column(db.String(256), nullable=False)
     dmg_missile = db.Column(db.String(256), nullable=False)
     dmg_ship = db.Column(db.String(256), nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False, index=True)
 
     def __init__(self, name, dmg_missile, dmg_ship, ship_id):
         self.name = name
@@ -59,7 +59,7 @@ class AreaMissile(db.Model):
     am_range = db.Column(db.Integer, nullable=False)
     dmg_missile = db.Column(db.String(256), nullable=False)
     dmg_ship = db.Column(db.String(256), nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False, index=True)
 
     def __init__(self, name, am_range, dmg_missile, dmg_ship, ship_id):
         self.name = name
@@ -73,7 +73,7 @@ class AreaMissile(db.Model):
 class Ewar(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False, index=True)
 
     def __init__(self, name, ship_id):
         self.name = name

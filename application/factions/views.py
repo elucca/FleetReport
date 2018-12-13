@@ -69,14 +69,14 @@ def faction_update(faction_id):
 @app.route("/factions/remove/<faction_id>/", methods=["POST"])
 @login_required(role="ADMIN")
 def factions_remove(faction_id):
-    faction = Faction.query.filter_by(id = faction_id).first()
+    faction = Faction.query.get(faction_id)
     # Not very optimal, queries all ships
     ships = Ship.query.all()
     for ship in ships:
         if faction in ship.factions:
             ship.factions.remove(faction)
     
-    Faction.query.filter(Faction.id == faction_id).delete()    
+    Faction.query.filter(Faction.id == faction_id).delete()
 
     db.session.commit()
     return redirect(url_for("factions_index"))
