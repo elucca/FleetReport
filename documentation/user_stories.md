@@ -10,10 +10,10 @@
   - Status: Implemented. Laser and ewar data types are 'stubs' in that they don't contain all the data required for the game. This will be rectified later. (out of scope for coursework)
 
 - As the game designer, I want to add, modify and remove factions
-  - Status: In progress
+  - Status: Implemented
  
 - As game designer or playtester, I want to inspect the characteristics of ships.
-  - Status: Implemented.
+  - Status: Implemented
 
 - As game designer or playtester, I want to see the list of ships for a given faction for a quick reference of what ships are available, and their characteristics.
   - Status: Implemented. It may be useful to add some basic info (ship type, cost) on the list page.
