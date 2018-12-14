@@ -1,6 +1,6 @@
 # User stories
 
-Note: SQL statements related to these stories can be found in [Database description](https://github.com/elucca/FleetReport/edit/master/documentation/Database_description.md) in order to not clutter up this document.
+Note: SQL statements related to these stories can be found in [Database description](https://github.com/elucca/FleetReport/blob/master/documentation/Database_description.md) in order to not clutter up this document.
 
 - As the game designer, I require an admin account with full access to modifying data.
   - Status: Implemented
