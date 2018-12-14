@@ -1,7 +1,5 @@
 # User stories
 
-Note: SQL statements related to these stories can be found in [Database description](https://github.com/elucca/FleetReport/blob/master/documentation/Database_description.md) in order to not clutter up this document.
-
 - As the game designer, I require an admin account with full access to modifying data.
   - Status: Implemented
   
@@ -30,4 +28,32 @@ Note: SQL statements related to these stories can be found in [Database descript
    
  - As the game designer, I want the program to generate images of ship statistics in card form for export
    - Status: Not started
+   
+# SQL statements
 
+SQL statements relating to the above stories are here in order to not clutter up the user stories themselves. Question marks ('?') in statements are where user input or data retrieved from the database is inserted. (after sanitization by SQLAlchemy)
+
+Adding a ship. Entries are added to the factionship association table according to the factions the user chooses for the ship. (faction_id being the chosen faction, and ship_id the id of the ship that was just added)
+```
+INSERT INTO ship (name, cost, command_capable, propulsion_type, move, delta_v, evasion_passive, 
+evasion_active, evasion_endurance, integrity, primary_facing, armor_front, armor_sides, armor_back)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+INSERT INTO factionship (faction_id, ship_id)
+VALUES (?, ?)
+```
+Updating a ship. Which columns are updated depends on what the user chose to change. Shown here is a statement for including all of them, including removing a faction association and adding another.
+```
+UPDATE ship SET name=?, cost=?, propulsion_type=?, move=?, delta_v=?, evasion_passive=?, 
+evasion_active=?, evasion_endurance=?, integrity=?, primary_facing=?, armor_front=?, 
+armor_sides=?, armor_back=?
+WHERE ship.id = ?
+
+DELETE FROM factionship WHERE factionship.faction_id = ? AND factionship.ship_id = ?
+INSERT INTO factionship (faction_id, ship_id)
+```
+Removing a ship. Faction associations related to the ship are removed with it. So are its weapons with the weapon removal SQL statement (not duplicated here).
+```
+DELETE FROM ship WHERE ship.id = ?
+DELETE FROM factionship WHERE factionship.ship_id = ?
+```
