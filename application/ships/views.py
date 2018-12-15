@@ -114,11 +114,11 @@ def ships_update(ship_id):
 @login_required(role="ADMIN")
 def ships_remove(ship_id):
     # Remove weapons (SQLALchemy cascade not working)
-    Laser.query.filter(ship_id == ship_id).delete()
-    Missile.query.filter(ship_id == ship_id).delete()
-    CIWS.query.filter(ship_id == ship_id).delete()
-    AreaMissile.query.filter(ship_id == ship_id).delete()
-    Ewar.query.filter(ship_id == ship_id).delete()
+    Laser.query.filter(Laser.ship_id == ship_id).delete()
+    Missile.query.filter(Missile.ship_id == ship_id).delete()
+    CIWS.query.filter(CIWS.ship_id == ship_id).delete()
+    AreaMissile.query.filter(AreaMissile.ship_id == ship_id).delete()
+    Ewar.query.filter(Ewar.ship_id == ship_id).delete()
 
     # Remove associative entries with Faction (SQlAlchemy cascade not working)
     ship = Ship.query.get(ship_id)
