@@ -11,7 +11,7 @@ FleetReport is a web-based app for aiding in the design of a tactical space warg
 
 [User stories](https://github.com/elucca/FleetReport/blob/master/documentation/user_stories.md)
 
-[Database diagram](https://raw.githubusercontent.com/elucca/FleetReport/master/documentation/FleetReport_db.png)
+[Database description](https://github.com/elucca/FleetReport/blob/master/documentation/Database_description.md)
 
 ## Planned core features
 
