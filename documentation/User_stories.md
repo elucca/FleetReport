@@ -17,6 +17,9 @@
 
 - As game designer or playtester, I want to see the list of ships for a given faction for a quick reference of what ships are available, and their characteristics.
   - Status: Implemented. It may be useful to add some basic info (ship type, cost) on the list page.
+  
+- As game designer or playtester, I want to see statistics for a faction in one place, for example the number of ships and characters for the faction.
+  - Status: Implemented in a basic form. (number of ships & command-capable ships
  
  Non-vital development goals, mainly for later development (i.e. out of scope for the coursework):
  
@@ -141,4 +144,23 @@ ship_integrity, ship.primary_facing AS ship_primary_facing, ship.armor_front AS
 ship_armor_front, ship.armor_sides AS ship_armor_sides, ship.armor_back AS ship_armor_back
 FROM ship, factionship
 WHERE ? = factionship.faction_id AND ship.id = factionship.ship_id
+```
+
+## Statistics for a faction
+
+Currently, there are queries for retrieving the number of ships for a faction, and the number of ships for a faction that are command-capable. *:faction_id* is where the primary key of the faction in question is inserted.
+
+Ship count:
+```
+SELECT COUNT(ship.id) FROM ship
+LEFT JOIN factionship ON factionship.ship_id = ship.id
+WHERE factionship.faction_id = :faction_id
+```
+
+Command ship count:
+```
+SELECT COUNT(ship.id) FROM ship
+LEFT JOIN factionship ON factionship.ship_id = ship.id
+WHERE factionship.faction_id = :faction_id
+AND ship.command_capable
 ```
