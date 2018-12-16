@@ -36,7 +36,15 @@ def auth_newuser():
         return render_template("/auth/newuser.html", form = UserCreateForm())
 
     form = UserCreateForm()
-    # Validation goes here
+
+    # Validate
+    if not form.validate_on_submit():
+        return render_template("/auth/newuser.html", form = form)
+
+    # Check if user name already exists. Doesn't currently show a nice error to the user though.
+    existing_user = User.query.filter(User.username == form.username.data).first()
+    if existing_user is not None:
+        return render_template("/auth/newuser.html", form = form)
 
     new_user = User(form.name.data, form.username.data, form.password.data)
 
