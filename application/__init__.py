@@ -78,7 +78,10 @@ try:
 except:
     pass
 
-# For testing purposes, when creating tables create a user with admin privileges
+# When creating tables create a user with admin privileges. This is intended
+# to be here at this stage of development. When the program is more finalized
+# this will be removed, and it will be up to the admin to insert admin account
+# data to the database.
 admin = User("admin", "admin", "admin")
 admin.is_admin = True
 db.session().add(admin)
