@@ -20,10 +20,12 @@ class Weapon(db.Model):
 # This class is a stub that is missing data that will eventually be provided in
 # another table'
 class Laser(Weapon):
+    turreted = db.Column(db.Boolean, nullable=False)
     laser_dmg_missile = db.Column(db.String(256), nullable=False)
  
-    def __init__(self, name, dmg_missile, ship_id):
+    def __init__(self, name, turreted, dmg_missile, ship_id):
         super().__init__(name, ship_id)
+        self.turreted = turreted
         self.laser_dmg_missile = dmg_missile
  
 class Missile(Weapon):

@@ -49,7 +49,7 @@ def laser_create(ship_id):
     if not form.validate():
         return redirect(url_for("ships_info", ship_id = ship_id))
 
-    laser = Laser(form.name.data, form.laser_dmg_missile.data, ship_id)
+    laser = Laser(form.name.data, form.turreted.data, form.laser_dmg_missile.data, ship_id)
 
     db.session().add(laser)
     db.session().commit()
@@ -173,6 +173,7 @@ def laser_update(laser_id, ship_id):
     laser = Laser.query.get(laser_id)
 
     laser.name = form.name.data
+    laser.turreted = form.turreted.data
     laser.laser_dmg_missile = form.laser_dmg_missile.data
     db.session().commit()
 

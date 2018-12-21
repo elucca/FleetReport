@@ -16,6 +16,19 @@
     </div>
   </div>
 
+  <!--Can't quite figure out how to get a sane Bootsrap checkbox here, so not using it here.-->
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.turreted.label }}</label>
+    <div class="col-sm-3 mt-2">
+      {{ form.turreted }}
+      <ul>
+        {% for error in form.turreted.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
   <div class="form-group row mb-0">
     <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.laser_dmg_missile.label }}</label>
     <div class="col-sm-3">

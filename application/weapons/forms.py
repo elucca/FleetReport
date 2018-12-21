@@ -4,6 +4,7 @@ from application.weapons.models import *
 
 class LaserCreateForm(FlaskForm):
     name = StringField("Name", [validators.Length(min=1, max=256)])
+    command_capable = BooleanField("Turreted")
     laser_dmg_missile = IntegerField("Anti-missile damage", [validators.NumberRange(min=0, max=2147483647)])
 
     class Meta:
