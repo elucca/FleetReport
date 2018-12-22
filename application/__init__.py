@@ -91,6 +91,6 @@ db.session().commit()
 from application.cardgenerator.card_generator import CardGenerator, CardSize
 from application.ships.models import Ship
 
-#ship = Ship.query.get(7)
-#card_generator = CardGenerator()
-#card_generator.generate_card(ship, CardSize.BIG)
+ship = Ship.query.get(1)
+card_generator = CardGenerator()
+card_generator.generate_card(ship, CardSize.BIG)
