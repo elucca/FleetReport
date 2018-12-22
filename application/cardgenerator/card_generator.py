@@ -5,7 +5,7 @@ from application.weapons.models import *
 class CardGenerator():
 
     def generate_card(self, ship, card_size):
-        self.stat_vertical_sep = (0,74)
+        self.stat_vertical_sep = (0,73)
 
         image = self.init_card(card_size)
         drawer = ImageDraw.Draw(image)
@@ -24,15 +24,34 @@ class CardGenerator():
         drawer.text(xy=(72,623), text="Propulsion", fill=(255,255,255), font=self.sub_title_font)
         drawer.text(xy=(770,623), text="Evasion", fill=(255,255,255), font=self.sub_title_font)
 
-        # Draw common stat names
-        drawer.text(xy=(72,710), text="Type", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=(72,710+self.stat_vertical_sep[1]), text="Move", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=(72,710+self.stat_vertical_sep[1]*2), text="Delta-v", fill=(255,255,255), font=self.stats_font)
+        # Draw common stats
+        col1_start = (72,710)
+        col2_start = (770,710)
+        # Displacement for actual numbers, add to stat title coords
+        number_dsplc = (340,0)
+        # Prop type
+        drawer.text(xy=col1_start, text="Type", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col1_start, number_dsplc), text=ship.propulsion_type, fill=(255,255,255), font=self.stats_font)
+        # Move
+        col1_row2 = self._add_coords_(col1_start, self.stat_vertical_sep)
+        drawer.text(xy=(col1_row2), text="Move", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col1_row2, number_dsplc), text=str(ship.move), fill=(255,255,255), font=self.stats_font)
+        # Delta-v
+        col1_row3 = self._add_coords_(col1_row2, self.stat_vertical_sep)
+        drawer.text(xy=col1_row3, text="Delta-v", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col1_row3, number_dsplc), text=str(ship.delta_v), fill=(255,255,255), font=self.stats_font)
+        # Evasion passive
         drawer.text(xy=(770,710), text="Passive", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=(770,710+self.stat_vertical_sep[1]), text="Active", fill=(255,255,255), font=self.stats_font)
-        # Draw evasion endurance stat name if ship has a pulse drive
+        drawer.text(xy=self._add_coords_(col2_start, number_dsplc), text=str(ship.evasion_passive), fill=(255,255,255), font=self.stats_font)
+        # Evasion active
+        col2_row2 = self._add_coords_(col2_start, self.stat_vertical_sep)
+        drawer.text(xy=col2_row2, text="Active", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col2_row2, number_dsplc), text=str(ship.evasion_active), fill=(255,255,255), font=self.stats_font)
+        # Evasion endurance stat if ship has a pulse drive
         if "pulse" or "Pulse" in ship.propulsion_type:
+            col2_row3 = self._add_coords_(col2_row2, self.stat_vertical_sep)
             drawer.text(xy=(770,710+self.stat_vertical_sep[1]*2), text="Endurance", fill=(255,255,255), font=self.stats_font)
+            drawer.text(xy=self._add_coords_(col2_row3, number_dsplc), text=str(ship.evasion_endurance), fill=(255,255,255), font=self.stats_font)
 
         self._draw_weapons_(self.get_weapons(ship), drawer)
 
@@ -87,73 +106,91 @@ class CardGenerator():
             # Draw weapon flavor text (common to all weapon types)
             flavorcoords = self._add_coords_(startcoords, (0,65))
             drawer.text(xy=flavorcoords, text=weapons[i].name, fill=(255,255,255), font=self.flavor_font)
-
             # Coords for first stat row (separation between flavor text and stats)
             statstart = self._add_coords_(flavorcoords, (0,90))
             # Displacement for the stat numbers themselves, add to the starting position
             number_dsplc = (370,0)
 
             if isinstance(weapons[i], Laser):
-                drawer.text(xy=startcoords, text="Beam", fill=(255,255,255), font=self.sub_title_font)
-                # When laser data type is actually completely implemented range/dmg goes here
+                laser = weapons[i]
+                self._draw_laser_(laser, drawer, startcoords, statstart, number_dsplc)
 
             if isinstance(weapons[i], Missile):
-                # Title
-                drawer.text(xy=startcoords, text="Anti-ship missiles", fill=(255,255,255), font=self.sub_title_font)
-                # Volley
-                drawer.text(xy=statstart, text="Volley", fill=(255,255,255), font=self.stats_font)
-                drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(weapons[i].volley), fill=(255,255,255), font=self.stats_font)
-                # Stores
-                row2 = self._add_coords_(statstart, self.stat_vertical_sep)
-                drawer.text(xy=row2, text="Stores", fill=(255,255,255), font=self.stats_font)
-                drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(weapons[i].stores), fill=(255,255,255), font=self.stats_font)
+                missile = weapons[i]
+                self._draw_missile_(missile, drawer, startcoords, statstart, number_dsplc)
 
             if isinstance(weapons[i], AreaMissile):
-                # Differentiate between defense and attack missiles.
-                if not weapons[i].dmg_missile:
-                    am_type = "Assault missiles"
-                else:
-                    am_type = "Defense missiles"
-
-                # Title
-                if not weapons[i].dmg_missile:
-                    drawer.text(xy=startcoords, text=am_type, fill=(255,255,255), font=self.sub_title_font)
-                else:
-                    drawer.text(xy=startcoords, text=am_type, fill=(255,255,255), font=self.sub_title_font)
-                # Range
-                drawer.text(xy=statstart, text="Range", fill=(255,255,255), font=self.stats_font)
-                drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(weapons[i].am_range), fill=(255,255,255), font=self.stats_font)
-                # Anti-ship
-                row2 = self._add_coords_(statstart, self.stat_vertical_sep)
-                drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
-                drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(weapons[i].dmg_ship), fill=(255,255,255), font=self.stats_font)
-                # Anti-missile
-                if (am_type == "Defense missiles"):
-                    row3 = self._add_coords_(row2, self.stat_vertical_sep)
-                    drawer.text(xy=row3, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
-                    drawer.text(xy=self._add_coords_(row3, number_dsplc), text=str(weapons[i].dmg_missile), fill=(255,255,255), font=self.stats_font)
+                area_missile = weapons[i]
+                self._draw_area_missile_(area_missile, drawer, startcoords, statstart, number_dsplc)                
 
             if isinstance(weapons[i], Ewar):
-                drawer.text(xy=startcoords, text="Ewar suite", fill=(255,255,255), font=self.sub_title_font)
+                ewar = weapons[i]
+                self._draw_ewar_(ewar, drawer, startcoords, statstart, number_dsplc)
 
             if isinstance(weapons[i], CIWS):
-                # Title
-                drawer.text(xy=startcoords, text="CIWS", fill=(255,255,255), font=self.sub_title_font)
-                # Anti-missile
-                drawer.text(xy=statstart, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
-                drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(weapons[i].dmg_missile), fill=(255,255,255), font=self.stats_font)
-                # Anti-ship
-                row2 = self._add_coords_(statstart, self.stat_vertical_sep)
-                drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
-                drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(weapons[i].dmg_ship), fill=(255,255,255), font=self.stats_font)
-
-
+                ciws = weapons[i]
+                self._draw_CIWS_(ciws, drawer, startcoords, statstart, number_dsplc)
 
             i += 1
 
-    def _draw_missile_(self, startcoords, number_dsplc):
-        pass
+    def _draw_laser_(self, laser, drawer, startcoords, statstart, number_dsplc):
+        if laser.turreted:
+            drawer.text(xy=startcoords, text="Turreted beam", fill=(255,255,255), font=self.sub_title_font)
+        else:
+            drawer.text(xy=startcoords, text="Beam weapon", fill=(255,255,255), font=self.sub_title_font)
+        # When laser data type is actually completely implemented range/dmg goes here
 
+    def _draw_missile_(self, missile, drawer, startcoords, statstart, number_dsplc):
+        # Title
+        drawer.text(xy=startcoords, text="Anti-ship missiles", fill=(255,255,255), font=self.sub_title_font)
+        # Volley
+        drawer.text(xy=statstart, text="Volley", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(missile.volley), fill=(255,255,255), font=self.stats_font)
+        # Stores
+        row2 = self._add_coords_(statstart, self.stat_vertical_sep)
+        drawer.text(xy=row2, text="Stores", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(missile.stores), fill=(255,255,255), font=self.stats_font)
+
+    def _draw_area_missile_(self, area_missile, drawer, startcoords, statstart, number_dsplc):
+        # Differentiate between defense and attack missiles.
+        if not area_missile.dmg_missile:
+            am_type = "Assault missiles"
+        else:
+            am_type = "Defense missiles"
+
+        # Title
+        if not area_missile.dmg_missile:
+            drawer.text(xy=startcoords, text=am_type, fill=(255,255,255), font=self.sub_title_font)
+        else:
+            drawer.text(xy=startcoords, text=am_type, fill=(255,255,255), font=self.sub_title_font)
+        # Range
+        drawer.text(xy=statstart, text="Range", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(area_missile.am_range), fill=(255,255,255), font=self.stats_font)
+        # Anti-ship
+        row2 = self._add_coords_(statstart, self.stat_vertical_sep)
+        drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(area_missile.dmg_ship), fill=(255,255,255), font=self.stats_font)
+        # Anti-missile
+        if (am_type == "Defense missiles"):
+            row3 = self._add_coords_(row2, self.stat_vertical_sep)
+            drawer.text(xy=row3, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
+            drawer.text(xy=self._add_coords_(row3, number_dsplc), text=str(area_missile.dmg_missile), fill=(255,255,255), font=self.stats_font)
+
+    def _draw_ewar_(self, ewar, drawer, startcoords, statstart, number_dsplc):
+        # Will be finished once the ewar data type is finished
+        drawer.text(xy=startcoords, text="Ewar suite", fill=(255,255,255), font=self.sub_title_font)
+
+    def _draw_CIWS_(self, CIWS, drawer, startcoords, statstart, number_dsplc):
+        # Title
+        drawer.text(xy=startcoords, text="CIWS", fill=(255,255,255), font=self.sub_title_font)
+        # Anti-missile
+        drawer.text(xy=statstart, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(CIWS.dmg_missile), fill=(255,255,255), font=self.stats_font)
+        # Anti-ship
+        row2 = self._add_coords_(statstart, self.stat_vertical_sep)
+        drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(CIWS.dmg_ship), fill=(255,255,255), font=self.stats_font)
+    
     def _add_coords_(self, first, second):
         return tuple(sum(x) for x in zip(first, second))
 
