@@ -236,6 +236,9 @@ def ewar_update(ewar_id, ship_id):
 @app.route("/ships/<ship_id>/weapons/laser/remove/<laser_id>", methods=["POST"])
 @login_required(role="ADMIN")
 def laser_remove(laser_id, ship_id):
+    # Remove range points
+    LaserRangePoint.query.filter(LaserRangePoint.laser_id == laser_id).delete()
+
     Laser.query.filter(Laser.id == laser_id).delete()
     db.session.commit()
 
@@ -268,6 +271,9 @@ def area_missile_remove(areamissile_id, ship_id):
 @app.route("/ships/<ship_id>/weapons/ewar/remove/<ewar_id>", methods=["POST"])
 @login_required(role="ADMIN")
 def ewar_remove(ewar_id, ship_id):
+    # Remove abilities
+    EwarAbility.query.filter(EwarAbility.ewar_id == ewar_id).delete()
+
     Ewar.query.filter(Ewar.id == ewar_id).delete()
     db.session.commit()
 
