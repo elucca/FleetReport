@@ -5,7 +5,7 @@ from application.weapons.models import *
 class CardGenerator():
 
     def generate_card(self, ship, card_size):
-        self.stat_vertical_sep = 72
+        self.stat_vertical_sep = (0,74)
 
         image = self.init_card(card_size)
         drawer = ImageDraw.Draw(image)
@@ -25,16 +25,16 @@ class CardGenerator():
         drawer.text(xy=(770,623), text="Evasion", fill=(255,255,255), font=self.sub_title_font)
 
         # Draw common stat names
-        drawer.text(xy=(72,700), text="Type", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=(72,700+self.stat_vertical_sep), text="Move", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=(72,700+2*self.stat_vertical_sep), text="Delta-v", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=(770,700), text="Passive", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=(770,700+self.stat_vertical_sep), text="Active", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=(72,710), text="Type", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=(72,710+self.stat_vertical_sep[1]), text="Move", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=(72,710+self.stat_vertical_sep[1]*2), text="Delta-v", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=(770,710), text="Passive", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=(770,710+self.stat_vertical_sep[1]), text="Active", fill=(255,255,255), font=self.stats_font)
         # Draw evasion endurance stat name if ship has a pulse drive
         if "pulse" or "Pulse" in ship.propulsion_type:
-            drawer.text(xy=(770,700+self.stat_vertical_sep*2), text="Endurance", fill=(255,255,255), font=self.stats_font)
+            drawer.text(xy=(770,710+self.stat_vertical_sep[1]*2), text="Endurance", fill=(255,255,255), font=self.stats_font)
 
-        self.draw_weapons(self.get_weapons(ship), drawer)
+        self._draw_weapons_(self.get_weapons(ship), drawer)
 
         image.save("application/cardgenerator/assets/result.png")
 
@@ -51,6 +51,7 @@ class CardGenerator():
         return image
 
     def get_weapons(self, ship):
+        # Returns the ship's weapons in the order required for ship cards
         # Note: Due to SQLAlchemy weirdness these are InstrumentedLists and iterating through them may not
         # actually work. However, retrieving the first works, and we only really need one of them as multiple
         # weapons of the same type are not even intended to be handled by the cards.
@@ -73,8 +74,7 @@ class CardGenerator():
 
         return weapons
 
-
-    def draw_weapons(self, weapons, drawer):
+    def _draw_weapons_(self, weapons, drawer):
         i = 0
         while i < 3:
             if i == 0:
@@ -84,38 +84,78 @@ class CardGenerator():
             if i == 2:
                 startcoords = (710,1525)
 
-            # Coords for weapon flavor text
-            flavorcoords = tuple(sum(x) for x in zip(startcoords, (0,65)))
+            # Draw weapon flavor text (common to all weapon types)
+            flavorcoords = self._add_coords_(startcoords, (0,65))
+            drawer.text(xy=flavorcoords, text=weapons[i].name, fill=(255,255,255), font=self.flavor_font)
 
+            # Coords for first stat row (separation between flavor text and stats)
+            statstart = self._add_coords_(flavorcoords, (0,90))
+            # Displacement for the stat numbers themselves, add to the starting position
+            number_dsplc = (370,0)
 
             if isinstance(weapons[i], Laser):
                 drawer.text(xy=startcoords, text="Beam", fill=(255,255,255), font=self.sub_title_font)
-                drawer.text(xy=flavorcoords, text=weapons[i].name, fill=(255,255,255), font=self.flavor_font)
                 # When laser data type is actually completely implemented range/dmg goes here
 
             if isinstance(weapons[i], Missile):
+                # Title
                 drawer.text(xy=startcoords, text="Anti-ship missiles", fill=(255,255,255), font=self.sub_title_font)
-                drawer.text(xy=flavorcoords + (400,400), text=weapons[i].name, fill=(255,255,255), font=self.flavor_font)
+                # Volley
+                drawer.text(xy=statstart, text="Volley", fill=(255,255,255), font=self.stats_font)
+                drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(weapons[i].volley), fill=(255,255,255), font=self.stats_font)
+                # Stores
+                row2 = self._add_coords_(statstart, self.stat_vertical_sep)
+                drawer.text(xy=row2, text="Stores", fill=(255,255,255), font=self.stats_font)
+                drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(weapons[i].stores), fill=(255,255,255), font=self.stats_font)
 
             if isinstance(weapons[i], AreaMissile):
-                # Differentiate between defense and attack missiles
+                # Differentiate between defense and attack missiles.
                 if not weapons[i].dmg_missile:
-                    drawer.text(xy=startcoords, text="Assault missiles", fill=(255,255,255), font=self.sub_title_font)
+                    am_type = "Assault missiles"
                 else:
-                    drawer.text(xy=startcoords, text="Defense missiles", fill=(255,255,255), font=self.sub_title_font)
-                drawer.text(xy=flavorcoords, text=weapons[i].name, fill=(255,255,255), font=self.flavor_font)
+                    am_type = "Defense missiles"
 
+                # Title
+                if not weapons[i].dmg_missile:
+                    drawer.text(xy=startcoords, text=am_type, fill=(255,255,255), font=self.sub_title_font)
+                else:
+                    drawer.text(xy=startcoords, text=am_type, fill=(255,255,255), font=self.sub_title_font)
+                # Range
+                drawer.text(xy=statstart, text="Range", fill=(255,255,255), font=self.stats_font)
+                drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(weapons[i].am_range), fill=(255,255,255), font=self.stats_font)
+                # Anti-ship
+                row2 = self._add_coords_(statstart, self.stat_vertical_sep)
+                drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
+                drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(weapons[i].dmg_ship), fill=(255,255,255), font=self.stats_font)
+                # Anti-missile
+                if (am_type == "Defense missiles"):
+                    row3 = self._add_coords_(row2, self.stat_vertical_sep)
+                    drawer.text(xy=row3, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
+                    drawer.text(xy=self._add_coords_(row3, number_dsplc), text=str(weapons[i].dmg_missile), fill=(255,255,255), font=self.stats_font)
 
             if isinstance(weapons[i], Ewar):
                 drawer.text(xy=startcoords, text="Ewar suite", fill=(255,255,255), font=self.sub_title_font)
-                drawer.text(xy=flavorcoords, text=weapons[i].name, fill=(255,255,255), font=self.flavor_font)
 
             if isinstance(weapons[i], CIWS):
+                # Title
                 drawer.text(xy=startcoords, text="CIWS", fill=(255,255,255), font=self.sub_title_font)
-                drawer.text(xy=flavorcoords, text=weapons[i].name, fill=(255,255,255), font=self.flavor_font)
+                # Anti-missile
+                drawer.text(xy=statstart, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
+                drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(weapons[i].dmg_missile), fill=(255,255,255), font=self.stats_font)
+                # Anti-ship
+                row2 = self._add_coords_(statstart, self.stat_vertical_sep)
+                drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
+                drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(weapons[i].dmg_ship), fill=(255,255,255), font=self.stats_font)
+
+
 
             i += 1
-                
+
+    def _draw_missile_(self, startcoords, number_dsplc):
+        pass
+
+    def _add_coords_(self, first, second):
+        return tuple(sum(x) for x in zip(first, second))
 
 
 
