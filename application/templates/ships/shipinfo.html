@@ -110,13 +110,13 @@
               </tr>
 
               <tr>
-                <th scope="row">Range &nbsp — &nbsp Damage</th>
+                <th scope="row">Range — Damage</th>
               </tr>
 
               {% for rangepoint in laser.rangepoints %}
               <tr>
                 <!--This is really ugly-->
-                <td>{{ rangepoint.lrange }} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp — &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ rangepoint.dmg }}</td>
+                <td>{{ rangepoint.lrange }} &nbsp&nbsp&nbsp&nbsp&nbsp — &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ rangepoint.dmg }}</td>
                 <td>
                   {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
                   <form class="form-inline" method="POST" action="{{ url_for('laser_range_point_remove', ship_id=laser.ship.id, laser_id=laser.id, laserrangepoint_id=rangepoint.id) }}">
