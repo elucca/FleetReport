@@ -13,6 +13,12 @@ def laser_create_form(ship_id):
     ship = Ship.query.get(ship_id)
     return render_template("weapons/createlaser.html", form = LaserCreateForm(), ship = ship)
 
+@app.route("/ships/<ship_id>/weapons/laser/<laser_id>/", methods=["GET"])
+@login_required(role="ADMIN")
+def laser_range_point_create_form(laser_id):
+    laser = Laser.query.get(laser_id)
+    return render_template("weapons/createlaserrangepoint.html", form = LaserRangePointCreateForm, laser = laser)
+
 @app.route("/ships/<ship_id>/weapons/missile", methods=["GET"])
 @login_required(role="ADMIN")
 def missile_create_form(ship_id):
@@ -37,6 +43,11 @@ def ewar_create_form(ship_id):
     ship = Ship.query.get(ship_id)
     return render_template("weapons/createewar.html", form = EwarCreateForm(), ship = ship)
 
+@app.route("/ships/<ship_id>/weapons/ewar/<ewar_id>/", methods=["GET"])
+@login_required(role="ADMIN")
+def ewar_ability_create_form(laser_id):
+    ewar = Ewar.query.get(ewar_id)
+    return render_template("weapons/createewarability.html", form = EwarAbilityCreateForm, ewar = ewar)
 
 # Post methods for adding different kinds of weapons
 
@@ -52,6 +63,21 @@ def laser_create(ship_id):
     laser = Laser(form.name.data, form.turreted.data, form.laser_dmg_missile.data, ship_id)
 
     db.session().add(laser)
+    db.session().commit()
+
+    return redirect(url_for("ships_info", ship_id = ship_id))
+
+@app.route("/ships/<ship_id>/weapons/laser/<laser_id>/", methods=["POST"])
+@login_required(role="ADMIN")
+def add_laser_range_point(laser_id):
+    form = LaserRangePointCreateForm(request.form)
+
+    # Do something better here instead
+    if not form.validate():
+        return redirect(url_for("ships_info", ship_id = ship_id))
+
+    range_point = LaserRangePoint(form.lrange.data, form.dmg.data, laser_id)
+    db.session().add(range_point)
     db.session().commit()
 
     return redirect(url_for("ships_info", ship_id = ship_id))
@@ -121,7 +147,22 @@ def ewar_create(ship_id):
 
     return redirect(url_for("ships_info", ship_id = ship_id))
 
-## Pages for updating different types of weapons
+@app.route("/ships/<ship_id>/weapons/ewar/<ewar_id>/", methods=["POST"])
+@login_required(role="ADMIN")
+def add_ewar_ability(ewar_id):
+    form = EwarAbilityCreateForm(request.form)
+
+    # Do something better here instead
+    if not form.validate():
+        return redirect(url_for("ships_info", ship_id = ship_id))
+
+    ewar_ability = EwarAbility(form.erange.data, form.ability.data, ewar_id)
+    db.session().add(ewar_ability)
+    db.session().commit()
+
+    return redirect(url_for("ships_info", ship_id = ship_id))
+
+## Form pages for updating different types of weapons
 
 @app.route("/ships/<ship_id>/weapons/laser/update/<laser_id>")
 @login_required(role="ADMIN")
@@ -130,6 +171,14 @@ def laser_update_form(laser_id, ship_id):
     form = LaserCreateForm(obj = laser)
     
     return render_template("weapons/updatelaser.html", form = form, laser = laser)
+
+@app.route("/ships/<ship_id>/weapons/laser/update/<laser_id>/<laserrangepoint_id>")
+@login_required(role="ADMIN")
+def laser_range_point_update_form(laser_id, laserrangepoint_id):
+    rangepoint = LaserRangePoint.query.get(laserrangepoint_id)
+    form = LaserRangePointCreateForm(obj = rangepoint)
+
+    return render_template("weapons/updatelaserrangepoint.html")
 
 @app.route("/ships/<ship_id>/weapons/missile/update/<missile_id>")
 @login_required(role="ADMIN")
@@ -163,9 +212,16 @@ def ewar_update_form(ewar_id, ship_id):
     
     return render_template("weapons/updateewar.html", form = form, ewar = ewar)
 
+@app.route("/ships/<ship_id>/weapons/ewar/update/<ewar_id>/<ewarability_id>")
+@login_required(role="ADMIN")
+def ewar_ability_update_form(ewar_id, ewarability_id):
+    ability = EwarAbility.query.get(ewarability_id)
+    form = EwarAbilityCreateForm(obj = ability)
+
+    return render_template("weapons/updateewarability.html", form = form, ewarability = ability)
+
 ## Post methods for updating different types of weapons
 
-# Updates a laser with given primary key
 @app.route("/ships/<ship_id>/weapons/laser/update/<laser_id>", methods=["POST"])
 @login_required(role="ADMIN")
 def laser_update(laser_id, ship_id):
@@ -178,6 +234,19 @@ def laser_update(laser_id, ship_id):
     db.session().commit()
 
     return redirect(url_for("ships_info", ship_id = ship_id))
+
+@app.route("/ships/<ship_id>/weapons/laser/update/<laser_id>/<laserrangepoint_id>", methods=["POST"])
+@login_required(role="ADMIN")
+def laser_range_point_update(ship_id, laser_id, laserrangepoint_id):
+    form = LaserRangePointCreateForm(request.form)
+    rangepoint = LaserRangePoint.query.get(laserrangepoint_id)
+
+    rangepoint.lrange = form.lrange.data
+    rangepoint.dmg = form.dmg.data
+    db.session().commit()
+
+    return redirect(url_for("laser_update_form", ship_id = ship_id, laser_id = laser_id))
+
 
 @app.route("/ships/<ship_id>/weapons/missile/update/<missile_id>", methods=["POST"])
 @login_required(role="ADMIN")
@@ -231,6 +300,18 @@ def ewar_update(ewar_id, ship_id):
 
     return redirect(url_for("ships_info", ship_id = ship_id))
 
+@app.route("/ships/<ship_id>/weapons/ewar/update/<ewar_id>/<ewarability_id>", methods=["POST"])
+@login_required(role="ADMIN")
+def ewar_ability_update(ship_id, ewar_id, ewarability_id):
+    form = EwarAbilityCreateForm(request.form)
+    ability = EwarAbility.query.get(ewarability_id)
+
+    ability.ability = form.ability.data
+    ability.erange = form.erange.data
+    db.session().commit()
+
+    return redirect(url_for("ewar_update_form", ship_id = ship_id, ewar_id = ewar_id))
+
 ## Post methods for removing different types of weapons
 
 @app.route("/ships/<ship_id>/weapons/laser/remove/<laser_id>", methods=["POST"])
@@ -243,6 +324,14 @@ def laser_remove(laser_id, ship_id):
     db.session.commit()
 
     return redirect(url_for("ships_info", ship_id = ship_id))
+
+@app.route("/ships/<ship_id>/weapons/laser/update/<laser_id>/<laserrangepoint_id>/remove", methods=["POST"])
+def laser_range_point_remove(ship_id, laser_id, laserrangepoint_id):
+    LaserRangePoint.query.filter(LaserRangePoint.id == laserrangepoint_id).delete()
+    db.session.commit()
+
+    return redirect(url_for("laser_update_form", ship_id = ship_id, laser_id = laser_id))
+
 
 @app.route("/ships/<ship_id>/weapons/missile/remove/<missile_id>", methods=["POST"])
 @login_required(role="ADMIN")
@@ -278,3 +367,10 @@ def ewar_remove(ewar_id, ship_id):
     db.session.commit()
 
     return redirect(url_for("ships_info", ship_id = ship_id))
+
+@app.route("/ships/<ship_id>/weapons/ewar/update/<ewar_id>/<ewarability_id>/remove", methods=["POST"])
+def ewar_ability_remove(ship_id, ewar_id, ewarability_id):
+    EwarAbility.query.filter(EwarAbility.id == ewarability_id).delete()
+    db.session.commit()
+
+    return redirect(url_for("ewar_update_form", ship_id = ship_id, ewar_id = ewar_id))

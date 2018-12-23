@@ -10,6 +10,13 @@ class LaserCreateForm(FlaskForm):
     class Meta:
         csrf = False
 
+class LaserRangePointCreateForm(FlaskForm):
+    lrange = IntegerField("Range", [validators.NumberRange(min=0, max=2147483647)])
+    dmg = IntegerField("Range", [validators.NumberRange(min=0, max=2147483647)])
+
+    class Meta:
+        csrf = False
+
 class MissileCreateForm(FlaskForm):
     name = StringField("Name", [validators.Length(min=1, max=256)])
     volley = IntegerField("Volley", [validators.NumberRange(min=0, max=2147483647)])
@@ -39,6 +46,14 @@ class AreaMissileCreateForm(FlaskForm):
 
 class EwarCreateForm(FlaskForm):
     name = StringField("Name", [validators.Length(min=1, max=256)])
+
+    class Meta:
+        csrf = False
+
+class EwarAbilityCreateForm(FlaskForm):
+    # Eventually make this a multiple choice based on enum or something
+    name = StringField("Name", [validators.Length(min=1, max=256)])
+    erange = IntegerField("Range", [validators.NumberRange(min=0, max=2147483647)])
 
     class Meta:
         csrf = False
