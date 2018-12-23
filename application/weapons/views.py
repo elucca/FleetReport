@@ -151,7 +151,6 @@ def ewar_create(ship_id):
 def add_ewar_ability(ship_id, ewar_id):
     form = EwarAbilityCreateForm(request.form)
 
-    # Do something better here instead
     if not form.validate():
         return redirect(url_for("ships_info", ship_id = ship_id))
 
@@ -376,4 +375,4 @@ def ewar_ability_remove(ship_id, ewar_id, ewarability_id):
     EwarAbility.query.filter(EwarAbility.id == ewarability_id).delete()
     db.session.commit()
 
-    return redirect(url_for("ewar_update_form", ship_id = ship_id, ewar_id = ewar_id))
+    return redirect(url_for("ships_info", ship_id = ship_id))
