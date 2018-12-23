@@ -12,7 +12,7 @@ class LaserCreateForm(FlaskForm):
 
 class LaserRangePointCreateForm(FlaskForm):
     lrange = IntegerField("Range", [validators.NumberRange(min=0, max=2147483647)])
-    dmg = IntegerField("Range", [validators.NumberRange(min=0, max=2147483647)])
+    dmg = IntegerField("Damage", [validators.NumberRange(min=0, max=2147483647)])
 
     class Meta:
         csrf = False
@@ -52,7 +52,7 @@ class EwarCreateForm(FlaskForm):
 
 class EwarAbilityCreateForm(FlaskForm):
     # Eventually make this a multiple choice based on enum or something
-    name = StringField("Name", [validators.Length(min=1, max=256)])
+    ability = StringField("Name", [validators.Length(min=1, max=256)])
     erange = IntegerField("Range", [validators.NumberRange(min=0, max=2147483647)])
 
     class Meta:

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+
+<form method="POST" action="{{ url_for('add_laser_range_point', laser_id=laser.id, ship_id=laser.ship.id) }}">
+
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.lrange.label }}</label>
+    <div class="col-sm-3">
+        {{ form.lrange(class_="form-control form-control-sm") }}
+        <ul>
+        {% for error in form.lrange.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="form-group row mb-0">
+    <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{ form.dmg.label }}</label>
+    <div class="col-sm-3">
+      {{ form.dmg(class_="form-control form-control-sm") }}
+      <ul>
+        {% for error in form.dmg.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-md btn-secondary w-20 mt-2">Update range point</button>
+
+</form>
+
+{% endblock %}

@@ -91,6 +91,8 @@
               <!-- Link to update the laser. -->
               {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
               <a href="{{ url_for('laser_update_form', ship_id=laser.ship.id, laser_id=laser.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
+              &nbsp
+              <a href="{{ url_for('laser_range_point_create_form', ship_id=laser.ship.id, laser_id=laser.id) }}" class="btn btn-secondary btn-sm" role="button">Add range point</a>
               {% endif %}
               <tr>
                 <th scope="row">Name</th>
@@ -106,6 +108,25 @@
                 <th scope="row">Anti-missile damage</th>
                 <td>{{ laser.laser_dmg_missile }}</td>
               </tr>
+
+              <tr>
+                <th scope="row">Range &nbsp — &nbsp Damage</th>
+              </tr>
+
+              {% for rangepoint in laser.rangepoints %}
+              <tr>
+                <!--This is really ugly-->
+                <td>{{ rangepoint.lrange }} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp — &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ rangepoint.dmg }}</td>
+                <td>
+                  {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                  <form class="form-inline" method="POST" action="{{ url_for('laser_range_point_remove', ship_id=laser.ship.id, laser_id=laser.id, laserrangepoint_id=rangepoint.id) }}">
+                    <button type="submit" class="btn btn-link btn-sm">X</button>
+                  </form>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+
             </table>
             <br>
           </div>
@@ -209,11 +230,27 @@
               <!-- Link to update the area missile. -->
               {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
               <a href="{{ url_for('ewar_update_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
+              &nbsp
+              <a href="{{ url_for('ewar_ability_create_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}" class="btn btn-secondary btn-sm" role="button">Add ability</a>
               {% endif %}
               <tr>
                 <th scope="row">Name</th>
                 <td>{{ ewar.name }}</td>
               </tr>
+
+              {% for ability in ewar.abilities %}
+              <tr>
+                <th scope="row">Ability</th>
+                <td>{{ ability.ability }} <br> (Range: {{ ability.erange }})</td>
+                <td>
+                  {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                  <form class="form-inline" method="POST" action="{{ url_for('ewar_ability_remove', ship_id=ewar.ship.id, ewar_id=ewar.id, ewarability_id=ability.id) }}">
+                    <button type="submit" class="btn btn-link btn-sm">X</button>
+                  </form>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
 
             </table>
             <br>

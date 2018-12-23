@@ -1,6 +1,7 @@
 from application import db
  
 from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy import desc
 
 # Abstract base model for weapon models
 class Weapon(db.Model):
@@ -21,7 +22,7 @@ class Laser(Weapon):
     turreted = db.Column(db.Boolean, nullable=False)
     laser_dmg_missile = db.Column(db.String(256), nullable=False)
 
-    rangepoints = db.relationship('LaserRangePoint', backref='laser', lazy=True)
+    rangepoints = db.relationship('LaserRangePoint', backref='laser', order_by="desc(LaserRangePoint.lrange)", lazy=True)
  
     def __init__(self, name, turreted, dmg_missile, ship_id):
         super().__init__(name, ship_id)
