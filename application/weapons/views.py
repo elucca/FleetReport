@@ -319,8 +319,6 @@ def ewar_ability_update(ship_id, ewar_id, ewarability_id):
 def laser_remove(laser_id, ship_id):
     # Remove range points
     LaserRangePoint.query.filter(LaserRangePoint.laser_id == laser_id).delete()
-    Missile.query.filter(Missile.ship_id == ship_id).delete()
-
 
     Laser.query.filter(Laser.id == laser_id).delete()
     db.session.commit()

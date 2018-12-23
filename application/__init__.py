@@ -88,9 +88,9 @@ db.session().add(admin)
 db.session().commit()
 
 # Very temporary card generator testing goes here
-#from application.cardgenerator.card_generator import CardGenerator, CardSize
-#from application.ships.models import Ship
+from application.cardgenerator.card_generator import CardGenerator, CardSize
+from application.ships.models import Ship
 
-#ship = Ship.query.get(1)
-#card_generator = CardGenerator()
-#card_generator.generate_card(ship, CardSize.BIG)
+ship = Ship.query.get(1)
+card_generator = CardGenerator()
+card_generator.generate_card(ship, CardSize.BIG)

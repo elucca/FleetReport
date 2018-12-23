@@ -5,7 +5,7 @@ from application.weapons.models import *
 class CardGenerator():
 
     def generate_card(self, ship, card_size):
-        self.stat_vertical_sep = (0,73)
+        self.stat_vertical_sep = (0,70)
 
         image = self.init_card(card_size)
         drawer = ImageDraw.Draw(image)
@@ -42,7 +42,7 @@ class CardGenerator():
         drawer.text(xy=self._add_coords_(col1_row3, number_dsplc), text=str(ship.delta_v), fill=(255,255,255), font=self.stats_font)
         # Evasion passive
         drawer.text(xy=(770,710), text="Passive", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(col2_start, number_dsplc), text=str(ship.evasion_passive), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col2_start, number_dsplc), text=str(ship.evasion_passive) , fill=(255,255,255), font=self.stats_font)
         # Evasion active
         col2_row2 = self._add_coords_(col2_start, self.stat_vertical_sep)
         drawer.text(xy=col2_row2, text="Active", fill=(255,255,255), font=self.stats_font)
@@ -138,7 +138,7 @@ class CardGenerator():
             drawer.text(xy=startcoords, text="Turreted beam", fill=(255,255,255), font=self.sub_title_font)
         else:
             drawer.text(xy=startcoords, text="Beam weapon", fill=(255,255,255), font=self.sub_title_font)
-        # When laser data type is actually completely implemented range/dmg goes here
+        # Draw range table
 
     def _draw_missile_(self, missile, drawer, startcoords, statstart, number_dsplc):
         # Title
@@ -194,5 +194,8 @@ class CardGenerator():
     def _add_coords_(self, first, second):
         return tuple(sum(x) for x in zip(first, second))
 
-
+    def _next_row_(self, currentrow):
+        # Returns the start coordinates of the next stat row based on self.stat_vertical_sep
+        # Not yet used everywhere, but refactor
+        return tuple(sum(x) for x in zip(currentrow, self.stat_vertical_sep))
 
