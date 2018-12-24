@@ -132,13 +132,15 @@ class StatColor():
 
     def _laser_am_color_(self, stat):
         # 2 is average. Below it is poor. 3 is good. Anything above is excellent.
-        if stat <= 1:
+        parsedStat = int(stat)
+
+        if parsedStat <= 1:
             return Color.POOR.value
 
-        if stat == 2:
+        if parsedStat == 2:
             return Color.AVERAGE.value
 
-        if stat == 3:
+        if parsedStat == 3:
             return Color.GOOD.value
 
         return Color.EXCELLENT.value
@@ -154,28 +156,107 @@ class StatColor():
         if 46 <= stat <= 60:
             return Color.GOOD.value
 
-        
+        return Color.EXCELLENT.value
 
     def _missile_volley_color_(self, stat):
-        pass
+        # 1-2 is poor. 3-4 is average. 5 is good 6 and above is excellent.
+        if stat <= 2:
+            return Color.POOR.value
+
+        if 3 <= stat <= 4:
+            return Color.AVERAGE.value
+
+        if stat == 5:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
 
     def _missile_stores_color_(self, stat):
-        pass
+        # 1 is poor. 2 is average. 3 is good, higher than that is excellent.
+        if stat <= 1:
+            return Color.POOR.value
+
+        if stat == 2:
+            return Color.AVERAGE.value
+
+        if stat == 3:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
 
     def _am_range_color_(self, stat):
-        pass
+        # 1 is poor, 2 is average, 3 is good, more than that is excellent.
+        if stat <= 1:
+            return Color.POOR.value
+
+        if stat == 2:
+            return Color.AVERAGE.value
+
+        if stat == 3:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
+
 
     def _am_dmg_ship_color_(self, stat):
-        pass
+        # 1 is average, 2 is good, 3 or more is excellent. There is no poor.
+        # The number we want is the first character in a string
+        parsedStat = int(stat[0])
+
+        if parsedStat == 1:
+            return Color.AVERAGE.value
+
+        if parsedStat == 2:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
+
 
     def _am_dmg_missile_color_(self, stat):
-        pass
+        # 1 is poor, 2 is average, 3 is good, 4 or more is excellent.
+        # The number we want is the first character in a string
+        parsedStat = int(stat[0])
+
+        if parsedStat == 1:
+            return Color.POOR.value
+
+        if parsedStat == 2:
+            return Color.AVERAGE.value
+
+        if parsedStat == 3:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
 
     def _ciws_dmg_ship_color_(self, stat):
-        pass
+        # 1 is average, 2 is good, 3 or more is excellent. There is no poor.
+        # The number we want is the first character in a string
+        parsedStat = int(stat[0])
+
+        if parsedStat == 1:
+            return Color.AVERAGE.value
+
+        if parsedStat == 2:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
 
     def _ciws_dmg_missile_color_(self, stat):
-        pass
+        # 1 is poor, 2 is average, 3 is good, more is excellent
+        # The number we want is the first character in a string
+        parsedStat = int(stat[0])
+
+        if parsedStat == 1:
+            return Color.POOR.value
+
+        if parsedStat == 2:
+            return Color.AVERAGE.value
+
+        if parsedStat == 3:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
+
 
 class Stat(Enum):
     # These are all the kinds of stats that need colors.

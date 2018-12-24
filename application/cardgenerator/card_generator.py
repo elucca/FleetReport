@@ -64,7 +64,7 @@ class CardGenerator():
             drawer.text(xy=self._add_coords_(col2_row3, number_dsplc), text=str(ship.evasion_endurance), 
             fill=colors.color(Stat.EVASION_ENDURANCE, ship.evasion_endurance), font=self.stats_font)
 
-        self._draw_weapons_(self.get_weapons(ship), drawer)
+        self._draw_weapons_(self.get_weapons(ship), drawer, colors)
 
         image.save("application/cardgenerator/assets/result.png")
 
@@ -106,7 +106,7 @@ class CardGenerator():
 
         return weapons
 
-    def _draw_weapons_(self, weapons, drawer):
+    def _draw_weapons_(self, weapons, drawer, colors):
         i = 0
         while i < 3:
             if i == 0:
@@ -126,43 +126,50 @@ class CardGenerator():
 
             if isinstance(weapons[i], Laser):
                 laser = weapons[i]
-                self._draw_laser_(laser, drawer, startcoords, statstart, number_dsplc)
+                self._draw_laser_(laser, drawer, colors, startcoords, statstart, number_dsplc)
 
             if isinstance(weapons[i], Missile):
                 missile = weapons[i]
-                self._draw_missile_(missile, drawer, startcoords, statstart, number_dsplc)
+                self._draw_missile_(missile, drawer, colors, startcoords, statstart, number_dsplc)
 
             if isinstance(weapons[i], AreaMissile):
                 area_missile = weapons[i]
-                self._draw_area_missile_(area_missile, drawer, startcoords, statstart, number_dsplc)                
+                self._draw_area_missile_(area_missile, drawer, colors, startcoords, statstart, number_dsplc)                
 
             if isinstance(weapons[i], Ewar):
                 ewar = weapons[i]
-                self._draw_ewar_(ewar, drawer, startcoords, statstart, number_dsplc)
+                self._draw_ewar_(ewar, drawer, colors, startcoords, statstart, number_dsplc)
 
             if isinstance(weapons[i], CIWS):
                 ciws = weapons[i]
-                self._draw_CIWS_(ciws, drawer, startcoords, statstart, number_dsplc)
+                self._draw_CIWS_(ciws, drawer, colors, startcoords, statstart, number_dsplc)
 
             i += 1
 
-    def _draw_laser_(self, laser, drawer, startcoords, statstart, number_dsplc):
+    def _draw_laser_(self, laser, drawer, colors, startcoords, statstart, number_dsplc):
         if laser.turreted:
             drawer.text(xy=startcoords, text="Turreted beam", fill=(255,255,255), font=self.sub_title_font)
         else:
             drawer.text(xy=startcoords, text="Beam weapon", fill=(255,255,255), font=self.sub_title_font)
+
+        # Get colors (dmg based on range 3 which all lasers have)
+        am_color = colors.color(Stat.LASER_AM, laser.laser_dmg_missile)
+        rangepoint3 = laser.rangepoints[len(laser.rangepoints) - 1]
+        dmg_color = colors.color(Stat.LASER_DMG, rangepoint3.dmg)
         
         # Anti-missile
         antimissilecoords = self._add_coords_(startcoords, (0,150))
         drawer.text(xy=antimissilecoords, text="Anti-missile", fill=(255,255,255), font=self.sub_title_font)
-        drawer.text(xy=self._add_coords_(antimissilecoords, (300,0)), text=str(laser.laser_dmg_missile), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(antimissilecoords, (300,0)), text=str(laser.laser_dmg_missile), fill=(am_color), font=self.stats_font)
         
         # Range table
         rangestartcoords = self._add_coords_(antimissilecoords, (0,100))
+        
         # Calculate accuracy for first range point such that range 3 is 100%
         accuracy = 100 - (len(laser.rangepoints) - 1) * 10
         rangecoords = rangestartcoords
         laser_vertical_sep = (0,80)
+
         for rangepoint in laser.rangepoints:
             # Range
             drawer.text(xy=rangecoords, text=str(rangepoint.lrange), fill=(255,255,255), font=self.laser_font)
@@ -171,7 +178,7 @@ class CardGenerator():
             drawer.text(xy=coords, text=str(accuracy) + "%", fill=(222,222,222), font=self.laser_font)
             # Damage
             coords = self._add_coords_(coords, (185,0))
-            drawer.text(xy=coords, text=str(rangepoint.dmg), fill=(255,255,255), font=self.laser_font)           
+            drawer.text(xy=coords, text=str(rangepoint.dmg), fill=dmg_color, font=self.laser_font)           
 
             rangecoords = self._add_coords_(rangecoords, laser_vertical_sep)
             accuracy += 10
@@ -180,20 +187,22 @@ class CardGenerator():
         endtextcoords = self._add_coords_(rangecoords, (80,10))
         drawer.text(xy=endtextcoords, text="+10 per hex", fill=(185,185,185), font=self.laser_endtext_font)
 
-    def _draw_missile_(self, missile, drawer, startcoords, statstart, number_dsplc):
+    def _draw_missile_(self, missile, drawer, colors, startcoords, statstart, number_dsplc):
         # Title
         drawer.text(xy=startcoords, text="Anti-ship missiles", fill=(255,255,255), font=self.sub_title_font)
         
         # Volley
         drawer.text(xy=statstart, text="Volley", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(missile.volley), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(missile.volley), 
+        fill=colors.color(Stat.MISSILE_VOLLEY, missile.volley), font=self.stats_font)
         
         # Stores
         row2 = self._add_coords_(statstart, self.stat_vertical_sep)
         drawer.text(xy=row2, text="Stores", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(missile.stores), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(missile.stores), 
+        fill=colors.color(Stat.MISSILE_STORES, missile.stores), font=self.stats_font)
 
-    def _draw_area_missile_(self, area_missile, drawer, startcoords, statstart, number_dsplc):
+    def _draw_area_missile_(self, area_missile, drawer, colors, startcoords, statstart, number_dsplc):
         # Differentiate between defense and attack missiles.
         if not area_missile.dmg_missile:
             am_type = "Assault missiles"
@@ -208,35 +217,40 @@ class CardGenerator():
         
         # Range
         drawer.text(xy=statstart, text="Range", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(area_missile.am_range), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(area_missile.am_range), 
+        fill=colors.color(Stat.AM_RANGE, area_missile.am_range), font=self.stats_font)
         
         # Anti-ship
         row2 = self._add_coords_(statstart, self.stat_vertical_sep)
         drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(area_missile.dmg_ship), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(area_missile.dmg_ship), 
+        fill=(colors.color(Stat.AM_DMG_SHIP, area_missile.dmg_ship)), font=self.stats_font)
         
         # Anti-missile
         if (am_type == "Defense missiles"):
             row3 = self._add_coords_(row2, self.stat_vertical_sep)
             drawer.text(xy=row3, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
-            drawer.text(xy=self._add_coords_(row3, number_dsplc), text=str(area_missile.dmg_missile), fill=(255,255,255), font=self.stats_font)
+            drawer.text(xy=self._add_coords_(row3, number_dsplc), text=str(area_missile.dmg_missile), 
+            fill=colros.color(Stat.AM_DMG_MISSILE, area_missile.dmg_missile), font=self.stats_font)
 
-    def _draw_ewar_(self, ewar, drawer, startcoords, statstart, number_dsplc):
+    def _draw_ewar_(self, ewar, drawer, colors, startcoords, statstart, number_dsplc):
         # Will be finished once the ewar data type is finished
         drawer.text(xy=startcoords, text="Ewar suite", fill=(255,255,255), font=self.sub_title_font)
 
-    def _draw_CIWS_(self, CIWS, drawer, startcoords, statstart, number_dsplc):
+    def _draw_CIWS_(self, CIWS, drawer, colors, startcoords, statstart, number_dsplc):
         # Title
         drawer.text(xy=startcoords, text="CIWS", fill=(255,255,255), font=self.sub_title_font)
         
         # Anti-missile
         drawer.text(xy=statstart, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(CIWS.dmg_missile), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(statstart, number_dsplc), text=str(CIWS.dmg_missile), 
+        fill=colors.color(Stat.CIWS_DMG_MISSILE, CIWS.dmg_missile), font=self.stats_font)
         
         # Anti-ship
         row2 = self._add_coords_(statstart, self.stat_vertical_sep)
         drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(CIWS.dmg_ship), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(CIWS.dmg_ship), 
+        fill=colors.color(Stat.CIWS_DMG_SHIP, CIWS.dmg_ship), font=self.stats_font)
     
     def _add_coords_(self, first, second):
         return tuple(sum(x) for x in zip(first, second))
