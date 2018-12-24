@@ -3,7 +3,8 @@ from enum import Enum
 class StatColor():
     # Note: Doesn't actually fully work yet: For those stats which are strings, need to parse out
     # the integer part and give color based on that.
-    # This class is also kind of a mess because I don't really get Python enums yet.
+    # This stuff isn't very readable, which is bad because I might want to change the thresholds.
+    # Maybe do something about that.
 
     def __init__(self):
         pass
@@ -77,7 +78,7 @@ class StatColor():
 
     def _evasion_passive_color_(self, stat):
         # -30 is the average point. Poor is -40 and below. Since values better than -30
-        # are rare, anything above that can be considered good.
+        # are rare, anything above that can be considered good. -10 and up are excellent.
         if stat <= -40:
             return Color.POOR.value
         
@@ -90,19 +91,70 @@ class StatColor():
         return Color.EXCELLENT.value
 
     def _evasion_active_color_(self, stat):
-        pass
+        # 0 is the average point and very common. Anything above +5 and below -5 are good
+        # and poor, respectively. Excellent is 20+.
+        if stat <= -6:
+            return Color.POOR.value
+        
+        if  -5 <= stat <= 5:
+            return Color.AVERAGE.value
+
+        if 6 <= stat <= 19:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
     
     def _evasion_endurance_color_(self, stat):
-        pass
+        # 2 is average. Anything above is good. 5 and above is excellent. 1 is poor.
+        if stat <= 1:
+            return Color.POOR.value
+
+        if stat == 2:
+            return Color.AVERAGE.value
+
+        if stat == 3:
+            return Color.GOOD.value
+
+        return color.EXCELLENT.value
 
     def _armor_color_(self, stat):
-        pass
+        # 0 to 9 is poor. 10 to 25 is average. 26 to 34 is good. 35+ is excellent.
+        if stat <= 9:
+            return Color.POOR.value
+
+        if 10 <= stat <= 25:
+            return Color.AVERAGE.value
+
+        if 26 <= stat <= 34:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
 
     def _laser_am_color_(self, stat):
-        pass
+        # 2 is average. Below it is poor. 3 is good. Anything above is excellent.
+        if stat <= 1:
+            return Color.POOR.value
+
+        if stat == 2:
+            return Color.AVERAGE.value
+
+        if stat == 3:
+            return Color.GOOD.value
+
+        return Color.EXCELLENT.value
 
     def _laser_dmg_color_(self, stat):
-        pass
+        # 35 and below is poor. 36 to 45 is average. 46 to to 60 is good. Anything above is excellent.
+        if stat <= 35:
+            return Color.POOR.value
+
+        if 36 <= stat <= 45:
+            return Color.AVERAGE.value
+
+        if 46 <= stat <= 60:
+            return Color.GOOD.value
+
+        
 
     def _missile_volley_color_(self, stat):
         pass

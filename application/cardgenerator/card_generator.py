@@ -27,8 +27,8 @@ class CardGenerator():
         drawer.text(xy=(770,623), text="Evasion", fill=(255,255,255), font=self.sub_title_font)
 
         # Draw common stats
-        col1_start = (72,710)
-        col2_start = (770,710)
+        col1_start = (72,700)
+        col2_start = (770,700)
         # Displacement for actual numbers, add to stat title coords
         number_dsplc = (340,0)
 
@@ -47,19 +47,22 @@ class CardGenerator():
         drawer.text(xy=self._add_coords_(col1_row3, number_dsplc), text=str(ship.delta_v), fill=colors.color(Stat.DELTA_V, ship.delta_v), font=self.stats_font)
         
         # Evasion passive
-        drawer.text(xy=(770,710), text="Passive", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(col2_start, number_dsplc), text=str(ship.evasion_passive) , fill=colors.color(Stat.EVASION_PASSIVE, ship.evasion_passive), font=self.stats_font)
+        drawer.text(xy=col2_start, text="Passive", fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col2_start, number_dsplc), text=str(ship.evasion_passive), 
+        fill=colors.color(Stat.EVASION_PASSIVE, ship.evasion_passive), font=self.stats_font)
         
         # Evasion active
         col2_row2 = self._add_coords_(col2_start, self.stat_vertical_sep)
         drawer.text(xy=col2_row2, text="Active", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(col2_row2, number_dsplc), text=str(ship.evasion_active), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col2_row2, number_dsplc), text=str(ship.evasion_active), 
+        fill=colors.color(Stat.EVASION_PASSIVE, ship.evasion_passive), font=self.stats_font)
         
         # Evasion endurance stat if ship has a pulse drive
         if "pulse" or "Pulse" in ship.propulsion_type:
             col2_row3 = self._add_coords_(col2_row2, self.stat_vertical_sep)
-            drawer.text(xy=(770,710+self.stat_vertical_sep[1]*2), text="Endurance", fill=(255,255,255), font=self.stats_font)
-            drawer.text(xy=self._add_coords_(col2_row3, number_dsplc), text=str(ship.evasion_endurance), fill=(255,255,255), font=self.stats_font)
+            drawer.text(xy=col2_row3, text="Endurance", fill=(255,255,255), font=self.stats_font)
+            drawer.text(xy=self._add_coords_(col2_row3, number_dsplc), text=str(ship.evasion_endurance), 
+            fill=colors.color(Stat.EVASION_ENDURANCE, ship.evasion_endurance), font=self.stats_font)
 
         self._draw_weapons_(self.get_weapons(ship), drawer)
 
