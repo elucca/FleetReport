@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 from application.cardgenerator.card_size import CardSize
+from application.cardgenerator.statcolor import StatColor, Stat
 from application.weapons.models import *
 
 class CardGenerator():
@@ -9,6 +10,7 @@ class CardGenerator():
 
         image = self.init_card(card_size)
         drawer = ImageDraw.Draw(image)
+        colors = StatColor()
         
         # Draw title and cost. If ship is command-capable, move title a little way to the right and draw command icon.
         if ship.command_capable:
@@ -37,16 +39,16 @@ class CardGenerator():
         # Move
         col1_row2 = self._add_coords_(col1_start, self.stat_vertical_sep)
         drawer.text(xy=(col1_row2), text="Move", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(col1_row2, number_dsplc), text=str(ship.move), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col1_row2, number_dsplc), text=str(ship.move), fill=colors.color(Stat.MOVE, ship.move), font=self.stats_font)
         
         # Delta-v
         col1_row3 = self._add_coords_(col1_row2, self.stat_vertical_sep)
         drawer.text(xy=col1_row3, text="Delta-v", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(col1_row3, number_dsplc), text=str(ship.delta_v), fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col1_row3, number_dsplc), text=str(ship.delta_v), fill=colors.color(Stat.DELTA_V, ship.delta_v), font=self.stats_font)
         
         # Evasion passive
         drawer.text(xy=(770,710), text="Passive", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(col2_start, number_dsplc), text=str(ship.evasion_passive) , fill=(255,255,255), font=self.stats_font)
+        drawer.text(xy=self._add_coords_(col2_start, number_dsplc), text=str(ship.evasion_passive) , fill=colors.color(Stat.EVASION_PASSIVE, ship.evasion_passive), font=self.stats_font)
         
         # Evasion active
         col2_row2 = self._add_coords_(col2_start, self.stat_vertical_sep)
