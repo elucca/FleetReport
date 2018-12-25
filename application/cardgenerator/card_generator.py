@@ -5,18 +5,19 @@ from application.weapons.models import *
 
 class CardGenerator():
 
-    def generate_card(self, ship, card_size):
+    def __init__(self, card_size):
+        self.init_card(card_size)
+
+    def generate_card(self, ship):
         self.stat_vertical_sep = (0,70)
 
-        image = self.init_card(card_size)
-        drawer = ImageDraw.Draw(image)
+        drawer = ImageDraw.Draw(self.card)
         colors = StatColor()
         
         # Draw title and cost. If ship is command-capable, move title a little way to the right and draw command icon.
         if ship.command_capable:
             drawer.text(xy=(198, 27), text=ship.name, fill=(255,255,255), font=self.ship_title_font)
-            # Placeholder for command icon
-            drawer.text(xy=(93, 27), text="C", fill=(255,255,255), font=self.ship_title_font)
+            self.card.alpha_composite(self.cmd_star, (95,63))
         else:
             drawer.text(xy=(93, 27), text=ship.name, fill=(255,255,255), font=self.ship_title_font)
 
@@ -46,6 +47,11 @@ class CardGenerator():
         drawer.text(xy=col1_row3, text="Delta-v", fill=(255,255,255), font=self.stats_font)
         drawer.text(xy=self._add_coords_(col1_row3, number_dsplc), text=str(ship.delta_v), fill=colors.color(Stat.DELTA_V, ship.delta_v), font=self.stats_font)
         
+        # Bad hack: Displace active evasion and endurance more to the right to align with passive.
+        # Only works right if passive is a minus sign and two digits, which it currently always is,
+        # but...
+        evasion_dsplc = (392,0)
+
         # Evasion passive
         drawer.text(xy=col2_start, text="Passive", fill=(255,255,255), font=self.stats_font)
         drawer.text(xy=self._add_coords_(col2_start, number_dsplc), text=str(ship.evasion_passive), 
@@ -54,23 +60,35 @@ class CardGenerator():
         # Evasion active
         col2_row2 = self._add_coords_(col2_start, self.stat_vertical_sep)
         drawer.text(xy=col2_row2, text="Active", fill=(255,255,255), font=self.stats_font)
-        drawer.text(xy=self._add_coords_(col2_row2, number_dsplc), text=str(ship.evasion_active), 
+        drawer.text(xy=self._add_coords_(col2_row2, evasion_dsplc), text=str(ship.evasion_active), 
         fill=colors.color(Stat.EVASION_PASSIVE, ship.evasion_passive), font=self.stats_font)
         
         # Evasion endurance stat if ship has a pulse drive
         if "pulse" or "Pulse" in ship.propulsion_type:
             col2_row3 = self._add_coords_(col2_row2, self.stat_vertical_sep)
             drawer.text(xy=col2_row3, text="Endurance", fill=(255,255,255), font=self.stats_font)
-            drawer.text(xy=self._add_coords_(col2_row3, number_dsplc), text=str(ship.evasion_endurance), 
+            drawer.text(xy=self._add_coords_(col2_row3, evasion_dsplc), text=str(ship.evasion_endurance), 
             fill=colors.color(Stat.EVASION_ENDURANCE, ship.evasion_endurance), font=self.stats_font)
 
-        self._draw_weapons_(self.get_weapons(ship), drawer, colors)
+        self._draw_weapons_(self._get_weapons_(ship), drawer, colors)
 
-        image.save("application/cardgenerator/assets/result.png")
+        self.card.save("application/cardgenerator/assets/result.png")
 
     def init_card(self, card_size):
-        # This method doesn't actually use the card size yet
-        image = Image.open("application/cardgenerator/assets/templates/card_base_1.png")
+        # Called when self.card generator is instantiated. Can also be called again to change the self.card size.
+        # This method doesn't actually use the self.card size yet.
+
+        # Load self.card template
+        self.card = Image.open("application/cardgenerator/assets/templates/card_base_1.png")
+        # Load common assets
+        self.cmd_star = Image.open("application/cardgenerator/assets/images/misc/cmd_star.png")
+        self.self_defense_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/self_defense_jamming.png")
+        self.cover_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/cover_jamming.png")
+        self.high_intensity_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/high_intensity_jamming.png")
+        self.defense_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/defense_jamming.png")
+        self.missile_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/missile_jamming.png")
+        self.comms_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/comms_jamming.png")
+        self.ECCM = Image.open("application/cardgenerator/assets/images/ewar icons/eccm.png")       
 
         # Set fonts
         self.ship_title_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 94)
@@ -80,13 +98,8 @@ class CardGenerator():
         self.laser_endtext_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 40)
         self.flavor_font = ImageFont.truetype("application/cardgenerator/assets/fonts/CharisSIL-B.ttf", 47)
 
-        return image
-
-    def get_weapons(self, ship):
+    def _get_weapons_(self, ship):
         # Returns the ship's weapons in the order required for ship cards
-        # Note: Due to SQLAlchemy weirdness these are InstrumentedLists and iterating through them may not
-        # actually work. However, retrieving the first works, and we only really need one of them as multiple
-        # weapons of the same type are not even intended to be handled by the cards.
         weapons = []
 
         if next(iter(ship.CIWSs), None):
@@ -106,6 +119,48 @@ class CardGenerator():
 
         return weapons
 
+    def _get_ewar_abilities_(self, ewar):
+        # Returns the ewar suite's abilities in the order required for ship cards
+        # This is currently very inefficient, iterating through all abilities until the desired one is found.
+        # This is also very brittle, since it requires the db to have these particular names for the abilities.
+        # That will need to be improved.
+        abilities = []
+        ability = ""
+
+        for ability in ewar.abilities:
+            if ability.ability == "ECCM":
+                abilities.insert(0, ability)
+
+        for ability in ewar.abilities:
+            if ability.ability == "Comms jamming":
+                abilities.insert(0, ability)
+
+        for ability in ewar.abilities:
+            if ability.ability == "Missile jamming":
+                abilities.insert(0, ability)        
+        
+        for ability in ewar.abilities:
+            if ability.ability == "Defense jamming":
+                abilities.insert(0, ability)        
+               
+        for ability in ewar.abilities:
+            if ability.ability == "Missile jamming":
+                abilities.insert(0, ability)
+
+        for ability in ewar.abilities:
+            if ability.ability == "High-intensity jamming":
+                abilities.insert(0, ability)     
+
+        for ability in ewar.abilities:
+            if ability.ability == "Cover jamming":
+                abilities.insert(0, ability)
+
+        for ability in ewar.abilities:
+            if ability.ability == "Self-defense jamming":
+                abilities.insert(0, ability)
+
+        return abilities
+        
     def _draw_weapons_(self, weapons, drawer, colors):
         i = 0
         while i < 3:
@@ -114,7 +169,7 @@ class CardGenerator():
             if i == 1:
                 startcoords = (710,1015)
             if i == 2:
-                startcoords = (710,1525)
+                startcoords = (710,1594)
 
             # Draw weapon flavor text (common to all weapon types)
             flavorcoords = self._add_coords_(startcoords, (0,65))
@@ -138,7 +193,7 @@ class CardGenerator():
 
             if isinstance(weapons[i], Ewar):
                 ewar = weapons[i]
-                self._draw_ewar_(ewar, drawer, colors, startcoords, statstart, number_dsplc)
+                self._draw_ewar_(ewar, drawer, colors, startcoords, statstart)
 
             if isinstance(weapons[i], CIWS):
                 ciws = weapons[i]
@@ -148,9 +203,9 @@ class CardGenerator():
 
     def _draw_laser_(self, laser, drawer, colors, startcoords, statstart, number_dsplc):
         if laser.turreted:
-            drawer.text(xy=startcoords, text="Turreted beam", fill=(255,255,255), font=self.sub_title_font)
+            drawer.text(xy=startcoords, text="Turreted c-beam", fill=(255,255,255), font=self.sub_title_font)
         else:
-            drawer.text(xy=startcoords, text="Beam weapon", fill=(255,255,255), font=self.sub_title_font)
+            drawer.text(xy=startcoords, text="C-beam", fill=(255,255,255), font=self.sub_title_font)
 
         # Get colors (dmg based on range 3 which all lasers have)
         am_color = colors.color(Stat.LASER_AM, laser.laser_dmg_missile)
@@ -227,15 +282,75 @@ class CardGenerator():
         fill=(colors.color(Stat.AM_DMG_SHIP, area_missile.dmg_ship)), font=self.stats_font)
         
         # Anti-missile
-        if (am_type == "Defense missiles"):
+        if am_type == "Defense missiles":
             row3 = self._add_coords_(row2, self.stat_vertical_sep)
             drawer.text(xy=row3, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
             drawer.text(xy=self._add_coords_(row3, number_dsplc), text=str(area_missile.dmg_missile), 
-            fill=colros.color(Stat.AM_DMG_MISSILE, area_missile.dmg_missile), font=self.stats_font)
+            fill=coloros.color(Stat.AM_DMG_MISSILE, area_missile.dmg_missile), font=self.stats_font)
 
-    def _draw_ewar_(self, ewar, drawer, colors, startcoords, statstart, number_dsplc):
-        # Will be finished once the ewar data type is finished
+    def _draw_ewar_(self, ewar, drawer, colors, startcoords, statstart):
         drawer.text(xy=startcoords, text="Ewar suite", fill=(255,255,255), font=self.sub_title_font)
+
+        abilities = self._get_ewar_abilities_(ewar)
+        currentpos = self._add_coords_(startcoords, (0,245))
+        rangepos = self._add_coords_(currentpos, (28,-95))
+        icon_hor_dsplc = (120,0)
+        icon_ver_dpslc = (0, 110)
+
+        # This inner method is used to avoid copypaste in the main method body
+        def draw_ability(i, ability, icon):
+            # Range
+            drawer.text(xy=rangepos, text=str(abilities[i].erange), fill=(222,222,222), font=self.stats_font)
+            # Icon
+            self.card.alpha_composite(icon, currentpos)
+            # Adjust position for next icon
+            self._add_coords_(currentpos, icon_hor_dsplc)
+            # If the next ability is the same, draw it below the current one and skip ahead.
+            if i + 1 < len(abilities) and abilities[i + 1].ability == ability:
+                self.card.alpha_composite(icon, self._add_coords_(currentpos, icon_ver_dpslc))
+                i += 1
+
+            return i + 1
+
+        i = 0
+        while i < len(abilities):
+            if abilities[i].ability == "Self-defense jamming":
+                icon = self.self_defense_jamming
+                i = draw_ability(i, "Self-defense jamming", icon)
+                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
+                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
+            elif abilities[i].ability == "Cover jamming":
+                icon = self.cover_jamming
+                i = draw_ability(i, "Cover jamming", icon)
+                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
+                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
+            elif abilities[i].ability == "High-intensity jamming":
+                icon = self.high_intensity_jamming
+                i = draw_ability(i, "High-intensity jamming", icon)
+                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
+                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
+            elif abilities[i].ability == "Defense jamming":
+                icon = self.defense_jamming
+                i = draw_ability(i, "Defense jamming", icon)
+                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
+                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
+            elif abilities[i].ability == "Missile jamming":
+                icon = self.missile_jamming
+                i = draw_ability(i, "Missile jamming", icon)
+                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
+                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
+            elif abilities[i].ability == "Comms jamming":
+                icon = self.comms_jamming
+                i = draw_ability(i, "Comms jamming", icon)
+                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
+                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
+            elif abilities[i].ability == "ECCM":
+                icon = self.ECCM
+                i = draw_ability(i, "ECCM", icon)
+                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
+                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
+            else:
+                i += 1            
 
     def _draw_CIWS_(self, CIWS, drawer, colors, startcoords, statstart, number_dsplc):
         # Title
