@@ -16,12 +16,12 @@ class CardGenerator():
         
         # Draw title and cost. If ship is command-capable, move title a little way to the right and draw command icon.
         if ship.command_capable:
-            drawer.text(xy=(198, 27), text=ship.name, fill=(255,255,255), font=self.ship_title_font)
-            self.card.alpha_composite(self.cmd_star, (95,63))
+            drawer.text(xy=(198, 35), text=ship.name, fill=(255,255,255), font=self.ship_title_font)
+            self.card.alpha_composite(self.cmd_star, (95,71))
         else:
-            drawer.text(xy=(93, 27), text=ship.name, fill=(255,255,255), font=self.ship_title_font)
+            drawer.text(xy=(93, 35), text=ship.name, fill=(255,255,255), font=self.ship_title_font)
 
-        drawer.text(xy=(913, 27), text=str(ship.cost)+" pts", fill=(255,255,255), font=self.ship_title_font)
+        drawer.text(xy=(880, 35), text=str(ship.cost)+" pts", fill=(255,255,255), font=self.ship_title_font)
 
         # Draw subsection titles
         drawer.text(xy=(72,623), text="Propulsion", fill=(255,255,255), font=self.sub_title_font)
