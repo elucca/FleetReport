@@ -23,6 +23,9 @@ class CardGenerator():
 
         drawer.text(xy=(880, 35), text=str(ship.cost)+" pts", fill=(255,255,255), font=self.ship_title_font)
 
+        # Draw ship image, integrity and armor stats
+        self._draw_ship_(ship, drawer, colors)
+
         # Draw subsection titles
         drawer.text(xy=(72,623), text="Propulsion", fill=(255,255,255), font=self.sub_title_font)
         drawer.text(xy=(770,623), text="Evasion", fill=(255,255,255), font=self.sub_title_font)
@@ -97,6 +100,56 @@ class CardGenerator():
         self.laser_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 62)
         self.laser_endtext_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 40)
         self.flavor_font = ImageFont.truetype("application/cardgenerator/assets/fonts/CharisSIL-B.ttf", 47)
+
+    def _draw_ship_(self, ship, drawer, colors):
+        # Because the placement of the ship image and the armor numbers around it is fairly ad-hoc, it needs to be
+        # manually defined for each ship. Unknown ship won't have an image, and will have the stats in default positions.
+        # A really bad thing here is that it breaks if a ship's name is changed. Ships should probably have some
+        # static identifier and its name should just be flavor text.
+
+        # Set default coordinates for ship stats
+        center_coords = (635,360)
+        integrity_coords = center_coords
+        armor_front_coords = self._add_coords_(center_coords, (-420,0))
+        armor_sides_coords = self._add_coords_(center_coords, (0,-120))
+        armor_back_coords = self._add_coords_(center_coords, (355,0))
+
+        ship_image = None
+
+        # Set image & pretty coordinates for known ships
+        if (ship.name == "FH/E-946"):
+            ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/fhe.png")
+            ship_coords = self._add_coords_(center_coords, (-287,-75))
+            integrity_coords = self._add_coords_(center_coords, (-20,0))
+            #armor_front_coords =
+            armor_sides_coords = self._add_coords_(armor_sides_coords, (-43,-10))
+            armor_back_coords = self._add_coords_(armor_back_coords, (-30,0))
+
+        # Draw ship and integrity. If image is missing, draw integrity below "Image missing" in white.
+        if ship_image is not None:
+            self.card.alpha_composite(ship_image, ship_coords)
+            drawer.text(xy=integrity_coords, text=str(ship.integrity), fill=(0,0,0), font=self.laser_font)
+        else:
+            drawer.text(xy=self._add_coords_(center_coords, (-190,0)), text="<Image missing>", fill=(185,185,185), font=self.stats_font)
+            drawer.text(xy=self._add_coords_(integrity_coords, (0, 80)), text=str(ship.integrity), fill=(255,255,255), font=self.laser_font)
+
+        # Draw armor. Append "P" on the armor facing which is the ship's primary facing.        
+        if ship.primary_facing == "Front":
+            armor_front = "P" + str(ship.armor_front)
+            armor_sides = str(ship.armor_sides)
+            armor_back = str(ship.armor_back)
+        if ship.primary_facing == "Side" or ship.primary_facing == "Sides":
+            armor_front = str(ship.armor_front)
+            armor_sides = "P" + str(ship.armor_sides)
+            armor_back = str(ship.armor_back)
+        if ship.primary_facing == "Back" or ship.primary_facing == "Rear":
+            armor_front = str(ship.armor_front)
+            armor_sides = str(ship.armor_sides)
+            armor_back = "P" + str(ship.armor_back)
+
+        drawer.text(xy=armor_front_coords, text=armor_front, fill=colors.color(Stat.ARMOR, ship.armor_front), font=self.stats_font)
+        drawer.text(xy=armor_sides_coords, text=armor_sides, fill=colors.color(Stat.ARMOR, ship.armor_sides), font=self.stats_font)
+        drawer.text(xy=armor_back_coords, text=armor_back, fill=colors.color(Stat.ARMOR, ship.armor_back), font=self.stats_font)
 
     def _get_weapons_(self, ship):
         # Returns the ship's weapons in the order required for ship cards
@@ -299,8 +352,11 @@ class CardGenerator():
 
         # This inner method is used to avoid copypaste in the main method body
         def draw_ability(i, ability, icon):
-            # Range
-            drawer.text(xy=rangepos, text=str(abilities[i].erange), fill=(222,222,222), font=self.stats_font)
+            # Range. Hacky (and breaks if fonts change), but if it's two characters move it left a bit to stay centered.
+            if len(str(abilities[i].erange)) == 2:
+                drawer.text(xy=self._add_coords_(rangepos, (-12,0)), text=str(abilities[i].erange), fill=(222,222,222), font=self.stats_font)
+            else:            
+                drawer.text(xy=rangepos, text=str(abilities[i].erange), fill=(222,222,222), font=self.stats_font)
             # Icon
             self.card.alpha_composite(icon, currentpos)
             # Adjust position for next icon
@@ -317,40 +373,29 @@ class CardGenerator():
             if abilities[i].ability == "Self-defense jamming":
                 icon = self.self_defense_jamming
                 i = draw_ability(i, "Self-defense jamming", icon)
-                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
-                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
             elif abilities[i].ability == "Cover jamming":
                 icon = self.cover_jamming
                 i = draw_ability(i, "Cover jamming", icon)
-                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
-                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
             elif abilities[i].ability == "High-intensity jamming":
                 icon = self.high_intensity_jamming
                 i = draw_ability(i, "High-intensity jamming", icon)
-                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
-                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
             elif abilities[i].ability == "Defense jamming":
                 icon = self.defense_jamming
                 i = draw_ability(i, "Defense jamming", icon)
-                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
-                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
             elif abilities[i].ability == "Missile jamming":
                 icon = self.missile_jamming
                 i = draw_ability(i, "Missile jamming", icon)
-                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
-                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
             elif abilities[i].ability == "Comms jamming":
                 icon = self.comms_jamming
                 i = draw_ability(i, "Comms jamming", icon)
-                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
-                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
             elif abilities[i].ability == "ECCM":
                 icon = self.ECCM
                 i = draw_ability(i, "ECCM", icon)
-                currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
-                rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
             else:
-                i += 1            
+                i += 1
+
+            currentpos = self._add_coords_(currentpos, icon_hor_dsplc)
+            rangepos = self._add_coords_(rangepos, icon_hor_dsplc)
 
     def _draw_CIWS_(self, CIWS, drawer, colors, startcoords, statstart, number_dsplc):
         # Title

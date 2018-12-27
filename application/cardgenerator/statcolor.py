@@ -118,11 +118,11 @@ class StatColor():
         return color.EXCELLENT.value
 
     def _armor_color_(self, stat):
-        # 0 to 9 is poor. 10 to 25 is average. 26 to 34 is good. 35+ is excellent.
-        if stat <= 9:
+        # 0 to 10 is poor. 11 to 25 is average. 26 to 34 is good. 35+ is excellent.
+        if stat <= 10:
             return Color.POOR.value
 
-        if 10 <= stat <= 25:
+        if 11 <= stat <= 25:
             return Color.AVERAGE.value
 
         if 26 <= stat <= 34:
@@ -242,7 +242,7 @@ class StatColor():
         return Color.EXCELLENT.value
 
     def _ciws_dmg_missile_color_(self, stat):
-        # 1 is poor, 2 is average, 3 is good, more is excellent
+        # # 1 is poor, 2 is average, 3 or more is excellent since it's exceptional.
         # The number we want is the first character in a string
         parsedStat = int(stat[0])
 
@@ -251,9 +251,6 @@ class StatColor():
 
         if parsedStat == 2:
             return Color.AVERAGE.value
-
-        if parsedStat == 3:
-            return Color.GOOD.value
 
         return Color.EXCELLENT.value
 
