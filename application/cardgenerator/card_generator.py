@@ -119,11 +119,11 @@ class CardGenerator():
         # Set image & pretty coordinates for known ships
         if (ship.name == "FH/E-946"):
             ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/fhe.png")
-            ship_coords = self._add_coords_(center_coords, (-287,-75))
-            integrity_coords = self._add_coords_(center_coords, (-20,0))
-            #armor_front_coords =
-            armor_sides_coords = self._add_coords_(armor_sides_coords, (-43,-10))
-            armor_back_coords = self._add_coords_(armor_back_coords, (-30,0))
+            ship_coords = self._add_coords_(center_coords, (-287,-65))
+            integrity_coords = self._add_coords_(center_coords, (-20,5))
+            armor_front_coords = self._add_coords_(armor_front_coords, (0,10))
+            armor_sides_coords = self._add_coords_(armor_sides_coords, (-43,-5))
+            armor_back_coords = self._add_coords_(armor_back_coords, (-30,10))
 
         # Draw ship and integrity. If image is missing, draw integrity below "Image missing" in white.
         if ship_image is not None:
