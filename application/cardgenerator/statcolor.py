@@ -74,7 +74,7 @@ class StatColor():
         if 10 <= stat <= 12:
             return Color.GOOD.value
 
-        return Color.EXCELLENT
+        return Color.EXCELLENT.value
 
     def _evasion_passive_color_(self, stat):
         # -30 is the average point. Poor is -40 and below. Since values better than -30
@@ -106,6 +106,10 @@ class StatColor():
     
     def _evasion_endurance_color_(self, stat):
         # 2 is average. Anything above is good. 5 and above is excellent. 1 is poor.
+        # Stat may not exist.
+        if stat is None:
+            return (255,255,255)
+
         if stat <= 1:
             return Color.POOR.value
 
@@ -115,7 +119,7 @@ class StatColor():
         if stat == 3:
             return Color.GOOD.value
 
-        return color.EXCELLENT.value
+        return Color.EXCELLENT.value
 
     def _armor_color_(self, stat):
         # 0 to 10 is poor. 11 to 25 is average. 26 to 34 is good. 35+ is excellent.
@@ -201,6 +205,9 @@ class StatColor():
     def _am_dmg_ship_color_(self, stat):
         # 1 is average, 2 is good, 3 or more is excellent. There is no poor.
         # The number we want is the first character in a string
+        if stat is None:
+            return (255,255,255)
+
         parsedStat = int(stat[0])
 
         if parsedStat == 1:
@@ -215,6 +222,9 @@ class StatColor():
     def _am_dmg_missile_color_(self, stat):
         # 1 is poor, 2 is average, 3 is good, 4 or more is excellent.
         # The number we want is the first character in a string
+        if stat is None:
+            return (255,255,255)
+
         parsedStat = int(stat[0])
 
         if parsedStat == 1:

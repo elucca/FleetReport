@@ -6,9 +6,11 @@ from application.weapons.models import *
 class CardGenerator():
 
     def __init__(self, card_size):
-        self.init_card(card_size)
+        pass
 
     def generate_card(self, ship):
+        self.init_card(CardSize.BIG)
+
         self.stat_vertical_sep = (0,70)
 
         drawer = ImageDraw.Draw(self.card)
@@ -50,10 +52,12 @@ class CardGenerator():
         drawer.text(xy=col1_row3, text="Delta-v", fill=(255,255,255), font=self.stats_font)
         drawer.text(xy=self._add_coords_(col1_row3, number_dsplc), text=str(ship.delta_v), fill=colors.color(Stat.DELTA_V, ship.delta_v), font=self.stats_font)
         
-        # Bad hack: Displace active evasion and endurance more to the right to align with passive.
+        # Bad hack: Displace active evasion (if one letter) and endurance more to the right to align with passive.
         # Only works right if passive is a minus sign and two digits, which it currently always is,
         # but...
-        evasion_dsplc = (392,0)
+        evasion_dsplc = number_dsplc
+        if len(str(ship.evasion_active)) == 1:
+            evasion_dsplc = (392,0)
 
         # Evasion passive
         drawer.text(xy=col2_start, text="Passive", fill=(255,255,255), font=self.stats_font)
@@ -67,15 +71,17 @@ class CardGenerator():
         fill=colors.color(Stat.EVASION_PASSIVE, ship.evasion_passive), font=self.stats_font)
         
         # Evasion endurance stat if ship has a pulse drive
-        if "pulse" or "Pulse" in ship.propulsion_type:
+        if "pulse" in ship.propulsion_type or "Pulse" in ship.propulsion_type:
             col2_row3 = self._add_coords_(col2_row2, self.stat_vertical_sep)
             drawer.text(xy=col2_row3, text="Endurance", fill=(255,255,255), font=self.stats_font)
             drawer.text(xy=self._add_coords_(col2_row3, evasion_dsplc), text=str(ship.evasion_endurance), 
             fill=colors.color(Stat.EVASION_ENDURANCE, ship.evasion_endurance), font=self.stats_font)
 
         self._draw_weapons_(self._get_weapons_(ship), drawer, colors)
-
-        self.card.save("application/cardgenerator/assets/result.png")
+        
+        # Strip dashes from the ship's name for file name
+        ship_name = ship.name.replace('/', '')
+        self.card.save("application/cardgenerator/assets/generated/ship cards/creharr/" + ship_name + ".png")
 
     def init_card(self, card_size):
         # Called when self.card generator is instantiated. Can also be called again to change the self.card size.
@@ -108,30 +114,25 @@ class CardGenerator():
         # static identifier and its name should just be flavor text.
 
         # Set default coordinates for ship stats
-        center_coords = (635,360)
-        integrity_coords = center_coords
-        armor_front_coords = self._add_coords_(center_coords, (-420,0))
-        armor_sides_coords = self._add_coords_(center_coords, (0,-120))
-        armor_back_coords = self._add_coords_(center_coords, (355,0))
+        self.center_coords = (635,360)
+        self.integrity_coords = self._add_coords_(self.center_coords, (-20,5))
+        self.ship_coords = self._add_coords_(self.center_coords, (-400,-40))
+        self.armor_front_coords = self._add_coords_(self.center_coords, (-420,0))
+        self.armor_sides_coords = self._add_coords_(self.center_coords, (0,-120))
+        self.armor_back_coords = self._add_coords_(self.center_coords, (355,0))
 
-        ship_image = None
+        self.ship_image = None
 
         # Set image & pretty coordinates for known ships
-        if (ship.name == "FH/E-946"):
-            ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/fhe.png")
-            ship_coords = self._add_coords_(center_coords, (-287,-65))
-            integrity_coords = self._add_coords_(center_coords, (-20,5))
-            armor_front_coords = self._add_coords_(armor_front_coords, (0,10))
-            armor_sides_coords = self._add_coords_(armor_sides_coords, (-43,-5))
-            armor_back_coords = self._add_coords_(armor_back_coords, (-30,10))
+        self._set_pretty_coords_(ship)
 
         # Draw ship and integrity. If image is missing, draw integrity below "Image missing" in white.
-        if ship_image is not None:
-            self.card.alpha_composite(ship_image, ship_coords)
-            drawer.text(xy=integrity_coords, text=str(ship.integrity), fill=(0,0,0), font=self.laser_font)
+        if self.ship_image is not None:
+            self.card.alpha_composite(self.ship_image, self.ship_coords)
+            drawer.text(xy=self.integrity_coords, text=str(ship.integrity), fill=(0,0,0), font=self.laser_font)
         else:
-            drawer.text(xy=self._add_coords_(center_coords, (-190,0)), text="<Image missing>", fill=(185,185,185), font=self.stats_font)
-            drawer.text(xy=self._add_coords_(integrity_coords, (0, 80)), text=str(ship.integrity), fill=(255,255,255), font=self.laser_font)
+            drawer.text(xy=self._add_coords_(self.center_coords, (-190,0)), text="<Image missing>", fill=(185,185,185), font=self.stats_font)
+            drawer.text(xy=self._add_coords_(self.integrity_coords, (0, 80)), text=str(ship.integrity), fill=(255,255,255), font=self.laser_font)
 
         # Draw armor. Append "P" on the armor facing which is the ship's primary facing.        
         if ship.primary_facing == "Front":
@@ -147,9 +148,9 @@ class CardGenerator():
             armor_sides = str(ship.armor_sides)
             armor_back = "P" + str(ship.armor_back)
 
-        drawer.text(xy=armor_front_coords, text=armor_front, fill=colors.color(Stat.ARMOR, ship.armor_front), font=self.stats_font)
-        drawer.text(xy=armor_sides_coords, text=armor_sides, fill=colors.color(Stat.ARMOR, ship.armor_sides), font=self.stats_font)
-        drawer.text(xy=armor_back_coords, text=armor_back, fill=colors.color(Stat.ARMOR, ship.armor_back), font=self.stats_font)
+        drawer.text(xy=self.armor_front_coords, text=armor_front, fill=colors.color(Stat.ARMOR, ship.armor_front), font=self.stats_font)
+        drawer.text(xy=self.armor_sides_coords, text=armor_sides, fill=colors.color(Stat.ARMOR, ship.armor_sides), font=self.stats_font)
+        drawer.text(xy=self.armor_back_coords, text=armor_back, fill=colors.color(Stat.ARMOR, ship.armor_back), font=self.stats_font)
 
     def _get_weapons_(self, ship):
         # Returns the ship's weapons in the order required for ship cards
@@ -216,7 +217,7 @@ class CardGenerator():
         
     def _draw_weapons_(self, weapons, drawer, colors):
         i = 0
-        while i < 3:
+        while i < len(weapons):
             if i == 0:
                 startcoords = (90,1015)
             if i == 1:
@@ -339,7 +340,7 @@ class CardGenerator():
             row3 = self._add_coords_(row2, self.stat_vertical_sep)
             drawer.text(xy=row3, text="Anti-missile", fill=(255,255,255), font=self.stats_font)
             drawer.text(xy=self._add_coords_(row3, number_dsplc), text=str(area_missile.dmg_missile), 
-            fill=coloros.color(Stat.AM_DMG_MISSILE, area_missile.dmg_missile), font=self.stats_font)
+            fill=colors.color(Stat.AM_DMG_MISSILE, area_missile.dmg_missile), font=self.stats_font)
 
     def _draw_ewar_(self, ewar, drawer, colors, startcoords, statstart):
         drawer.text(xy=startcoords, text="Ewar suite", fill=(255,255,255), font=self.sub_title_font)
@@ -411,7 +412,115 @@ class CardGenerator():
         drawer.text(xy=row2, text="Anti-ship", fill=(255,255,255), font=self.stats_font)
         drawer.text(xy=self._add_coords_(row2, number_dsplc), text=str(CIWS.dmg_ship), 
         fill=colors.color(Stat.CIWS_DMG_SHIP, CIWS.dmg_ship), font=self.stats_font)
-    
+
+    # Sets pretty coordinates for ship image and surrounding stats for known ships
+    def _set_pretty_coords_(self, ship):
+    # This would actually make sense to put in a db table, but it's kinda easier to manipulate
+    # the numbers here.
+        if (ship.name == "FH/E-946"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/fhe.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-287,-65))
+            self.integrity_coords = self._add_coords_(self.center_coords, (-20,5))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (0,10))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (-43,-5))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-30,10))
+
+        if (ship.name == "CGp-805"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/805.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-450,-30))
+            self.integrity_coords = self._add_coords_(self.center_coords, (-20,5))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-157,10))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (-43,-5))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (196,10))
+
+        if (ship.name == "CGw-603"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/603.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-450,-30))
+            self.integrity_coords = self._add_coords_(self.center_coords, (-20,13))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-160,20))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (-20,-5))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (165,20))
+
+        if (ship.name == "B/Pl-659"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/bpl.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-320,-30))
+            self.integrity_coords = self._add_coords_(self.center_coords, (-20,13))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-15,20))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (-20,20))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-5,20))
+
+        if (ship.name == "BCM-645"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/bcm.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-250,-35))
+            self.integrity_coords = self._add_coords_(self.center_coords, (-20,13))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (25,20))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (-20,20))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (20,20))
+
+        if (ship.name == "HAc-B27"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/hac.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-230,-100))
+            self.integrity_coords = self._add_coords_(self.center_coords, (110,7))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (50,10))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (110,15))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-70,10))
+
+        if (ship.name == "LAc-B20"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/lac.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-230,-93))
+            self.integrity_coords = self._add_coords_(self.center_coords, (110,7))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (50,10))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (110,15))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-70,10))
+
+        if (ship.name == "CoGw-761"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/cogw.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-280,-20))
+            self.integrity_coords = self._add_coords_(self.center_coords, (-20,13))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (5,20))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (-20,10))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-38,20))
+
+        if (ship.name == "CGp-901"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/901.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-450,-35))
+            self.integrity_coords = self._add_coords_(self.center_coords, (19,13))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-165,20))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (0,-5))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (175,20))
+
+        if (ship.name == "LAc/E-N2"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/lace.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-230,-93))
+            self.integrity_coords = self._add_coords_(self.center_coords, (117,7))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (50,10))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (117,15))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-70,10))
+
+        if (ship.name == "SuM/E-858"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/sume.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-210,-83))
+            self.integrity_coords = self._add_coords_(self.center_coords, (0,7))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (160,10))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (-35,5))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-80,10))
+
+        if (ship.name == "CL/E-866"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/cle.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-480,-32))
+            self.integrity_coords = self._add_coords_(self.center_coords, (-125,5))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-132,12))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (-177,7))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (176,10))
+
+        if (ship.name == "CL/P-921"):
+            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/921.png")
+            self.ship_coords = self._add_coords_(self.center_coords, (-450,-25))
+            self.integrity_coords = self._add_coords_(self.center_coords, (130,5))
+            self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-157,10))
+            self.armor_sides_coords = self._add_coords_(self.armor_sides_coords, (130,10))
+            self.armor_back_coords = self._add_coords_(self.armor_back_coords, (196,10))
+
     def _add_coords_(self, first, second):
         return tuple(sum(x) for x in zip(first, second))
 
@@ -419,4 +528,3 @@ class CardGenerator():
         # Returns the start coordinates of the next stat row based on self.stat_vertical_sep
         # Not yet used everywhere, refactor
         return tuple(sum(x) for x in zip(currentrow, self.stat_vertical_sep))
-
