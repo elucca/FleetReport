@@ -92,7 +92,7 @@ from application.cardgenerator.card_generator import CardGenerator, CardSize
 from application.ships.models import Ship
 
 shiplist = Ship.query.all()
-card_generator = CardGenerator(CardSize.BIG)
+card_generator = CardGenerator()
 
 for ship in shiplist:
-    card_generator.generate_card(ship)
+    card_generator.generate_card(ship, CardSize.WEB)

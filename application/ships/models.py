@@ -17,6 +17,7 @@ class Ship(db.Model):
     armor_sides = db.Column(db.Integer, nullable=False)
     armor_back = db.Column(db.Integer, nullable=False)
     
+    card = db.relationship('ShipCard', backref='ship', lazy=True)
     # A victim of copypaste in weapons/models.py
     lasers = db.relationship('Laser', cascade="all, delete, delete-orphan", backref='ship', lazy=True)
     missiles = db.relationship('Missile', backref='ship', lazy=True)
@@ -41,3 +42,15 @@ class Ship(db.Model):
         self.armor_front = armor_front
         self.armor_sides = armor_sides
         self.armor_back = armor_back
+
+# This table contains the file path to a ship's card, if one exists
+class ShipCard(db.Model):
+    __tablename__ = 'shipcard'
+
+    id = db.Column(db.Integer, primary_key=True)
+    filepath = db.Column(db.Text, nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+
+    def __init__(self, filepath, ship_id):
+        self.filepath = filepath
+        self.ship_id = ship_id

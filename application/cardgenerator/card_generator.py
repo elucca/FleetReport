@@ -1,15 +1,18 @@
 from PIL import Image, ImageDraw, ImageFont
+from PIL.Image import LANCZOS
 from application.cardgenerator.card_size import CardSize
 from application.cardgenerator.statcolor import StatColor, Stat
 from application.weapons.models import *
 
 class CardGenerator():
 
-    def __init__(self, card_size):
+    def __init__(self):
         pass
 
-    def generate_card(self, ship):
-        self.init_card(CardSize.BIG)
+    def generate_card(self, ship, card_size):
+        # Generates and saves a card for the ship. Returns the file path of the saved card.
+
+        self._init_card_()
 
         self.stat_vertical_sep = (0,70)
 
@@ -52,9 +55,8 @@ class CardGenerator():
         drawer.text(xy=col1_row3, text="Delta-v", fill=(255,255,255), font=self.stats_font)
         drawer.text(xy=self._add_coords_(col1_row3, number_dsplc), text=str(ship.delta_v), fill=colors.color(Stat.DELTA_V, ship.delta_v), font=self.stats_font)
         
-        # Bad hack: Displace active evasion (if one letter) and endurance more to the right to align with passive.
-        # Only works right if passive is a minus sign and two digits, which it currently always is,
-        # but...
+        # Place evasion numbers further right if they are made of only one character. Bad hack,
+        # since it isn't clean as numbers vary in size, and it'll break if the font changes.
         evasion_dsplc = number_dsplc
         if len(str(ship.evasion_active)) == 1:
             evasion_dsplc = (392,0)
@@ -79,13 +81,11 @@ class CardGenerator():
 
         self._draw_weapons_(self._get_weapons_(ship), drawer, colors)
         
-        # Strip dashes from the ship's name for file name
-        ship_name = ship.name.replace('/', '')
-        self.card.save("application/cardgenerator/assets/generated/ship cards/creharr/" + ship_name + ".png")
+        # Save file at appropriate scale, and return the file path
+        return self._save_card_(ship, card_size)
 
-    def init_card(self, card_size):
-        # Called when self.card generator is instantiated. Can also be called again to change the self.card size.
-        # This method doesn't actually use the self.card size yet.
+    def _init_card_(self):
+        # Called when self.card generator is instantiated.
 
         # Load self.card template
         self.card = Image.open("application/cardgenerator/assets/templates/card_base_1.png")
@@ -106,6 +106,19 @@ class CardGenerator():
         self.laser_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 62)
         self.laser_endtext_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 40)
         self.flavor_font = ImageFont.truetype("application/cardgenerator/assets/fonts/CharisSIL-B.ttf", 47)
+
+    def _save_card_(self, ship, card_size):
+        # Strip dashes from the ship's name for file name
+        ship_name = ship.name.replace('/', '')
+        filepath = "application/cardgenerator/assets/generated/ship cards/creharr/print/" + ship_name + ".png"
+
+        # Scale image if size is other than default (CardSize.PRINT)
+        if card_size == CardSize.WEB:
+            self.card = self.card.resize(size=CardSize.WEB.value, resample=Image.LANCZOS)
+            filepath = "application/cardgenerator/assets/generated/ship cards/creharr/web/" + ship_name + ".png"
+
+        self.card.save(filepath)
+
 
     def _draw_ship_(self, ship, drawer, colors):
         # Because the placement of the ship image and the armor numbers around it is fairly ad-hoc, it needs to be
@@ -528,3 +541,7 @@ class CardGenerator():
         # Returns the start coordinates of the next stat row based on self.stat_vertical_sep
         # Not yet used everywhere, refactor
         return tuple(sum(x) for x in zip(currentrow, self.stat_vertical_sep))
+
+    def _scale_card_(self, card, card_size):
+        # Because everything in CardGenerator is defined in pixel coordinates
+        pass
