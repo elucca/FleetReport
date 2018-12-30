@@ -125,6 +125,3 @@ FleetReport.pyproj.user
 
 # FleetReport database file
 fleetreport.db
-
-# FleetReport generated assets
-application/cardgenerator/assets/generated
