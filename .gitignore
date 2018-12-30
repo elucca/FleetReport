@@ -123,5 +123,8 @@ FleetReport.pyproj.user
 .vs
 .vscode
 
-# Database files
+# FleetReport database file
 fleetreport.db
+
+# FleetReport generated assets
+application/cardgenerator/assets/generated
