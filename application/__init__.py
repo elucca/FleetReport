@@ -87,7 +87,7 @@ admin.is_admin = True
 db.session().add(admin)
 db.session().commit()
 
-# Very temporary card generator testing goes here
+# Generate missing ship cards
 from application.cardgenerator.card_generator import CardGenerator, CardSize
 from application.ships.models import Ship
 
@@ -95,4 +95,5 @@ shiplist = Ship.query.all()
 card_generator = CardGenerator()
 
 for ship in shiplist:
-    card_generator.generate_card(ship, CardSize.WEB)
+    #if not ship.card:
+    card_generator.generate_card(ship, CardSize.PRINT)

@@ -1,10 +1,11 @@
 from flask import render_template, request, redirect, url_for
 
 from application import app, db, login_required
-from application.ships.models import Ship
+from application.ships.models import Ship, ShipCard
 from application.ships.forms import ShipCreateForm
 from application.factions.models import Faction, factionship
 from application.weapons.models import *
+from application.cardgenerator.card_generator import CardGenerator, CardSize
 
 @app.route("/")
 def index():
@@ -150,3 +151,17 @@ def _unassociate_from_factions_(ship):
     for faction in factions:
         if ship in faction.ships:
             faction.ships.remove(ship)
+
+# Adds a ship card to this ship
+# Should adjust this to guarantee there is only one
+def add_card(ship, card_size):
+    if len(ship.card) != 0:
+        ship.card.clear()
+
+    filepath = CardGenerator.generate_card(ship, card_size)
+
+    card = ShipCard(filepath, ship.id)
+    
+    db.session().add(card)
+    db.session().commit()
+

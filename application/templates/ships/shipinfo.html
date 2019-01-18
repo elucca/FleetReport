@@ -2,269 +2,277 @@
 
 {% block body %}
   <div class="container">
-    <!--Main ship row-->
-    <div class="row">
-      <!--Ship info column-->
-      <div class="col-md-6">
-        <h4>{{ ship.name }}</h4>
-        <span><b>Cost: </b></span>
-        <span>{{ ship.cost }}</span>
-        <!-- Link to update the ship. -->
-        {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-        <a href="{{ url_for('ships_update_form', ship_id=ship.id) }}" class="btn btn-secondary btn-sm ml-4" role="button">Modify ship</a>
-        {% endif %}
-        <br>
-        <br>
 
-        <table class="table table-striped">
+    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#shiptable" aria-expanded="false" aria-controls="collapseExample">
+        Ship table
+    </button>
 
-          <tr>
-            <th scope="row">Command-capable</th>
-            <td>{{ ship.command_capable }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Engine type</th>
-            <td>{{ ship.propulsion_type }}</td>
-          </tr>
-          
-          <tr>
-            <th scope="row">Move</th>
-            <td>{{ ship.move }}</td>
-          </tr>
-
-            <th scope="row">Delta-v</th>
-            <td>{{ ship.delta_v }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Passive evasion</th>
-            <td>{{ ship.evasion_passive }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Active evasion</th>
-            <td>{{ ship.evasion_active }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Evasion endurance</th>
-            <td>{{ ship.evasion_endurance }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Integrity</th>
-            <td>{{ ship.integrity }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Primary facing</th>
-            <td>{{ ship.primary_facing }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Front armor</th>
-            <td>{{ ship.armor_front }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Side armor</th>
-            <td>{{ ship.armor_sides }}</td>
-          </tr>
-
-          <tr>
-            <th scope="row">Rear armor</th>
-            <td>{{ ship.armor_back }}</td>
-          </tr>
-        </table>
-        <br>
-
-        <!--Weapons row
-        Currently spacing between grid elements is done with breaklines, should be done with
-        Bootstrap classes.-->
-        <div class="row">
-          {% for laser in ship.lasers %}
-          <!--Individual weapon column-->
-          <div class="col-md-6">
-            <table class="table table-striped">
-              <h5>Laser</h5>
-              <!-- Link to update the laser. -->
-              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('laser_update_form', ship_id=laser.ship.id, laser_id=laser.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
-              &nbsp
-              <a href="{{ url_for('laser_range_point_create_form', ship_id=laser.ship.id, laser_id=laser.id) }}" class="btn btn-secondary btn-sm" role="button">Add range point</a>
-              {% endif %}
-              <tr>
-                <th scope="row">Name</th>
-                <td>{{ laser.name }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Turreted</th>
-                <td>{{ laser.turreted }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Anti-missile damage</th>
-                <td>{{ laser.laser_dmg_missile }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Range — Damage</th>
-              </tr>
-
-              {% for rangepoint in laser.rangepoints %}
-              <tr>
-                <!--This is really ugly-->
-                <td>{{ rangepoint.lrange }} &nbsp&nbsp&nbsp&nbsp&nbsp — &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ rangepoint.dmg }}</td>
-                <td>
-                  {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-                  <form class="form-inline" method="POST" action="{{ url_for('laser_range_point_remove', ship_id=laser.ship.id, laser_id=laser.id, laserrangepoint_id=rangepoint.id) }}">
-                    <button type="submit" class="btn btn-link btn-sm">X</button>
-                  </form>
-                  {% endif %}
-                </td>
-              </tr>
-              {% endfor %}
-
-            </table>
-            <br>
-          </div>
-          {% endfor %}
-
-          {% for missile in ship.missiles %}
-          <!--Individual weapon column-->
-          <div class="col-md-6">
-            <table class="table table-striped">
-              <h5>Missile</h5>
-              <!-- Link to update the missile. -->
-              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('missile_update_form', ship_id=missile.ship.id, missile_id=missile.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
-              {% endif %}
-              <tr>
-                <th scope="row">Name</th>
-                <td>{{ missile.name }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Volley</th>
-                <td>{{ missile.volley }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Stores</th>
-                <td>{{ missile.stores }}</td>
-              </tr>
-            </table>
-            <br>
-          </div>
-          {% endfor %}
-
-          {% for ciws in ship.CIWSs %}
-          <!--Individual weapon column-->
-          <div class="col-md-6">
-            <table class="table table-striped">
-              <h5>CIWS</h5>
-              <!-- Link to update the CIWS. -->
-              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('CIWS_update_form', ship_id=ciws.ship.id, ciws_id=ciws.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
-              {% endif %}
-              <tr>
-                <th scope="row">Name</th>
-                <td>{{ ciws.name }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Anti-missile damage</th>
-                <td>{{ ciws.dmg_missile }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Anti-ship damage</th>
-                <td>{{ ciws.dmg_ship }}</td>
-              </tr>
-            </table>
-            <br>
-          </div>
-          {% endfor %}
-
-          {% for area_missile in ship.area_missiles %}
-          <!--Individual weapon column-->
-          <div class="col-md-6">
-            <table class="table table-striped">
-              <h5>Area missile</h5>
-              <!-- Link to update the area missile. -->
-              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('area_missile_update_form', ship_id=area_missile.ship.id, areamissile_id=area_missile.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
-              {% endif %}
-              <tr>
-                <th scope="row">Name</th>
-                <td>{{ area_missile.name }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Range</th>
-                <td>{{ area_missile.am_range }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Anti-missile damage</th>
-                <td>{{ area_missile.dmg_missile }}</td>
-              </tr>
-
-              <tr>
-                <th scope="row">Anti-ship damage</th>
-                <td>{{ area_missile.dmg_ship }}</td>
-              </tr>
-              
-            </table>
-            <br>
-          </div>
-          {% endfor %}
-
-          {% for ewar in ship.ewars %}
-          <!--Individual weapon column-->
-          <div class="col-md-6">
-            <table class="table table-striped">
-              <h5>Ewar suite</h5>
-              <!-- Link to update the area missile. -->
-              {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-              <a href="{{ url_for('ewar_update_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
-              &nbsp
-              <a href="{{ url_for('ewar_ability_create_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}" class="btn btn-secondary btn-sm" role="button">Add ability</a>
-              {% endif %}
-              <tr>
-                <th scope="row">Name</th>
-                <td>{{ ewar.name }}</td>
-              </tr>
-
-              {% for ability in ewar.abilities %}
-              <tr>
-                <th scope="row">Ability</th>
-                <td>{{ ability.ability }} <br> (Range: {{ ability.erange }})</td>
-                <td>
-                  {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
-                  <form class="form-inline" method="POST" action="{{ url_for('ewar_ability_remove', ship_id=ewar.ship.id, ewar_id=ewar.id, ewarability_id=ability.id) }}">
-                    <button type="submit" class="btn btn-link btn-sm">X</button>
-                  </form>
-                  {% endif %}
-                </td>
-              </tr>
-              {% endfor %}
-
-            </table>
-            <br>
-          </div>
-          {% endfor %}
-
-        </div>
-        <br>
-        <span><b>Belongs to faction(s):</b></span>
-        <br>
-        {% for faction in ship.factions %}
-          <span>{{ faction.name }}</span>
+    <div class="collapse" id="shiptable">
+      <br>
+      <!--Main ship row-->
+      <div class="row">
+        <!--Ship info column-->
+        <div class="col-md-6">
+          <h4>{{ ship.name }}</h4>
+          <span><b>Cost: </b></span>
+          <span>{{ ship.cost }}</span>
+          <!-- Link to update the ship. -->
+          {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+          <a href="{{ url_for('ships_update_form', ship_id=ship.id) }}" class="btn btn-secondary btn-sm ml-4" role="button">Modify ship</a>
+          {% endif %}
           <br>
-        {% endfor %}
+          <br>
+
+          <table class="table table-striped">
+
+            <tr>
+              <th scope="row">Command-capable</th>
+              <td>{{ ship.command_capable }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Engine type</th>
+              <td>{{ ship.propulsion_type }}</td>
+            </tr>
+            
+            <tr>
+              <th scope="row">Move</th>
+              <td>{{ ship.move }}</td>
+            </tr>
+
+              <th scope="row">Delta-v</th>
+              <td>{{ ship.delta_v }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Passive evasion</th>
+              <td>{{ ship.evasion_passive }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Active evasion</th>
+              <td>{{ ship.evasion_active }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Evasion endurance</th>
+              <td>{{ ship.evasion_endurance }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Integrity</th>
+              <td>{{ ship.integrity }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Primary facing</th>
+              <td>{{ ship.primary_facing }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Front armor</th>
+              <td>{{ ship.armor_front }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Side armor</th>
+              <td>{{ ship.armor_sides }}</td>
+            </tr>
+
+            <tr>
+              <th scope="row">Rear armor</th>
+              <td>{{ ship.armor_back }}</td>
+            </tr>
+          </table>
+          <br>
+
+          <!--Weapons row
+          Currently spacing between grid elements is done with breaklines, should be done with
+          Bootstrap classes.-->
+          <div class="row">
+            {% for laser in ship.lasers %}
+            <!--Individual weapon column-->
+            <div class="col-md-6">
+              <table class="table table-striped">
+                <h5>Laser</h5>
+                <!-- Link to update the laser. -->
+                {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                <a href="{{ url_for('laser_update_form', ship_id=laser.ship.id, laser_id=laser.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
+                &nbsp
+                <a href="{{ url_for('laser_range_point_create_form', ship_id=laser.ship.id, laser_id=laser.id) }}" class="btn btn-secondary btn-sm" role="button">Add range point</a>
+                {% endif %}
+                <tr>
+                  <th scope="row">Name</th>
+                  <td>{{ laser.name }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Turreted</th>
+                  <td>{{ laser.turreted }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Anti-missile damage</th>
+                  <td>{{ laser.laser_dmg_missile }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Range — Damage</th>
+                </tr>
+
+                {% for rangepoint in laser.rangepoints %}
+                <tr>
+                  <!--This is really ugly-->
+                  <td>{{ rangepoint.lrange }} &nbsp&nbsp&nbsp&nbsp&nbsp — &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ rangepoint.dmg }}</td>
+                  <td>
+                    {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                    <form class="form-inline" method="POST" action="{{ url_for('laser_range_point_remove', ship_id=laser.ship.id, laser_id=laser.id, laserrangepoint_id=rangepoint.id) }}">
+                      <button type="submit" class="btn btn-link btn-sm">X</button>
+                    </form>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+
+              </table>
+              <br>
+            </div>
+            {% endfor %}
+
+            {% for missile in ship.missiles %}
+            <!--Individual weapon column-->
+            <div class="col-md-6">
+              <table class="table table-striped">
+                <h5>Missile</h5>
+                <!-- Link to update the missile. -->
+                {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                <a href="{{ url_for('missile_update_form', ship_id=missile.ship.id, missile_id=missile.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
+                {% endif %}
+                <tr>
+                  <th scope="row">Name</th>
+                  <td>{{ missile.name }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Volley</th>
+                  <td>{{ missile.volley }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Stores</th>
+                  <td>{{ missile.stores }}</td>
+                </tr>
+              </table>
+              <br>
+            </div>
+            {% endfor %}
+
+            {% for ciws in ship.CIWSs %}
+            <!--Individual weapon column-->
+            <div class="col-md-6">
+              <table class="table table-striped">
+                <h5>CIWS</h5>
+                <!-- Link to update the CIWS. -->
+                {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                <a href="{{ url_for('CIWS_update_form', ship_id=ciws.ship.id, ciws_id=ciws.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
+                {% endif %}
+                <tr>
+                  <th scope="row">Name</th>
+                  <td>{{ ciws.name }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Anti-missile damage</th>
+                  <td>{{ ciws.dmg_missile }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Anti-ship damage</th>
+                  <td>{{ ciws.dmg_ship }}</td>
+                </tr>
+              </table>
+              <br>
+            </div>
+            {% endfor %}
+
+            {% for area_missile in ship.area_missiles %}
+            <!--Individual weapon column-->
+            <div class="col-md-6">
+              <table class="table table-striped">
+                <h5>Area missile</h5>
+                <!-- Link to update the area missile. -->
+                {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                <a href="{{ url_for('area_missile_update_form', ship_id=area_missile.ship.id, areamissile_id=area_missile.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
+                {% endif %}
+                <tr>
+                  <th scope="row">Name</th>
+                  <td>{{ area_missile.name }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Range</th>
+                  <td>{{ area_missile.am_range }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Anti-missile damage</th>
+                  <td>{{ area_missile.dmg_missile }}</td>
+                </tr>
+
+                <tr>
+                  <th scope="row">Anti-ship damage</th>
+                  <td>{{ area_missile.dmg_ship }}</td>
+                </tr>
+                
+              </table>
+              <br>
+            </div>
+            {% endfor %}
+
+            {% for ewar in ship.ewars %}
+            <!--Individual weapon column-->
+            <div class="col-md-6">
+              <table class="table table-striped">
+                <h5>Ewar suite</h5>
+                <!-- Link to update the area missile. -->
+                {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                <a href="{{ url_for('ewar_update_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}" class="btn btn-secondary btn-sm" role="button">Modify</a>
+                &nbsp
+                <a href="{{ url_for('ewar_ability_create_form', ship_id=ewar.ship.id, ewar_id=ewar.id) }}" class="btn btn-secondary btn-sm" role="button">Add ability</a>
+                {% endif %}
+                <tr>
+                  <th scope="row">Name</th>
+                  <td>{{ ewar.name }}</td>
+                </tr>
+
+                {% for ability in ewar.abilities %}
+                <tr>
+                  <th scope="row">Ability</th>
+                  <td>{{ ability.ability }} <br> (Range: {{ ability.erange }})</td>
+                  <td>
+                    {% if current_user.is_authenticated and current_user.role() == "ADMIN" %}
+                    <form class="form-inline" method="POST" action="{{ url_for('ewar_ability_remove', ship_id=ewar.ship.id, ewar_id=ewar.id, ewarability_id=ability.id) }}">
+                      <button type="submit" class="btn btn-link btn-sm">X</button>
+                    </form>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+
+              </table>
+              <br>
+            </div>
+            {% endfor %}
+
+          </div>
+          <br>
+          <span><b>Belongs to faction(s):</b></span>
+          <br>
+          {% for faction in ship.factions %}
+            <span>{{ faction.name }}</span>
+            <br>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>

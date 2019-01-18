@@ -18,14 +18,13 @@ class Ship(db.Model):
     armor_back = db.Column(db.Integer, nullable=False)
     
     card = db.relationship('ShipCard', backref='ship', lazy=True)
-    # A victim of copypaste in weapons/models.py
+    # Weapons
     lasers = db.relationship('Laser', cascade="all, delete, delete-orphan", backref='ship', lazy=True)
     missiles = db.relationship('Missile', backref='ship', lazy=True)
     CIWSs = db.relationship('CIWS', backref='ship', lazy=True)
     area_missiles = db.relationship('AreaMissile', backref='ship', lazy=True)
     ewars = db.relationship('Ewar', backref='ship', lazy=True)
 
-    # Weapons are temporarily only strings. Eventually it'll be one-to-many relationships to weapon tables
     def __init__(self, name, cost, command_capable, propulsion_type, move, delta_v, evasion_passive, evasion_active, evasion_endurance, 
                  integrity, primary_facing, armor_front, armor_sides, armor_back):
         self.name = name
@@ -49,7 +48,7 @@ class ShipCard(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     filepath = db.Column(db.Text, nullable=False)
-    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False)
+    ship_id = db.Column(db.Integer, db.ForeignKey('ship.id'), nullable=False, index=True)
 
     def __init__(self, filepath, ship_id):
         self.filepath = filepath

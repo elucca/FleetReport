@@ -119,6 +119,7 @@ class CardGenerator():
 
         self.card.save(filepath)
 
+        return filepath
 
     def _draw_ship_(self, ship, drawer, colors):
         # Because the placement of the ship image and the armor numbers around it is fairly ad-hoc, it needs to be
@@ -208,10 +209,6 @@ class CardGenerator():
         
         for ability in ewar.abilities:
             if ability.ability == "Defense jamming":
-                abilities.insert(0, ability)        
-               
-        for ability in ewar.abilities:
-            if ability.ability == "Missile jamming":
                 abilities.insert(0, ability)
 
         for ability in ewar.abilities:
