@@ -88,7 +88,8 @@ db.session().add(admin)
 db.session().commit()
 
 # Generate missing ship cards
-from application.cardgenerator.card_generator import CardGenerator, CardSize
+from application.dataIO.cardgenerator.card_generator import CardGenerator
+from application.dataIO.cardgenerator.card_size import CardSize
 from application.ships.models import Ship
 
 shiplist = Ship.query.all()

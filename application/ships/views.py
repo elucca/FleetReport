@@ -5,7 +5,8 @@ from application.ships.models import Ship, ShipCard
 from application.ships.forms import ShipCreateForm
 from application.factions.models import Faction, factionship
 from application.weapons.models import *
-from application.cardgenerator.card_generator import CardGenerator, CardSize
+from application.dataIO.cardgenerator.card_generator import CardGenerator
+
 
 @app.route("/")
 def index():

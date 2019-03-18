@@ -1,8 +1,6 @@
 from enum import Enum
 
 class StatColor():
-    # Note: Doesn't actually fully work yet: For those stats which are strings, need to parse out
-    # the integer part and give color based on that.
     # This stuff isn't very readable, which is bad because I might want to change the thresholds.
     # Maybe do something about that.
 

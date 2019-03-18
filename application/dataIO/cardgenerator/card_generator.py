@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from PIL.Image import LANCZOS
-from application.cardgenerator.card_size import CardSize
-from application.cardgenerator.statcolor import StatColor, Stat
+from application.dataIO.cardgenerator.card_size import CardSize
+from application.dataIO.cardgenerator.statcolor import StatColor, Stat
 from application.weapons.models import *
 
 class CardGenerator():
@@ -88,34 +88,34 @@ class CardGenerator():
         # Called when self.card generator is instantiated.
 
         # Load self.card template
-        self.card = Image.open("application/cardgenerator/assets/templates/card_base_1.png")
+        self.card = Image.open("application/dataIO/cardgenerator/assets/templates/card_base_1.png")
         # Load common assets
-        self.cmd_star = Image.open("application/cardgenerator/assets/images/misc/cmd_star.png")
-        self.self_defense_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/self_defense_jamming.png")
-        self.cover_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/cover_jamming.png")
-        self.high_intensity_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/high_intensity_jamming.png")
-        self.defense_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/defense_jamming.png")
-        self.missile_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/missile_jamming.png")
-        self.comms_jamming = Image.open("application/cardgenerator/assets/images/ewar icons/comms_jamming.png")
-        self.ECCM = Image.open("application/cardgenerator/assets/images/ewar icons/eccm.png")       
+        self.cmd_star = Image.open("application/dataIO/cardgenerator/assets/images/misc/cmd_star.png")
+        self.self_defense_jamming = Image.open("application/dataIO/cardgenerator/assets/images/ewar icons/self_defense_jamming.png")
+        self.cover_jamming = Image.open("application/dataIO/cardgenerator/assets/images/ewar icons/cover_jamming.png")
+        self.high_intensity_jamming = Image.open("application/dataIO/cardgenerator/assets/images/ewar icons/high_intensity_jamming.png")
+        self.defense_jamming = Image.open("application/dataIO/cardgenerator/assets/images/ewar icons/defense_jamming.png")
+        self.missile_jamming = Image.open("application/dataIO/cardgenerator/assets/images/ewar icons/missile_jamming.png")
+        self.comms_jamming = Image.open("application/dataIO/cardgenerator/assets/images/ewar icons/comms_jamming.png")
+        self.ECCM = Image.open("application/dataIO/cardgenerator/assets/images/ewar icons/eccm.png")       
 
         # Set fonts
-        self.ship_title_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 94)
-        self.sub_title_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 54)
-        self.stats_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 59)
-        self.laser_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 62)
-        self.laser_endtext_font = ImageFont.truetype("application/cardgenerator/assets/fonts/Oswald-Bold.ttf", 40)
-        self.flavor_font = ImageFont.truetype("application/cardgenerator/assets/fonts/CharisSIL-B.ttf", 47)
+        self.ship_title_font = ImageFont.truetype("application/dataIO/cardgenerator/assets/fonts/Oswald-Bold.ttf", 94)
+        self.sub_title_font = ImageFont.truetype("application/dataIO/cardgenerator/assets/fonts/Oswald-Bold.ttf", 54)
+        self.stats_font = ImageFont.truetype("application/dataIO/cardgenerator/assets/fonts/Oswald-Bold.ttf", 59)
+        self.laser_font = ImageFont.truetype("application/dataIO/cardgenerator/assets/fonts/Oswald-Bold.ttf", 62)
+        self.laser_endtext_font = ImageFont.truetype("application/dataIO/cardgenerator/assets/fonts/Oswald-Bold.ttf", 40)
+        self.flavor_font = ImageFont.truetype("application/dataIO/cardgenerator/assets/fonts/CharisSIL-B.ttf", 47)
 
     def _save_card_(self, ship, card_size):
         # Strip dashes from the ship's name for file name
         ship_name = ship.name.replace('/', '')
-        filepath = "application/cardgenerator/assets/generated/ship cards/creharr/print/" + ship_name + ".png"
+        filepath = "application/dataIO/cardgenerator/assets/generated/ship cards/creharr/print/" + ship_name + ".png"
 
         # Scale image if size is other than default (CardSize.PRINT)
         if card_size == CardSize.WEB:
             self.card = self.card.resize(size=CardSize.WEB.value, resample=Image.LANCZOS)
-            filepath = "application/cardgenerator/assets/generated/ship cards/creharr/web/" + ship_name + ".png"
+            filepath = "application/dataIO/cardgenerator/assets/generated/ship cards/creharr/web/" + ship_name + ".png"
 
         self.card.save(filepath)
 
@@ -428,7 +428,7 @@ class CardGenerator():
     # This would actually make sense to put in a db table, but it's kinda easier to manipulate
     # the numbers here.
         if (ship.name == "FH/E-946"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/fhe.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/fhe.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-287,-65))
             self.integrity_coords = self._add_coords_(self.center_coords, (-20,5))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (0,10))
@@ -436,7 +436,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-30,10))
 
         if (ship.name == "CGp-805"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/805.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/805.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-450,-30))
             self.integrity_coords = self._add_coords_(self.center_coords, (-20,5))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-157,10))
@@ -444,7 +444,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (196,10))
 
         if (ship.name == "CGw-603"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/603.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/603.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-450,-30))
             self.integrity_coords = self._add_coords_(self.center_coords, (-20,13))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-160,20))
@@ -452,7 +452,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (165,20))
 
         if (ship.name == "B/Pl-659"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/bpl.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/bpl.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-320,-30))
             self.integrity_coords = self._add_coords_(self.center_coords, (-20,13))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-15,20))
@@ -460,7 +460,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-5,20))
 
         if (ship.name == "BCM-645"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/bcm.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/bcm.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-250,-35))
             self.integrity_coords = self._add_coords_(self.center_coords, (-20,13))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (25,20))
@@ -468,7 +468,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (20,20))
 
         if (ship.name == "HAc-B27"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/hac.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/hac.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-230,-100))
             self.integrity_coords = self._add_coords_(self.center_coords, (110,7))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (50,10))
@@ -476,7 +476,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-70,10))
 
         if (ship.name == "LAc-B20"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/lac.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/lac.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-230,-93))
             self.integrity_coords = self._add_coords_(self.center_coords, (110,7))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (50,10))
@@ -484,7 +484,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-70,10))
 
         if (ship.name == "CoGw-761"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/cogw.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/cogw.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-280,-20))
             self.integrity_coords = self._add_coords_(self.center_coords, (-20,13))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (5,20))
@@ -492,7 +492,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-38,20))
 
         if (ship.name == "CGp-901"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/901.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/901.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-450,-35))
             self.integrity_coords = self._add_coords_(self.center_coords, (19,13))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-165,20))
@@ -500,7 +500,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (175,20))
 
         if (ship.name == "LAc/E-N2"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/lace.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/lace.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-230,-93))
             self.integrity_coords = self._add_coords_(self.center_coords, (117,7))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (50,10))
@@ -508,7 +508,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-70,10))
 
         if (ship.name == "SuM/E-858"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/sume.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/sume.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-210,-83))
             self.integrity_coords = self._add_coords_(self.center_coords, (0,7))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (160,10))
@@ -516,7 +516,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (-80,10))
 
         if (ship.name == "CL/E-866"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/cle.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/cle.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-480,-32))
             self.integrity_coords = self._add_coords_(self.center_coords, (-125,5))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-132,12))
@@ -524,7 +524,7 @@ class CardGenerator():
             self.armor_back_coords = self._add_coords_(self.armor_back_coords, (176,10))
 
         if (ship.name == "CL/P-921"):
-            self.ship_image = Image.open("application/cardgenerator/assets/images/ships/creharr/921.png")
+            self.ship_image = Image.open("application/dataIO/cardgenerator/assets/images/ships/creharr/921.png")
             self.ship_coords = self._add_coords_(self.center_coords, (-450,-25))
             self.integrity_coords = self._add_coords_(self.center_coords, (130,5))
             self.armor_front_coords = self._add_coords_(self.armor_front_coords, (-157,10))
