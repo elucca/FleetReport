@@ -70,6 +70,7 @@ class Missile(Weapon):
 
     # Fields for serialization
     _default_fields = [
+        "name",
         "volley",
         "stores"
     ]
@@ -90,6 +91,7 @@ class CIWS(Weapon):
 
     # Fields for serialization
     _default_fields = [
+        "name",
         "dmg_missile",
         "dmg_ship"
     ]
@@ -110,6 +112,7 @@ class AreaMissile(Weapon):
 
     # Fields for serialization
     _default_fields = [
+        "name",
         "am_range",
         "dmg_missile",
         "dmg_ship"
@@ -130,6 +133,7 @@ class Ewar(Weapon):
 
     # Fields for serialization
     _default_fields = [
+        "name",
         "abilities"
     ]
 
