@@ -101,13 +101,14 @@ for ship in shiplist:
     pass
     #if not ship.card:
     card_generator.generate_card(ship, CardSize.PRINT)
+
     # Note: Very important to_dict is called with an empty array for the _hide parameter.
     # Its default is an empty array, but this default isn't reinitalized for a new call
     # because python.
     encoded_ships.append(ship.to_dict(_hide=[]))
     
-# Serialize ships into json for output
+# Serialize ships into json for outside use
 import json
 
-with open('ships.json', 'w') as outfile:
+with open('application/dataIO/assets/generated/json/ships.json', 'w') as outfile:
     outfile.write(json.dumps(encoded_ships, indent=2))
