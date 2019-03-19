@@ -1,0 +1,107 @@
+[
+  {
+    "evasion_active": 10,
+    "move": 1,
+    "missiles": [],
+    "ewars": [],
+    "delta_v": 10,
+    "evasion_endurance": 10,
+    "evasion_passive": 10,
+    "lasers": [],
+    "command_capable": true,
+    "propulsion_type": "endjinn",
+    "name": "relationship",
+    "area_missiles": [],
+    "integrity": 3,
+    "CIWSs": [],
+    "cost": 100
+  },
+  {
+    "evasion_active": 10,
+    "move": 1,
+    "missiles": [],
+    "ewars": [],
+    "delta_v": 10,
+    "evasion_endurance": 10,
+    "evasion_passive": 10,
+    "lasers": [],
+    "command_capable": true,
+    "propulsion_type": "endjinn",
+    "name": "testship",
+    "area_missiles": [],
+    "integrity": 3,
+    "CIWSs": [],
+    "cost": 100
+  },
+  {
+    "evasion_active": 0,
+    "move": 1,
+    "missiles": [],
+    "ewars": [
+      {
+        "abilities": [
+          {
+            "ability": "High-intensity jamming",
+            "erange": 6
+          },
+          {
+            "ability": "ECCM",
+            "erange": 10
+          },
+          {
+            "ability": "Comms jamming",
+            "erange": 10
+          },
+          {
+            "ability": "Cover jamming",
+            "erange": 6
+          },
+          {
+            "ability": "Cover jamming",
+            "erange": 6
+          }
+        ]
+      }
+    ],
+    "delta_v": 10,
+    "evasion_endurance": 3,
+    "evasion_passive": -30,
+    "lasers": [
+      {
+        "laser_dmg_missile": "3",
+        "turreted": true,
+        "rangepoints": [
+          {
+            "lrange": 6,
+            "dmg": 15
+          },
+          {
+            "lrange": 5,
+            "dmg": 20
+          },
+          {
+            "lrange": 4,
+            "dmg": 25
+          },
+          {
+            "lrange": 3,
+            "dmg": 30
+          }
+        ],
+        "name": "C92T Taiga"
+      }
+    ],
+    "command_capable": true,
+    "propulsion_type": "Pulse-M",
+    "name": "FH/E-946",
+    "area_missiles": [],
+    "integrity": 3,
+    "CIWSs": [
+      {
+        "dmg_missile": "3+dF1",
+        "dmg_ship": "1+dF1"
+      }
+    ],
+    "cost": 100
+  }
+]

@@ -1,6 +1,7 @@
 from application import db
+from application.models import BaseModel
 
-class Ship(db.Model):
+class Ship(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     cost = db.Column(db.Integer, nullable=False)
@@ -18,12 +19,38 @@ class Ship(db.Model):
     armor_back = db.Column(db.Integer, nullable=False)
     
     card = db.relationship('ShipCard', backref='ship', lazy=True)
+
     # Weapons
     lasers = db.relationship('Laser', cascade="all, delete, delete-orphan", backref='ship', lazy=True)
     missiles = db.relationship('Missile', backref='ship', lazy=True)
     CIWSs = db.relationship('CIWS', backref='ship', lazy=True)
     area_missiles = db.relationship('AreaMissile', backref='ship', lazy=True)
     ewars = db.relationship('Ewar', backref='ship', lazy=True)
+
+    # Fields for serialization
+    _default_fields = [
+        "name",
+        "cost",
+        "command_capable",
+        "propulsion_type",
+        "move",
+        "delta_v",
+        "evasion_passive",
+        "evasion_active",
+        "evasion_endurance",
+        "integrity",
+        "lasers",
+        "missiles",
+        "CIWSs",
+        "area_missiles",
+        "ewars"
+    ]
+
+    _hidden_fields = [
+        "id",
+        "card",
+        "factions"
+    ]
 
     def __init__(self, name, cost, command_capable, propulsion_type, move, delta_v, evasion_passive, evasion_active, evasion_endurance, 
                  integrity, primary_facing, armor_front, armor_sides, armor_back):
@@ -43,7 +70,7 @@ class Ship(db.Model):
         self.armor_back = armor_back
 
 # This table contains the file path to a ship's card, if one exists
-class ShipCard(db.Model):
+class ShipCard(BaseModel):
     __tablename__ = 'shipcard'
 
     id = db.Column(db.Integer, primary_key=True)

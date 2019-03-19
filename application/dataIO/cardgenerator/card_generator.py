@@ -4,6 +4,7 @@ from application.dataIO.cardgenerator.card_size import CardSize
 from application.dataIO.cardgenerator.statcolor import StatColor, Stat
 from application.weapons.models import *
 
+# Is there a reason for this to be a class?
 class CardGenerator():
 
     def __init__(self):

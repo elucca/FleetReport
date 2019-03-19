@@ -1,4 +1,5 @@
 from application import db
+from application.models import BaseModel
 
 from sqlalchemy.sql import text
 from sqlalchemy import orm
@@ -9,7 +10,7 @@ factionship = db.Table('factionship',
     db.Column('ship_id', db.Integer, db.ForeignKey('ship.id'), primary_key=True)
 )
 
-class Faction(db.Model):
+class Faction(BaseModel):
     __tablename__ = 'faction'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)

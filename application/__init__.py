@@ -95,6 +95,19 @@ from application.ships.models import Ship
 shiplist = Ship.query.all()
 card_generator = CardGenerator()
 
+encoded_ships = list()
+
 for ship in shiplist:
+    pass
     #if not ship.card:
     card_generator.generate_card(ship, CardSize.PRINT)
+    # Note: Very important to_dict is called with an empty array for the _hide parameter.
+    # Its default is an empty array, but this default isn't reinitalized for a new call
+    # because python.
+    encoded_ships.append(ship.to_dict(_hide=[]))
+    
+# Serialize ships into json for output
+import json
+
+with open('ships.json', 'w') as outfile:
+    outfile.write(json.dumps(encoded_ships, indent=2))
