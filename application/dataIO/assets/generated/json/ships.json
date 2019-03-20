@@ -1,54 +1,12 @@
 [
   {
-    "evasion_active": 0,
-    "delta_v": 10,
-    "cost": 100,
-    "move": 1,
     "name": "FH/E-946",
-    "integrity": 3,
-    "CIWSs": [
-      {
-        "dmg_ship": "1+dF1",
-        "dmg_missile": "3+dF1"
-      }
-    ],
-    "missiles": [],
-    "area_missiles": [],
     "evasion_endurance": 3,
-    "propulsion_type": "Pulse-M",
-    "command_capable": true,
-    "ewars": [
-      {
-        "abilities": [
-          {
-            "erange": 6,
-            "ability": "High-intensity jamming"
-          },
-          {
-            "erange": 10,
-            "ability": "ECCM"
-          },
-          {
-            "erange": 10,
-            "ability": "Comms jamming"
-          },
-          {
-            "erange": 6,
-            "ability": "Cover jamming"
-          },
-          {
-            "erange": 6,
-            "ability": "Cover jamming"
-          }
-        ]
-      }
-    ],
-    "evasion_passive": -30,
+    "missiles": [],
     "lasers": [
       {
         "name": "C92T Taiga",
         "laser_dmg_missile": "3",
-        "turreted": true,
         "rangepoints": [
           {
             "dmg": 15,
@@ -66,35 +24,62 @@
             "dmg": 30,
             "lrange": 3
           }
-        ]
-      }
-    ]
-  },
-  {
-    "evasion_active": 0,
-    "delta_v": 5,
-    "cost": 40,
-    "move": 1,
-    "name": "BCM-645",
-    "integrity": 2,
-    "CIWSs": [
-      {
-        "dmg_ship": "1+dF1",
-        "dmg_missile": "1+dF1"
+        ],
+        "turreted": true
       }
     ],
-    "missiles": [],
-    "area_missiles": [],
-    "evasion_endurance": 2,
-    "propulsion_type": "Pulse-M",
-    "command_capable": false,
-    "ewars": [],
+    "command_capable": true,
+    "integrity": 3,
+    "move": 1,
+    "delta_v": 10,
     "evasion_passive": -30,
+    "CIWSs": [
+      {
+        "name": "B291 Conflux-E",
+        "dmg_ship": "1+dF1",
+        "dmg_missile": "3+dF1"
+      }
+    ],
+    "cost": 100,
+    "propulsion_type": "Pulse-M",
+    "ewars": [
+      {
+        "name": "35E6 Panoply",
+        "abilities": [
+          {
+            "ability": "High-intensity jamming",
+            "erange": 6
+          },
+          {
+            "ability": "ECCM",
+            "erange": 10
+          },
+          {
+            "ability": "Comms jamming",
+            "erange": 10
+          },
+          {
+            "ability": "Cover jamming",
+            "erange": 6
+          },
+          {
+            "ability": "Cover jamming",
+            "erange": 6
+          }
+        ]
+      }
+    ],
+    "evasion_active": 0,
+    "area_missiles": []
+  },
+  {
+    "name": "BCM-645",
+    "evasion_endurance": 2,
+    "missiles": [],
     "lasers": [
       {
         "name": "C803 Chrysalis",
         "laser_dmg_missile": "1",
-        "turreted": false,
         "rangepoints": [
           {
             "dmg": 5,
@@ -116,96 +101,100 @@
             "dmg": 35,
             "lrange": 3
           }
-        ]
+        ],
+        "turreted": false
       }
-    ]
-  },
-  {
-    "evasion_active": 0,
-    "delta_v": 5,
-    "cost": 65,
+    ],
+    "command_capable": false,
+    "integrity": 2,
     "move": 1,
-    "name": "B/Pl-659",
-    "integrity": 3,
+    "delta_v": 5,
+    "evasion_passive": -30,
     "CIWSs": [
       {
+        "name": "B261 Burst",
         "dmg_ship": "1+dF1",
         "dmg_missile": "1+dF1"
       }
     ],
+    "cost": 40,
+    "propulsion_type": "Pulse-M",
+    "ewars": [],
+    "evasion_active": 0,
+    "area_missiles": []
+  },
+  {
+    "name": "B/Pl-659",
+    "evasion_endurance": 2,
     "missiles": [],
+    "lasers": [
+      {
+        "name": "C803 Chrysalis",
+        "laser_dmg_missile": "1",
+        "rangepoints": [
+          {
+            "dmg": 5,
+            "lrange": 7
+          },
+          {
+            "dmg": 15,
+            "lrange": 6
+          },
+          {
+            "dmg": 25,
+            "lrange": 5
+          },
+          {
+            "dmg": 30,
+            "lrange": 4
+          },
+          {
+            "dmg": 35,
+            "lrange": 3
+          }
+        ],
+        "turreted": false
+      }
+    ],
+    "command_capable": false,
+    "integrity": 3,
+    "move": 1,
+    "delta_v": 5,
+    "evasion_passive": -30,
+    "CIWSs": [
+      {
+        "name": "B261 Burst",
+        "dmg_ship": "1+dF1",
+        "dmg_missile": "1+dF1"
+      }
+    ],
+    "cost": 65,
+    "propulsion_type": "Pulse-M",
+    "ewars": [],
+    "evasion_active": 0,
     "area_missiles": [
       {
-        "am_range": 2,
+        "name": "60M2 Umbra",
         "dmg_ship": "1+dF1",
-        "dmg_missile": "2+dF1"
-      }
-    ],
-    "evasion_endurance": 2,
-    "propulsion_type": "Pulse-M",
-    "command_capable": false,
-    "ewars": [],
-    "evasion_passive": -30,
-    "lasers": [
-      {
-        "name": "C803 Chrysalis",
-        "laser_dmg_missile": "1",
-        "turreted": false,
-        "rangepoints": [
-          {
-            "dmg": 5,
-            "lrange": 7
-          },
-          {
-            "dmg": 15,
-            "lrange": 6
-          },
-          {
-            "dmg": 25,
-            "lrange": 5
-          },
-          {
-            "dmg": 30,
-            "lrange": 4
-          },
-          {
-            "dmg": 35,
-            "lrange": 3
-          }
-        ]
+        "dmg_missile": "2+dF1",
+        "am_range": 2
       }
     ]
   },
   {
-    "evasion_active": 0,
-    "delta_v": 7,
-    "cost": 140,
-    "move": 1,
     "name": "CGp-805",
-    "integrity": 4,
-    "CIWSs": [
-      {
-        "dmg_ship": "1+dF1",
-        "dmg_missile": "2+dF1"
-      }
-    ],
+    "evasion_endurance": 3,
     "missiles": [
       {
-        "volley": 5,
-        "stores": 1
+        "name": "98K1 Courser",
+        "stores": 1,
+        "volley": 5
       }
     ],
-    "area_missiles": [],
-    "evasion_endurance": 3,
-    "propulsion_type": "Pulse-L",
-    "command_capable": true,
-    "ewars": [],
-    "evasion_passive": -30,
     "lasers": [
       {
         "name": "C627 Verge",
         "laser_dmg_missile": "2",
-        "turreted": false,
         "rangepoints": [
           {
             "dmg": 15,
@@ -247,40 +236,42 @@
             "dmg": 60,
             "lrange": 3
           }
-        ]
+        ],
+        "turreted": false
       }
-    ]
-  },
-  {
-    "evasion_active": 0,
-    "delta_v": 10,
-    "cost": 175,
-    "move": 1,
-    "name": "CGp-901",
+    ],
+    "command_capable": true,
     "integrity": 4,
+    "move": 1,
+    "delta_v": 7,
+    "evasion_passive": -30,
     "CIWSs": [
       {
+        "name": "B2200 Cataract",
         "dmg_ship": "1+dF1",
         "dmg_missile": "2+dF1"
       }
     ],
+    "cost": 140,
+    "propulsion_type": "Pulse-L",
+    "ewars": [],
+    "evasion_active": 0,
+    "area_missiles": []
+  },
+  {
+    "name": "CGp-901",
+    "evasion_endurance": 4,
     "missiles": [
       {
-        "volley": 6,
-        "stores": 1
+        "name": "104K1 Shipwreck",
+        "stores": 1,
+        "volley": 6
       }
     ],
-    "area_missiles": [],
-    "evasion_endurance": 4,
-    "propulsion_type": "Pulse-L",
-    "command_capable": true,
-    "ewars": [],
-    "evasion_passive": -30,
     "lasers": [
       {
         "name": "C5A Oppressor-A",
         "laser_dmg_missile": "2",
-        "turreted": false,
         "rangepoints": [
           {
             "dmg": 25,
@@ -322,85 +313,72 @@
             "dmg": 70,
             "lrange": 3
           }
-        ]
+        ],
+        "turreted": false
       }
-    ]
-  },
-  {
-    "evasion_active": 0,
-    "delta_v": 4,
-    "cost": 115,
-    "move": 1,
-    "name": "CGw-603",
+    ],
+    "command_capable": true,
     "integrity": 4,
+    "move": 1,
+    "delta_v": 10,
+    "evasion_passive": -30,
     "CIWSs": [
       {
+        "name": "B2200 Cataract",
         "dmg_ship": "1+dF1",
         "dmg_missile": "2+dF1"
       }
     ],
-    "missiles": [
-      {
-        "volley": 5,
-        "stores": 3
-      }
-    ],
-    "area_missiles": [
-      {
-        "am_range": 3,
-        "dmg_ship": "2+dF1",
-        "dmg_missile": "3+dF1"
-      }
-    ],
-    "evasion_endurance": 2,
+    "cost": 175,
     "propulsion_type": "Pulse-L",
-    "command_capable": true,
     "ewars": [],
-    "evasion_passive": -30,
-    "lasers": []
+    "evasion_active": 0,
+    "area_missiles": []
   },
   {
-    "evasion_active": 10,
-    "delta_v": 12,
-    "cost": 130,
-    "move": 1,
-    "name": "CL/E-866",
+    "name": "CGw-603",
+    "evasion_endurance": 2,
+    "missiles": [
+      {
+        "name": "32K1 Giant-KA",
+        "stores": 3,
+        "volley": 5
+      }
+    ],
+    "lasers": [],
+    "command_capable": true,
     "integrity": 4,
+    "move": 1,
+    "delta_v": 4,
+    "evasion_passive": -30,
     "CIWSs": [
       {
+        "name": "B27 Sirocco-M",
         "dmg_ship": "1+dF1",
-        "dmg_missile": "1+dF1"
+        "dmg_missile": "2+dF1"
       }
     ],
-    "missiles": [],
-    "area_missiles": [],
-    "evasion_endurance": 0,
+    "cost": 115,
     "propulsion_type": "Pulse-L",
-    "command_capable": false,
-    "ewars": [
+    "ewars": [],
+    "evasion_active": 0,
+    "area_missiles": [
       {
-        "abilities": [
-          {
-            "erange": 6,
-            "ability": "Cover jamming"
-          },
-          {
-            "erange": 3,
-            "ability": "Missile jamming"
-          },
-          {
-            "erange": 10,
-            "ability": "ECCM"
-          }
-        ]
+        "name": "70M5 Totem",
+        "dmg_ship": "2+dF1",
+        "dmg_missile": "3+dF1",
+        "am_range": 3
       }
-    ],
-    "evasion_passive": -30,
+    ]
+  },
+  {
+    "name": "CL/E-866",
+    "evasion_endurance": 0,
+    "missiles": [],
     "lasers": [
       {
         "name": "C93T Arbor",
         "laser_dmg_missile": "4",
-        "turreted": true,
         "rangepoints": [
           {
             "dmg": 5,
@@ -430,40 +408,60 @@
             "dmg": 45,
             "lrange": 3
           }
-        ]
+        ],
+        "turreted": true
       }
-    ]
-  },
-  {
-    "evasion_active": 10,
-    "delta_v": 12,
-    "cost": 100,
+    ],
+    "command_capable": false,
+    "integrity": 4,
     "move": 1,
-    "name": "CL/P-921",
-    "integrity": 3,
+    "delta_v": 12,
+    "evasion_passive": -30,
     "CIWSs": [
       {
+        "name": "B117 Bight",
         "dmg_ship": "1+dF1",
         "dmg_missile": "1+dF1"
       }
     ],
-    "missiles": [
+    "cost": 130,
+    "propulsion_type": "Pulse-L",
+    "ewars": [
       {
-        "volley": 4,
-        "stores": 1
+        "name": "28E4 Citadel",
+        "abilities": [
+          {
+            "ability": "Cover jamming",
+            "erange": 6
+          },
+          {
+            "ability": "Missile jamming",
+            "erange": 3
+          },
+          {
+            "ability": "ECCM",
+            "erange": 10
+          }
+        ]
       }
     ],
-    "area_missiles": [],
+    "evasion_active": 10,
+    "area_missiles": []
+  },
+  {
+    "name": "CL/P-921",
     "evasion_endurance": 4,
-    "propulsion_type": "Pulse-L",
-    "command_capable": false,
-    "ewars": [],
-    "evasion_passive": -30,
+    "missiles": [
+      {
+        "name": "988K5 Courser-D",
+        "stores": 1,
+        "volley": 4
+      }
+    ],
     "lasers": [
       {
         "name": "C5B Oppressor-B",
         "laser_dmg_missile": "2",
-        "turreted": false,
         "rangepoints": [
           {
             "dmg": 5,
@@ -501,210 +499,207 @@
             "dmg": 45,
             "lrange": 3
           }
-        ]
+        ],
+        "turreted": false
       }
-    ]
-  },
-  {
-    "evasion_active": 0,
-    "delta_v": 5,
-    "cost": 45,
+    ],
+    "command_capable": false,
+    "integrity": 3,
     "move": 1,
-    "name": "CoGw-761",
-    "integrity": 2,
+    "delta_v": 12,
+    "evasion_passive": -30,
     "CIWSs": [
       {
+        "name": "B117 Bight",
         "dmg_ship": "1+dF1",
         "dmg_missile": "1+dF1"
       }
     ],
+    "cost": 100,
+    "propulsion_type": "Pulse-L",
+    "ewars": [],
+    "evasion_active": 10,
+    "area_missiles": []
+  },
+  {
+    "name": "CoGw-761",
+    "evasion_endurance": 2,
     "missiles": [
       {
-        "volley": 3,
-        "stores": 2
+        "name": "768K6 Chalice",
+        "stores": 2,
+        "volley": 3
       }
     ],
-    "area_missiles": [
-      {
-        "am_range": 3,
-        "dmg_ship": "1+dF1",
-        "dmg_missile": "2+dF1"
-      }
-    ],
-    "evasion_endurance": 2,
-    "propulsion_type": "Pulse-M",
+    "lasers": [],
     "command_capable": false,
-    "ewars": [],
-    "evasion_passive": -20,
-    "lasers": []
-  },
-  {
-    "evasion_active": 25,
-    "delta_v": 12,
-    "cost": 85,
-    "move": 2,
-    "name": "HAc-B27",
     "integrity": 2,
-    "CIWSs": [
-      {
-        "dmg_ship": "1+dF1",
-        "dmg_missile": "2+dF1"
-      }
-    ],
-    "missiles": [],
-    "area_missiles": [
-      {
-        "am_range": 2,
-        "dmg_ship": "2+dF1",
-        "dmg_missile": ""
-      }
-    ],
-    "evasion_endurance": null,
-    "propulsion_type": "Cont-S",
-    "command_capable": false,
-    "ewars": [],
-    "evasion_passive": -30,
-    "lasers": [
-      {
-        "name": "C79DM-M Zealot",
-        "laser_dmg_missile": "2",
-        "turreted": false,
-        "rangepoints": [
-          {
-            "dmg": 50,
-            "lrange": 5
-          },
-          {
-            "dmg": 55,
-            "lrange": 4
-          },
-          {
-            "dmg": 60,
-            "lrange": 3
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "evasion_active": 30,
-    "delta_v": 16,
-    "cost": 60,
-    "move": 2,
-    "name": "LAc-B20",
-    "integrity": 2,
-    "CIWSs": [
-      {
-        "dmg_ship": "1+dF1",
-        "dmg_missile": "2+dF1"
-      }
-    ],
-    "missiles": [],
-    "area_missiles": [],
-    "evasion_endurance": null,
-    "propulsion_type": "Cont-S",
-    "command_capable": false,
-    "ewars": [],
-    "evasion_passive": -30,
-    "lasers": [
-      {
-        "name": "C79DM-M Zealot",
-        "laser_dmg_missile": "2",
-        "turreted": false,
-        "rangepoints": [
-          {
-            "dmg": 50,
-            "lrange": 5
-          },
-          {
-            "dmg": 55,
-            "lrange": 4
-          },
-          {
-            "dmg": 60,
-            "lrange": 3
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "evasion_active": 30,
-    "delta_v": 16,
-    "cost": 70,
-    "move": 2,
-    "name": "LAc/E-N2",
-    "integrity": 2,
-    "CIWSs": [],
-    "missiles": [],
-    "area_missiles": [
-      {
-        "am_range": 2,
-        "dmg_ship": "1+dF1",
-        "dmg_missile": ""
-      }
-    ],
-    "evasion_endurance": null,
-    "propulsion_type": "Cont-S",
-    "command_capable": false,
-    "ewars": [
-      {
-        "abilities": [
-          {
-            "erange": 6,
-            "ability": "Cover jamming"
-          },
-          {
-            "erange": 6,
-            "ability": "Defense jamming"
-          },
-          {
-            "erange": 10,
-            "ability": "ECCM"
-          }
-        ]
-      }
-    ],
-    "evasion_passive": -30,
-    "lasers": []
-  },
-  {
-    "evasion_active": -10,
-    "delta_v": 6,
-    "cost": 50,
     "move": 1,
-    "name": "SuM/E-858",
-    "integrity": 2,
-    "CIWSs": [],
-    "missiles": [],
-    "area_missiles": [],
+    "delta_v": 5,
+    "evasion_passive": -20,
+    "CIWSs": [
+      {
+        "name": "B261 Burst",
+        "dmg_ship": "1+dF1",
+        "dmg_missile": "1+dF1"
+      }
+    ],
+    "cost": 45,
+    "propulsion_type": "Pulse-M",
+    "ewars": [],
+    "evasion_active": 0,
+    "area_missiles": [
+      {
+        "name": "75M6",
+        "dmg_ship": "1+dF1",
+        "dmg_missile": "2+dF1",
+        "am_range": 3
+      }
+    ]
+  },
+  {
+    "name": "HAc-B27",
     "evasion_endurance": null,
-    "propulsion_type": "Cont-S",
+    "missiles": [],
+    "lasers": [
+      {
+        "name": "C79DM-M Zealot",
+        "laser_dmg_missile": "2",
+        "rangepoints": [
+          {
+            "dmg": 50,
+            "lrange": 5
+          },
+          {
+            "dmg": 55,
+            "lrange": 4
+          },
+          {
+            "dmg": 60,
+            "lrange": 3
+          }
+        ],
+        "turreted": false
+      }
+    ],
     "command_capable": false,
+    "integrity": 2,
+    "move": 2,
+    "delta_v": 12,
+    "evasion_passive": -30,
+    "CIWSs": [
+      {
+        "name": "B772 Squall",
+        "dmg_ship": "1+dF1",
+        "dmg_missile": "2+dF1"
+      }
+    ],
+    "cost": 85,
+    "propulsion_type": "Cont-S",
+    "ewars": [],
+    "evasion_active": 25,
+    "area_missiles": [
+      {
+        "name": "220K7 Gauntlet",
+        "dmg_ship": "2+dF1",
+        "dmg_missile": "",
+        "am_range": 2
+      }
+    ]
+  },
+  {
+    "name": "LAc-B20",
+    "evasion_endurance": null,
+    "missiles": [],
+    "lasers": [
+      {
+        "name": "C79DM-M Zealot",
+        "laser_dmg_missile": "2",
+        "rangepoints": [
+          {
+            "dmg": 50,
+            "lrange": 5
+          },
+          {
+            "dmg": 55,
+            "lrange": 4
+          },
+          {
+            "dmg": 60,
+            "lrange": 3
+          }
+        ],
+        "turreted": false
+      }
+    ],
+    "command_capable": false,
+    "integrity": 2,
+    "move": 2,
+    "delta_v": 16,
+    "evasion_passive": -30,
+    "CIWSs": [
+      {
+        "name": "B772 Squall",
+        "dmg_ship": "1+dF1",
+        "dmg_missile": "2+dF1"
+      }
+    ],
+    "cost": 60,
+    "propulsion_type": "Cont-S",
+    "ewars": [],
+    "evasion_active": 30,
+    "area_missiles": []
+  },
+  {
+    "name": "LAc/E-N2",
+    "evasion_endurance": null,
+    "missiles": [],
+    "lasers": [],
+    "command_capable": false,
+    "integrity": 2,
+    "move": 2,
+    "delta_v": 16,
+    "evasion_passive": -30,
+    "CIWSs": [],
+    "cost": 70,
+    "propulsion_type": "Cont-S",
     "ewars": [
       {
+        "name": "29E9 Hexer",
         "abilities": [
           {
-            "erange": 10,
-            "ability": "Self-defense jamming"
+            "ability": "Cover jamming",
+            "erange": 6
           },
           {
-            "erange": 3,
-            "ability": "Missile jamming"
+            "ability": "Defense jamming",
+            "erange": 6
           },
           {
-            "erange": 10,
-            "ability": "ECCM"
+            "ability": "ECCM",
+            "erange": 10
           }
         ]
       }
     ],
-    "evasion_passive": -50,
+    "evasion_active": 30,
+    "area_missiles": [
+      {
+        "name": "220K8 Sabaton",
+        "dmg_ship": "1+dF1",
+        "dmg_missile": "",
+        "am_range": 2
+      }
+    ]
+  },
+  {
+    "name": "SuM/E-858",
+    "evasion_endurance": null,
+    "missiles": [],
     "lasers": [
       {
         "name": "C24T Chaparral",
         "laser_dmg_missile": "1",
-        "turreted": true,
         "rangepoints": [
           {
             "dmg": 10,
@@ -722,8 +717,38 @@
             "dmg": 25,
             "lrange": 3
           }
+        ],
+        "turreted": true
+      }
+    ],
+    "command_capable": false,
+    "integrity": 2,
+    "move": 1,
+    "delta_v": 6,
+    "evasion_passive": -50,
+    "CIWSs": [],
+    "cost": 50,
+    "propulsion_type": "Cont-S",
+    "ewars": [
+      {
+        "name": "22E1 Soothsayer",
+        "abilities": [
+          {
+            "ability": "Self-defense jamming",
+            "erange": 10
+          },
+          {
+            "ability": "Missile jamming",
+            "erange": 3
+          },
+          {
+            "ability": "ECCM",
+            "erange": 10
+          }
         ]
       }
-    ]
+    ],
+    "evasion_active": -10,
+    "area_missiles": []
   }
 ]

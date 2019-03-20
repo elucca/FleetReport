@@ -39,6 +39,7 @@ class Ship(BaseModel):
         "evasion_active",
         "evasion_endurance",
         "integrity",
+        "primary_facing",
         "lasers",
         "missiles",
         "CIWSs",
