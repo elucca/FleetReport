@@ -44,7 +44,10 @@ class Ship(BaseModel):
         "missiles",
         "CIWSs",
         "area_missiles",
-        "ewars"
+        "ewars",
+        "armor_front",
+        "armor_sides",
+        "armor_back"
     ]
 
     _hidden_fields = [
